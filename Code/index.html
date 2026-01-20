@@ -142,11 +142,11 @@
     </nav>
 
     <!-- Barra di Progresso -->
-    <div class="progress-container">
+    <div class="progress-container" >
         <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill"></div>
+            <div class="progress-fill"></div>
         </div>
-        <span class="progress-text" id="progress-text">0%</span>
+        <span class="progress-text">0%</span>
     </div>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -154,5 +154,13 @@
     <script src="performance.js"></script>
     <script src="social.js"></script>
     <script src="script-main.js"></script>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY/(document.body.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.progress-fill').style.width = scrollPercent + '%';
+            document.querySelector('.progress-text').textContent = Math.round(scrollPercent)+'%';
+        });
+    </script>
 </body>
 </html>
