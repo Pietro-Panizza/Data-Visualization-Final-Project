@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benchmarks Analysis - AI Performance Details</title>
+    <meta name="description" content="Detailed analysis of AI model performance across various benchmarks including MMLU, HumanEval, and GSM8K">
+    <meta name="keywords" content="AI benchmarks, performance metrics, MMLU, HumanEval, GSM8K, AI evaluation">
+    
+    <!-- Collegamento allo stesso stile della pagina principale per coerenza -->
+    <link rel="stylesheet" href="benchmark-details.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- D3.js per i grafici -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="detail-container">
+        <!-- Link per tornare alla pagina principale -->
+        <a href="index.html#section-benchmarks" class="back-link">
+            <span class="back-arrow">←</span> Back to Main Analysis
+        </a>
+        
+        <!-- Intestazione della pagina -->
+        <header class="detail-header">
+            <h1 class="detail-title">AI Benchmarks: Detailed Performance Analysis</h1>
+            <p class="detail-subtitle">
+                An in-depth examination of how leading AI models perform across standardized evaluation metrics. 
+                This analysis covers language understanding, reasoning capabilities, coding proficiency, and mathematical problem-solving.
+            </p>
+        </header>
+        
+        <!-- Sezione per il primo grafico -->
+        <section class="chart-section" id="chart-mmlu">
+            <h2 class="chart-title">1. MMLU (Massive Multitask Language Understanding)</h2>
+            <p class="chart-description">
+                The MMLU benchmark evaluates models on 57 diverse subjects across STEM, humanities, social sciences, and more. 
+                It tests both world knowledge and problem-solving ability. Higher scores indicate better general knowledge 
+                and comprehension across multiple domains.
+            </p>
+            
+            <div class="chart-container" id="chart-mmlu-container">
+                <!-- Grafico MMLU verrà inserito qui via JavaScript -->
+                <div class="chart-placeholder" style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-style: italic;">
+                    MMLU Performance Chart Loading...
+                </div>
+            </div>
+            
+            <div class="chart-notes">
+                Data source: MMLU (Hendrycks et al., 2021) | Latest evaluation: Q4 2023
+            </div>
+        </section>
+        
+        <!-- Sezione per il secondo grafico -->
+        <section class="chart-section" id="chart-humaneval">
+            <h2 class="chart-title">2. HumanEval (Code Generation)</h2>
+            <p class="chart-description">
+                HumanEval measures the ability of AI models to generate correct Python code from natural language descriptions. 
+                It consists of 164 programming problems with test cases to verify functional correctness. This benchmark is crucial 
+                for evaluating practical coding assistance capabilities.
+            </p>
+            
+            <div class="chart-container" id="chart-humaneval-container">
+                <!-- Grafico HumanEval verrà inserito qui via JavaScript -->
+                <div class="chart-placeholder" style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-style: italic;">
+                    HumanEval Performance Chart Loading...
+                </div>
+            </div>
+            
+            <div class="chart-notes">
+                Data source: HumanEval (OpenAI, 2021) | Pass@1 metric (single attempt)
+            </div>
+        </section>
+        
+        <!-- Sezione per il terzo grafico -->
+        <section class="chart-section" id="chart-gsm8k">
+            <h2 class="chart-title">3. GSM8K (Grade School Math 8K)</h2>
+            <p class="chart-description">
+                GSM8K contains 8,500 high-quality linguistically diverse grade school math word problems. 
+                It tests mathematical reasoning through multi-step problems that require understanding the question, 
+                breaking it down into steps, and performing arithmetic operations correctly.
+            </p>
+            
+            <div class="chart-container" id="chart-gsm8k-container">
+                <!-- Grafico GSM8K verrà inserito qui via JavaScript -->
+                <div class="chart-placeholder" style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-style: italic;">
+                    GSM8K Performance Chart Loading...
+                </div>
+            </div>
+            
+            <div class="chart-notes">
+                Data source: GSM8K (Cobbe et al., 2021) | Chain-of-thought reasoning evaluated
+            </div>
+        </section>
+        
+        <!-- Sezione informativa sui benchmark -->
+        <section class="chart-section">
+            <h2 class="chart-title">Understanding the Benchmarks</h2>
+            
+            <div class="benchmark-info">
+                <div class="info-card">
+                    <h3>Why Multiple Benchmarks?</h3>
+                    <p>No single benchmark can fully capture AI capabilities. Using multiple tests ensures a comprehensive evaluation of different cognitive abilities, from factual knowledge to reasoning and problem-solving.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Evaluation Methodology</h3>
+                    <p>All models are tested under identical conditions with the same prompts and evaluation protocols. Results are verified through multiple runs to ensure statistical significance.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Limitations & Considerations</h3>
+                    <p>Benchmarks have inherent limitations. They may not capture real-world performance, creativity, or ethical reasoning. Results should be interpreted alongside other evaluation methods.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Placeholder per il codice JavaScript che creerà i grafici
+        // In una implementazione reale, qui inseriresti il codice D3.js per creare i grafici
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Benchmark detail page loaded');
+            
+            // Esempio di struttura dati per i grafici
+            const benchmarkData = {
+                mmlu: [
+                    { model: 'GPT-4', score: 86.4 },
+                    { model: 'Claude-3 Opus', score: 84.1 },
+                    { model: 'Gemini Ultra', score: 83.7 },
+                    { model: 'GPT-3.5', score: 70.0 },
+                    { model: 'Llama 2 70B', score: 68.9 }
+                ],
+                humaneval: [
+                    { model: 'GPT-4', score: 82.0 },
+                    { model: 'Claude-3 Opus', score: 79.3 },
+                    { model: 'Gemini Ultra', score: 77.8 },
+                    { model: 'GPT-3.5', score: 48.1 },
+                    { model: 'Llama 2 70B', score: 42.5 }
+                ],
+                gsm8k: [
+                    { model: 'GPT-4', score: 92.0 },
+                    { model: 'Claude-3 Opus', score: 91.2 },
+                    { model: 'Gemini Ultra', score: 90.8 },
+                    { model: 'GPT-3.5', score: 80.8 },
+                    { model: 'Llama 2 70B', score: 76.8 }
+                ]
+            };
+            
+            // Qui andrà il codice per inizializzare i grafici con D3.js
+            // initializeMMLUChart(benchmarkData.mmlu);
+            // initializeHumanEvalChart(benchmarkData.humaneval);
+            // initializeGSM8KChart(benchmarkData.gsm8k);
+        });
+    </script>
+    
+    <!-- Eventuali script aggiuntivi per i grafici -->
+    <!-- <script src="benchmark-charts.js"></script> -->
+</body>
+</html>
