@@ -1,0 +1,565 @@
+/* ===== RESET & BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #0a192f;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    color: #fff;
+}
+
+
+
+/* ===== SEZIONE HERO (FULLSCREEN) ===== */
+.fullscreen-hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)),
+        url('images/artificial-intelligence-1.webp') center ;
+    background-size: cover;  
+    background-position: center; 
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4) 50%;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, #fff, #4cc9f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-subtitle {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    color: #cbd5e1;
+    letter-spacing: 0.2em;
+}
+
+.hero-description {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.scroll-indicator span {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.1em;
+}
+
+.arrow {
+    animation: bounce 2s infinite;
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
+
+/* ===== CONTENT SECTIONS ===== */
+.content-section {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    background-size: cover !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.section-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.section-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+/*============= SPECIFIC BACKGROUND PER SECTION =================*/
+
+/* AI MODELS */
+#section-models {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+        url('images/models.jpg') center;
+    background-size: cover;
+}
+
+/* PERFORMANCE */
+#section-benchmarks {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+        url('images/images.jpg') center;
+    background-size: cover;
+}
+
+/* INVESTMENTS */
+#section-investments {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+        url('images/investments.jpg') center;
+    background-size: cover;
+}
+
+/* SOCIO-ENVIRONMENTAL */
+#section-socio-environment {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+        url('images/environmental-impact.jpg') center;
+    background-size: cover;
+}
+
+/* ==================== TEXT CONTENT ======================= */
+.text-block {
+    padding-right: 40px;
+}
+
+.text-block h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.text-block p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.text-block strong {
+    color: #4cc9f0;
+    font-weight: 600;
+}
+
+/* =================== VISUALIZATION CONTAINER ================ */
+.visualization-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* .visualization-footer{
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+} */
+
+/*=====================BOTTON========================*/
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(90deg, #4cc9f0, #1f77b4);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(76, 201, 240, 0.3);
+}
+
+.btn-arrow {
+    transition: transform 0.3s;
+}
+
+.btn-primary:hover .btn-arrow {
+    transform: translateX(5px);
+}
+
+
+#chart-benchmark,
+#chart-efficiency,
+#chart-specialization,
+#chart-perception
+#chart-sectors,
+#chart-solutions {
+    height: 400px;
+    width: 100%;
+}
+
+/* ===== NAVIGATION INDEX ===== */
+
+.section-index {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+
+.section-index ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section-index li{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.index-title{
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    text-align: right;
+    width: 120px;
+    margin-right: 5px;
+    order: 1;
+}
+
+.index-dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    position: relative;
+    flex-shrink: 0;
+    cursor: pointer;
+    text-decoration: none;
+    order: 2;
+}
+
+.index-dot:hover {
+    transform: scale(1.3);
+    background: rgba(255, 255, 255, 0.6);
+    
+}
+
+.index-dot.active {
+    background: #1f77b4;
+    border-color: white;
+    transform: scale(1.4);
+    box-shadow: 0 0 2px #1f77b4, 0 0 10px rgba(31,119,180,0.7);
+}
+
+.section-index:hover .index-title{
+    opacity: 1;
+    transform: translateX(0);
+}
+.section-index li.active .index-title,
+.index-dot.active ~ .index-title{
+    opacity: 1;
+    transform: translateX(0);
+    color: #1f77b4;
+    font-weight: 600;
+}
+
+.section-index li:hover .index-title {
+    opacity: 1;
+    transform: translateX(0);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+
+/* Linea che connette i punti */
+.section-index li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 7px;
+    top: 26px;
+    width: 2px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: -1;
+}
+
+/* ===== PROGRESS BAR ===== */
+
+.progress-container{
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar{
+    width: 200px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill{
+    height: 100%;
+    background: linear-gradient(90deg, #c6dbef, #1f77b4);
+    border: 1px solid #08306b;
+    width: 0%;
+    transition: 0.3s ease;
+    border-radius: 2px;
+}
+
+.progress-text{
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1024px) {
+    .section-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .text-block {
+        padding-right: 0;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    
+    .section-index {
+        right: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .fullscreen-hero {
+        background-attachment: scroll !important;
+    }
+    
+    .content-section {
+        background-attachment: scroll !important;
+        padding: 60px 20px;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .hero-description {
+        font-size: 1.1rem;
+    }
+    
+    .text-block h2 {
+        font-size: 2.2rem;
+    }
+    
+    .visualization-container {
+        padding: 20px;
+    }
+    
+    .section-index {
+        display: none; /* Nascondi su mobile */
+    }
+}
+
+
+/* ===== SANKEY DIAGRAM'S STYLES ===== */
+.sankey-chart {
+    width: 100%;
+    height: 600px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-header h3 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.chart-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.chart-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.chart-btn:hover {
+    background: rgba(76, 201, 240, 0.3);
+    border-color: #4cc9f0;
+}
+
+.chart-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chart-source {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.chart-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ===================== SANKEY DIAGRM STYLES ================== */
+.sankey-link {
+    transition: opacity 0.3s;
+}
+
+.sankey-node text {
+    pointer-events: none;
+    user-select: none;
+}
+
+.sankey-node rect {
+    transition: filter 0.3s;
+}
+
+.sankey-node:hover rect {
+    filter: brightness(1.2);
+    cursor: pointer;
+}
+
+/* Tooltip */
+#sankey-tooltip {
+    z-index: 1000;
+    max-width: 250px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.error {
+    color: #ff6b6b;
+    text-align: center;
+    padding: 40px;
+    font-size: 1.1rem;
+}
+
+
