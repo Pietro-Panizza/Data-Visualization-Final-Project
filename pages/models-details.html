@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Models Analysis</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+</head>
+<body class="subpage-body">
+
+    <nav class="subpage-nav">
+        <a href="../index.html" class="back-link">
+            <span class="arrow">←</span> Back to Home
+        </a>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1>AI Models Analysis</h1>
+            <p>Exploring the relationships between Size, Compute, and Training Time.</p>
+        </header>
+
+        <section class="chart-section">
+            <h2>1. Model Size vs. Time</h2>
+            <p>How the number of parameters has grown over time.</p>
+            <div id="chart-params"></div>
+        </section>
+
+        <section class="chart-section">
+            <h2>2. Training Compute vs. Time</h2>
+            <p>The total computational power (FLOPs) used to train the model.</p>
+            <div id="chart-compute"></div>
+        </section>
+
+        <section class="chart-section">
+            <h2>3. Training Time vs. Time</h2>
+            <p>How many hours it took to train the model.</p>
+            <div id="chart-time"></div>
+        </section>
+
+        <div id="tooltip" class="tooltip" style="opacity:0;"></div>
+    </main>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="../assets/js/models.js"></script>
+
+</body>
+</html>

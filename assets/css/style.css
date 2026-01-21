@@ -143,40 +143,6 @@ body {
     align-items: center;
 }
 
-/*============= SPECIFIC BACKGROUND PER SECTION =================*/
-
-/* AI MODELS */
-#section-models {
-    background: 
-        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
-        url('../../images/models5.webp') center;
-    background-size: cover;
-}
-
-/* PERFORMANCE */
-#section-benchmarks {
-    background: 
-        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
-        url('../../images/performance2.webp') center;
-    background-size: cover;
-}
-
-/* INVESTMENTS */
-#section-investments {
-    background: 
-        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
-        url('../../images/investments2.webp') center;
-    background-size: cover;
-}
-
-/* SOCIO-ENVIRONMENTAL */
-#section-socio-environment {
-    background: 
-        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
-        url('../../images/environmental-impact2.webp') center;
-    background-size: cover;
-}
-
 /* ==================== TEXT CONTENT ======================= */
 .text-block {
     padding-right: 40px;
