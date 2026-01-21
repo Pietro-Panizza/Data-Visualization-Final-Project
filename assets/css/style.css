@@ -28,7 +28,7 @@ body {
     justify-content: center;
     background: 
         linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)),
-        url('../../images/artificial-intelligence-1.webp') center ;
+        url('../../images/intro1.webp') center ;
     background-size: cover;  
     background-position: center; 
 }
@@ -149,7 +149,7 @@ body {
 #section-models {
     background: 
         linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
-        url('images/models.jpg') center;
+        url('../../images/models5.webp') center;
     background-size: cover;
 }
 
@@ -157,7 +157,7 @@ body {
 #section-benchmarks {
     background: 
         linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
-        url('images/images.jpg') center;
+        url('../../images/performance2.webp') center;
     background-size: cover;
 }
 
@@ -165,7 +165,7 @@ body {
 #section-investments {
     background: 
         linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
-        url('images/investments.jpg') center;
+        url('../../images/investments2.webp') center;
     background-size: cover;
 }
 
@@ -173,7 +173,7 @@ body {
 #section-socio-environment {
     background: 
         linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
-        url('images/environmental-impact.jpg') center;
+        url('../../images/environmental-impact2.webp') center;
     background-size: cover;
 }
 
