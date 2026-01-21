@@ -5,9 +5,10 @@ body{
 
 /* Detail page styles */
 .detail-container {
-    max-width: 1200px;
+    max-width: 100vh;
     margin: 0 auto;
     padding: 40px 20px;
+    color: #091f41;
 }
 
 .detail-header {
@@ -55,20 +56,20 @@ body{
     background: #fff;
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    background-color: #243f66;
 }
 
 .chart-title {
     font-size: 1.8rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: #fff;
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 2px solid #f0f0f0;
 }
 
 .chart-description {
-    color: #555;
+    color: #888;
     line-height: 1.7;
     margin-bottom: 30px;
     font-size: 1.1rem;
@@ -78,6 +79,10 @@ body{
     height: 600px;
     margin: 30px 0;
     position: relative;
+    padding-top: 20px;
+    padding-left: 13px;
+    background-color: #091f41; /* Colore di sfondo interno */
+
 }
 
 .chart-notes {
@@ -85,55 +90,8 @@ body{
     color: #888;
     font-style: italic;
     margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px dashed #e0e0e0;
-}
-.chart-placeholder{
-    display: flex; 
-    align-items: center;
-    justify-content: center; 
-    height: 100%; 
-    color: #999; 
-    font-style: italic;
-}
-
-.benchmark-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    margin-top: 50px;
-}
-
-.info-card {
-    background: #f8f9fa;
-    padding: 25px;
-    border-radius: 10px;
-    border-left: 4px solid #4a6fa5;
-}
-
-.info-card h3 {
-    color: #2c3e50;
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-}
-
-.info-card p {
-    color: #555;
-    line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-    .detail-title {
-        font-size: 2.2rem;
-    }
-    
-    .chart-section {
-        padding: 20px;
-    }
-    
-    .chart-container {
-        height: 400px;
-    }
+    padding-top: 10px;
+    border-top: 2px dashed #888;
 }
 
 /* Worry chart style */
@@ -143,6 +101,15 @@ body{
     background-color: #f9f9f9;
     border-radius: 8px;
     margin: 2px ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100vh;
+}
+
+#chart-social svg {
+    display: block;
+    margin: 0 auto;
 }
 
 .worry-line {
