@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investments Analysis | AI Impact</title>
+    
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css"> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+    <style>
+        /* Page Specific Styles to ensure Map visibility */
+        #map {
+            height: 700px;
+            width: 100%;
+            border-radius: 12px;
+            background-color: #0e0e0e; /* Fallback */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+
+        .legend {
+            background-color: rgba(14, 14, 14, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            line-height: 1.5;
+            font-size: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        
+        .legend i {
+            width: 12px;
+            height: 12px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+
+        .legend-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 14px;
+            color: #4cc9f0;
+        }
+
+        /* Tooltip customization */
+        .leaflet-popup-content-wrapper {
+            background: rgba(20, 20, 20, 0.95);
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+        }
+        .leaflet-popup-tip {
+            background: rgba(20, 20, 20, 0.95);
+        }
+        .leaflet-popup-content b {
+            color: #4cc9f0;
+        }
+    </style>
+</head>
+<body class="subpage-body">
+
+    <nav class="subpage-nav">
+        <a href="../index.html" class="back-link">
+            <span>←</span> Back to Main Analysis
+        </a>
+    </nav>
+
+    <div class="container">
+        
+        <header class="page-header">
+            <h1>Global Data Center Investments</h1>
+            <p>Mapping the physical infrastructure of AI. Bubble size represents capital cost (Billions USD).</p>
+        </header>
+
+        <div class="chart-section">
+            <div id="map"></div>
+        </div>
+
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+    // 1. Configurazione Mappa (Bloccata per evitare de-zoom infinito)
+    const map = L.map('map', {
+        center: [20, 0],
+        zoom: 2,
+        minZoom: 2,
+        maxBounds: [[-90, -180], [90, 180]],
+        maxBoundsViscosity: 1.0
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        noWrap: true
+    }).addTo(map);
+
+    const csvPath = "../data/data_centers/data_centers.csv";
+
+    d3.csv(csvPath).then(data => {
+        // Funzione per trovare le colonne pulendo gli spazi
+        const getColName = (obj, target) => {
+            return Object.keys(obj).find(k => k.trim().toLowerCase().includes(target.toLowerCase()));
+        };
+
+        const colLat = getColName(data[0], "latitude");
+        const colLng = getColName(data[0], "longitude");
+        const colOwner = getColName(data[0], "owner");
+        const colCost = getColName(data[0], "capital cost");
+        const colLoc = getColName(data[0], "location");
+
+        const cleanData = data.filter(d => {
+            const latStr = d[colLat] ? d[colLat].trim() : "";
+            const lngStr = d[colLng] ? d[colLng].trim() : "";
+            const lat = parseFloat(latStr);
+            const lng = parseFloat(lngStr);
+            return !isNaN(lat) && !isNaN(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
+        }).map(d => {
+            let lat = parseFloat(d[colLat].trim());
+            let lng = parseFloat(d[colLng].trim());
+
+            // FIX COORDINATE: Se la longitudine è positiva nel tuo CSV, 
+            // la rendiamo negativa per "volare" verso l'America.
+            if (lng > 0) {
+                lng = -lng;
+            }
+
+            return {
+                owner: d[colOwner] || "Other",
+                lat: lat,
+                lng: lng,
+                cost: parseFloat(d[colCost]) || 1,
+                location: d[colLoc] || "Unknown"
+            };
+        });
+
+        // --- COLORI UFFICIALI BRAND ---
+        const brandColors = {
+            "Microsoft": "#00a4ef",
+            "Google": "#fbbc05",
+            "Amazon": "#ff9900",
+            "AWS": "#ff9900",
+            "Meta": "#0668E1",
+            "Apple": "#ffffff",
+            "Other": "#888888"
+        };
+
+        const owners = [...new Set(cleanData.map(d => d.owner))];
+        
+        const getColor = (owner) => {
+            return brandColors[owner] || d3.schemeCategory10[owners.indexOf(owner) % 10];
+        };
+
+        const radiusScale = d3.scaleSqrt()
+            .domain(d3.extent(cleanData, d => d.cost))
+            .range([5, 25]);
+
+        // --- DISEGNO ---
+        cleanData.forEach(point => {
+            L.circleMarker([point.lat, point.lng], {
+                radius: radiusScale(point.cost),
+                fillColor: getColor(point.owner),
+                color: "#fff",
+                weight: 1,
+                opacity: 0.8,
+                fillOpacity: 0.6
+            })
+            .bindPopup(`
+                <div style="color:#333; font-family: sans-serif;">
+                    <b style="font-size:14px; color:${getColor(point.owner)}">${point.owner}</b><br>
+                    ${point.location}<br>
+                    <b>$${point.cost.toFixed(2)} Billion</b>
+                </div>
+            `)
+            .addTo(map);
+        });
+
+        // --- LEGENDA (Mancava nel tuo codice) ---
+        const legend = L.control({position: 'bottomright'});
+        legend.onAdd = function () {
+            const div = L.DomUtil.create('div', 'legend');
+            div.innerHTML += '<span class="legend-title">Owner</span>';
+            owners.forEach(owner => {
+                div.innerHTML += `<div><i style="background:${getColor(owner)}"></i>${owner}</div>`;
+            });
+            return div;
+        };
+        legend.addTo(map);
+
+    }).catch(error => {
+        console.error("Errore caricamento CSV:", error);
+    }); // <--- Chiusura corretta della funzione d3.csv
+</script>
+</body>
+</html>
