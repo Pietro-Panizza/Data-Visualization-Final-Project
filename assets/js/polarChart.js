@@ -238,47 +238,6 @@ class PolarChartD3 {
         return Math.min(score, 1);
     }
 
-    // Inizializza l'UI
-    // initializeUI() {
-    //     const container = document.getElementById(this.containerId);
-    //     if (!container) return;
-
-    //     container.innerHTML = '';
-        
-    //     const placeholder = container.querySelector('.chart-placeholder');
-    //     if (placeholder) placeholder.remove();
-        
-    //     // const uiHtml = `
-    //     //     <div class="chart-controls">
-    //     //         <div class="control-group">
-    //     //             <label for="polarModelSelect">Select AI Model:</label>
-    //     //             <select id="polarModelSelect" class="model-select"></select>
-    //     //         </div>
-    //     //         <div class="model-info" id="polarModelInfo"></div>
-    //     //     </div>
-    //     //     <div class="chart-wrapper">
-    //     //         <svg id="polarChartSvg" width="${this.width}" height="${this.height}"></svg>
-    //     //     </div>
-    //     // `;
-
-    //     // container.insertAdjacentHTML('beforeend', uiHtml);
-        
-    //     this.populateModelSelect();
-    //     this.createSVG();
-        
-    //     // Seleziona il primo modello disponibile
-    //     const select = document.getElementById('polarModelSelect');
-    //     if (select && select.options.length > 0) {
-    //         this.currentModel = select.value;
-    //         this.updateChart(this.currentModel);
-    //     }
-        
-    //     // Aggiungi event listener
-    //     select.addEventListener('change', (e) => {
-    //         this.currentModel = e.target.value;
-    //         this.updateChart(this.currentModel);
-    //     });
-    // }
 
     initializeUI() {
         // Riferimenti agli elementi esistenti
@@ -311,58 +270,7 @@ class PolarChartD3 {
         });
     }
 
-    // Popola la select
-    // populateModelSelect() {
-    //     const select = document.getElementById('polarModelSelect');
-    //     if (!select) return;
-        
-    //     // Filtra i modelli che hanno almeno il numero minimo di benchmark
-    //     const filteredModels = Object.values(this.models).filter(model => 
-    //         model.benchmarkCount >= this.minBenchmarksRequired
-    //     );
-        
-    //     console.log(`Total models: ${Object.keys(this.models).length}`);
-    //     console.log(`Models with ${this.minBenchmarksRequired}+ benchmarks: ${filteredModels.length}`);
-        
-    //     // Se non ci sono modelli con abbastanza benchmark, abbassa la soglia
-    //     let modelsToShow = filteredModels;
-    //     if (filteredModels.length === 0) {
-    //         console.log('No models meet the minimum benchmark requirement. Showing top models.');
-            
-    //         // Trova il numero massimo di benchmark disponibili
-    //         const maxBenchmarks = Math.max(...Object.values(this.models).map(m => m.benchmarkCount));
-    //         console.log(`Maximum benchmarks any model has: ${maxBenchmarks}`);
-            
-    //         // Mostra i modelli con il maggior numero di benchmark
-    //         modelsToShow = Object.values(this.models)
-    //             .sort((a, b) => b.benchmarkCount - a.benchmarkCount)
-    //             .slice(0, 10); // Mostra i top 10
-    //     }
-        
-    //     // Ordina per nome
-    //     const sortedModels = modelsToShow.sort((a, b) => 
-    //         a.name.localeCompare(b.name)
-    //     );
-        
-    //     // Popola la select
-    //     sortedModels.forEach(model => {
-    //         const option = document.createElement('option');
-    //         option.value = model.id;
-    //         const benchmarkText = model.benchmarkCount === 10 ? '' : ` (${model.benchmarkCount}/10)`;
-    //         option.textContent = `${model.name}${benchmarkText}`;
-    //         select.appendChild(option);
-    //     });
-        
-    //     // Se non ci sono modelli, mostra un messaggio
-    //     if (sortedModels.length === 0) {
-    //         const option = document.createElement('option');
-    //         option.value = '';
-    //         option.textContent = 'No models available';
-    //         option.disabled = true;
-    //         select.appendChild(option);
-    //     }
-    // }
-
+   
     populateModelSelect() {
         if (!this.selectElement) return;
         
@@ -406,15 +314,6 @@ class PolarChartD3 {
             console.log(`  ${model.name}: ${model.benchmarkCount} benchmarks`);
         });
     }
-
-    // Crea SVG
-    // createSVG() {
-    //     this.svg = d3.select('#polarChartSvg')
-    //         .attr('width', this.width)
-    //         .attr('height', this.height)
-    //         .append('g')
-    //         .attr('transform', `translate(${this.margin.left + this.innerWidth/2}, ${this.margin.top + this.innerHeight/2})`);
-    // }
 
     createSVG() {
         // Calcola dimensioni prima di creare l'SVG
@@ -632,26 +531,6 @@ class PolarChartD3 {
         
         return { labels, scores, benchmarkIds };
     }
-
-    // Aggiorna info modello
-    // updateModelInfo(model) {
-    //     const infoDiv = document.getElementById('polarModelInfo');
-    //     if (!infoDiv) return;
-        
-    //     const benchmarkCount = Object.keys(model.scores).length;
-    //     const totalScore = Object.values(model.scores).reduce((sum, score) => sum + score, 0);
-    //     const avgScore = benchmarkCount > 0 ? (totalScore / benchmarkCount).toFixed(3) : 'N/A';
-        
-    //     infoDiv.innerHTML = `
-    //         <h3>${model.name}</h3>
-    //         <p><strong>Organization:</strong> ${model.organization}</p>
-    //         <p><strong>Country:</strong> ${model.country}</p>
-    //         <p><strong>Release Date:</strong> ${model.releaseDate}</p>
-    //         <p><strong>Benchmarks Completed:</strong> ${benchmarkCount}</p>
-    //         <p><strong>Average Score:</strong> ${avgScore}</p>
-    //     `;
-    // }
-
     // Aggiorna info modello - Versione con elementi HTML esistenti
 updateModelInfo(model) {
     if (!this.modelInfoElement) return;
@@ -715,15 +594,6 @@ updateModelInfo(model) {
     }
 }
 
-    // // Inizializza
-    // init() {
-    //     this.loadAllData().catch(error => {
-    //         console.error('Failed to load data:', error);
-    //         this.showError();
-    //     });
-    // }
-
-
     init() {
         // Verifica che gli elementi HTML necessari esistano
         if (!document.getElementById('polarModelSelect') ||
@@ -739,19 +609,6 @@ updateModelInfo(model) {
             this.showError(`Failed to load benchmark data: ${error.message}`);
         });
     }
-
-    // showError() {
-    //     const container = document.getElementById(this.containerId);
-    //     if (container) {
-    //         container.innerHTML = `
-    //             <div class="chart-error" style="text-align: center; padding: 40px; color: #d32f2f;">
-    //                 <h3>Error Loading Data</h3>
-    //                 <p>Failed to load benchmark data from CSV files.</p>
-    //                 <p>Please make sure the 'data' folder exists and contains CSV files.</p>
-    //             </div>
-    //         `;
-    //     }
-    // }
 
 
     showError(message) {
@@ -791,19 +648,3 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = PolarChartD3;
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    if (typeof d3 === 'undefined') {
-        console.error('D3.js is not loaded');
-        return;
-    }
-    
-    const polarContainers = document.querySelectorAll('.polar-chart-container');
-    polarContainers.forEach(container => {
-        const chart = new PolarChartD3(container.id);
-        chart.init();
-        
-        // Salva istanza globalmente per accesso dal bar chart
-        window.polarChartInstance = chart;
-    });
-});
