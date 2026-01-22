@@ -244,7 +244,7 @@ body {
     gap: 15px;
 }
 
-.index-title{
+.index-title {
     color: rgba(255, 255, 255, 0.8);
     font-size: 0.9rem;
     font-weight: 500;
@@ -252,7 +252,11 @@ body {
     opacity: 0;
     transform: translateX(10px);
     transition: all 0.3s ease;
-    pointer-events: none;
+    
+    pointer-events: auto;    /* Permette di cliccare sul testo */
+    text-decoration: none;   /* Toglie la sottolineatura dei link */
+    cursor: pointer;         /* Fa apparire la manina quando ci passi sopra */
+    
     text-align: right;
     width: 120px;
     margin-right: 5px;
@@ -289,21 +293,23 @@ body {
     box-shadow: 0 0 2px #1f77b4, 0 0 10px rgba(31,119,180,0.7);
 }
 
-.section-index:hover .index-title{
+/* 1. Mostra i titoli quando passi sopra il menu */
+.section-index:hover .index-title {
     opacity: 1;
     transform: translateX(0);
 }
+
+/* 2. Colore per il titolo quando passi il mouse sopra (solo se NON è attivo) */
+.section-index li:hover .index-title {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* 3. Colore per il titolo della sezione ATTIVA (vince su tutto) */
 .section-index li:has(.index-dot.active) .index-title {
     opacity: 1;
     transform: translateX(0);
-    color: #1f77b4;
+    color: #1f77b4 !important; /* Usiamo !important per assicurarci che resti blu */
     font-weight: 600;
-}
-
-.section-index li:hover .index-title {
-    opacity: 1;
-    transform: translateX(0);
-    color: rgba(255, 255, 255, 0.9);
 }
 
 
