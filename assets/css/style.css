@@ -293,8 +293,7 @@ body {
     opacity: 1;
     transform: translateX(0);
 }
-.section-index li.active .index-title,
-.index-dot.active ~ .index-title{
+.section-index li:has(.index-dot.active) .index-title {
     opacity: 1;
     transform: translateX(0);
     color: #1f77b4;

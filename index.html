@@ -115,24 +115,31 @@
         </div>
     </section>
 
-    <!-- ========== INDICE DI NAVIGAZIONE ========== -->
+        <!-- ========== INDICE DI NAVIGAZIONE ========== -->
     <nav class="section-index">
         <ul>
-            <li><span class="index-title">Introduction</span>
+            <li>
+                <a href="#hero" class="index-title">Introduction</a>
                 <a href="#hero" class="index-dot active" data-section="hero"></a>
             </li>
                 
-            <li><span class="index-title">Models</span>
+            <li>
+                <a href="#section-models" class="index-title">Models</a>
                 <a href="#section-models" class="index-dot" data-section="models"></a>
             </li>
             
-            <li><span class="index-title">Benchmarks</span>
+            <li>
+                <a href="#section-benchmarks" class="index-title">Benchmarks</a>
                 <a href="#section-benchmarks" class="index-dot" data-section="benchmarks"></a>
             </li>    
-            <li><span class="index-title">Investments</span>
+
+            <li>
+                <a href="#section-investments" class="index-title">Investments</a>
                 <a href="#section-investments" class="index-dot" data-section="investments"></a>
             </li>
-            <li><span class="index-title">Social Impact</span>
+
+            <li>
+                <a href="#section-socio-environment" class="index-title">Social Impact</a>
                 <a href="#section-socio-environment" class="index-dot" data-section="socio-environment"></a>
             </li>    
         </ul>
@@ -153,10 +160,40 @@
     <script src="script-main.js"></script>
 
     <script>
+        // --- 1. Progress Bar Logic (Your original code) ---
         window.addEventListener('scroll', () => {
-            const scrollPercent = (window.scrollY/(document.body.scrollHeight - window.innerHeight)) * 100;
+            const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
             document.querySelector('.progress-fill').style.width = scrollPercent + '%';
-            document.querySelector('.progress-text').textContent = Math.round(scrollPercent)+'%';
+            document.querySelector('.progress-text').textContent = Math.round(scrollPercent) + '%';
+        });
+
+        // --- 2. Side Navigation Dots Logic (New code) ---
+        const sections = document.querySelectorAll('section');
+        const navDots = document.querySelectorAll('.index-dot');
+
+        const observerOptions = {
+            threshold: 0.6 // Adjust this (0.1 to 1.0) to control when the dot switches
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove active class from all dots
+                    navDots.forEach(dot => dot.classList.remove('active'));
+
+                    // Find the dot that links to the current section ID
+                    const id = entry.target.getAttribute('id');
+                    const activeDot = document.querySelector(`.index-dot[href="#${id}"]`);
+                    
+                    if (activeDot) {
+                        activeDot.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
         });
     </script>
 </body>
