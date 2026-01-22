@@ -1,6 +1,8 @@
 
 body{
-    background-color: #091f41;
+    background-color: #091f41; 
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
 }
 
 /* Detail page styles */

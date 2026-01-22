@@ -92,74 +92,74 @@
         </section>
         
         <!-- Sezione per il terzo grafico (barchart) -->
-<section class="chart-section" id="bar-chart-section">
-    <h2 class="chart-title">3. Benchmark Performance Comparison</h2>
-    <p class="chart-description">
-        Select a benchmark to compare performance of all AI models. 
-        This bar chart shows raw scores for each model on the selected benchmark.
-    </p>
-    
-    <div class="chart-container bar-chart-container" id="bar-chart-1">
-        <div class="chart-controls bar-chart-controls">
-            <div class="control-group">
-                <label for="barBenchmarkSelect">Select Benchmark:</label>
-                <select id="barBenchmarkSelect" class="benchmark-select">
-                    <option value="" disabled selected>Loading benchmarks...</option>
-                </select>
+        <section class="chart-section" id="bar-chart-section">
+            <h2 class="chart-title">3. Benchmark Performance Comparison</h2>
+            <p class="chart-description">
+                Select a benchmark to compare performance of all AI models. 
+                This bar chart shows raw scores for each model on the selected benchmark.
+            </p>
+            
+            <div class="chart-container bar-chart-container" id="bar-chart-1">
+                <div class="chart-controls bar-chart-controls">
+                    <div class="control-group">
+                        <label for="barBenchmarkSelect">Select Benchmark:</label>
+                        <select id="barBenchmarkSelect" class="benchmark-select">
+                            <option value="" disabled selected>Loading benchmarks...</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="barModelSort">Sort By:</label>
+                        <select id="barModelSort" class="sort-select">
+                            <option value="score-desc">Score (High to Low)</option>
+                            <option value="score-asc">Score (Low to High)</option>
+                            <option value="name-asc">Name (A to Z)</option>
+                            <option value="name-desc">Name (Z to A)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Container per le statistiche -->
+                <div class="benchmark-stats" id="benchmarkStats">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-label">Models Compared:</span>
+                            <span class="stat-value" id="stat-models-count">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Highest Score:</span>
+                            <span class="stat-value" id="stat-highest-score">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Average Score:</span>
+                            <span class="stat-value" id="stat-avg-score">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Selected Benchmark:</span>
+                            <span class="stat-value" id="stat-benchmark-name">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-wrapper bar-chart-wrapper">
+                    <svg id="barChartSvg"></svg>
+                </div>
+                
+                <div class="chart-legend" id="barChartLegend">
+                    <div class="legend-header">
+                        <h4>Performance Distribution</h4>
+                        <div class="color-scale">
+                            <span class="min-label">Low</span>
+                            <div class="gradient-bar"></div>
+                            <span class="max-label">High</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="control-group">
-                <label for="barModelSort">Sort By:</label>
-                <select id="barModelSort" class="sort-select">
-                    <option value="score-desc">Score (High to Low)</option>
-                    <option value="score-asc">Score (Low to High)</option>
-                    <option value="name-asc">Name (A to Z)</option>
-                    <option value="name-desc">Name (Z to A)</option>
-                </select>
+            
+            <div class="chart-notes">
+                Data source: Multiple benchmark datasets | Scores are raw values (not normalized)
             </div>
-        </div>
-        
-        <!-- Container per le statistiche -->
-        <div class="benchmark-stats" id="benchmarkStats">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span class="stat-label">Models Compared:</span>
-                    <span class="stat-value" id="stat-models-count">0</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Highest Score:</span>
-                    <span class="stat-value" id="stat-highest-score">0</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Average Score:</span>
-                    <span class="stat-value" id="stat-avg-score">0</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Selected Benchmark:</span>
-                    <span class="stat-value" id="stat-benchmark-name">-</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="chart-wrapper bar-chart-wrapper">
-            <svg id="barChartSvg"></svg>
-        </div>
-        
-        <div class="chart-legend" id="barChartLegend">
-            <div class="legend-header">
-                <h4>Performance Distribution</h4>
-                <div class="color-scale">
-                    <span class="min-label">Low</span>
-                    <div class="gradient-bar"></div>
-                    <span class="max-label">High</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="chart-notes">
-        Data source: Multiple benchmark datasets | Scores are raw values (not normalized)
-    </div>
-</section>
+        </section>
         
         <!-- Sezione informativa sui benchmark -->
         <section class="chart-section">
