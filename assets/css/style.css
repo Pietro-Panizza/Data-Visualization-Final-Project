@@ -16,8 +16,6 @@ body {
     color: #fff;
 }
 
-
-
 /* ===== SEZIONE HERO (FULLSCREEN) ===== */
 .fullscreen-hero {
     position: relative;
@@ -28,7 +26,7 @@ body {
     justify-content: center;
     background: 
         linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)),
-        url('../../images/intro1.webp') center ;
+        url('../../images/intro1.webp') center;
     background-size: cover;  
     background-position: center; 
 }
@@ -118,7 +116,6 @@ body {
     justify-content: center;
     padding: 80px 40px;
     background-size: cover !important;
-    background-size: cover !important;
     background-position: center !important;
 }
 
@@ -180,7 +177,6 @@ body {
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-
 /*=====================BOTTON========================*/
 .btn-primary {
     display: inline-flex;
@@ -208,11 +204,10 @@ body {
     transform: translateX(5px);
 }
 
-
 #chart-benchmark,
 #chart-efficiency,
 #chart-specialization,
-#chart-perception
+#chart-perception,
 #chart-sectors,
 #chart-solutions {
     height: 400px;
@@ -220,7 +215,6 @@ body {
 }
 
 /* ===== NAVIGATION INDEX ===== */
-
 .section-index {
     position: fixed;
     right: 30px;
@@ -236,7 +230,7 @@ body {
     gap: 20px;
 }
 
-.section-index li{
+.section-index li {
     position: relative;
     display: flex;
     align-items: center;
@@ -252,11 +246,9 @@ body {
     opacity: 0;
     transform: translateX(10px);
     transition: all 0.3s ease;
-    
-    pointer-events: auto;    /* Permette di cliccare sul testo */
-    text-decoration: none;   /* Toglie la sottolineatura dei link */
-    cursor: pointer;         /* Fa apparire la manina quando ci passi sopra */
-    
+    pointer-events: auto;
+    text-decoration: none;
+    cursor: pointer;
     text-align: right;
     width: 120px;
     margin-right: 5px;
@@ -283,7 +275,6 @@ body {
 .index-dot:hover {
     transform: scale(1.3);
     background: rgba(255, 255, 255, 0.6);
-    
 }
 
 .index-dot.active {
@@ -308,10 +299,9 @@ body {
 .section-index li:has(.index-dot.active) .index-title {
     opacity: 1;
     transform: translateX(0);
-    color: #1f77b4 !important; /* Usiamo !important per assicurarci che resti blu */
+    color: #1f77b4 !important;
     font-weight: 600;
 }
-
 
 /* Linea che connette i punti */
 .section-index li:not(:last-child)::after {
@@ -326,8 +316,7 @@ body {
 }
 
 /* ===== PROGRESS BAR ===== */
-
-.progress-container{
+.progress-container {
     position: fixed;
     bottom: 30px;
     left: 50%;
@@ -335,15 +324,16 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    z-index: 1000;
+    z-index: 999; /* MODIFICATO: 999 invece di 1000 */
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(10px);
     padding: 10px 20px;
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    pointer-events: none; /* Aggiunto: non interferisce con i click */
 }
 
-.progress-bar{
+.progress-bar {
     width: 200px;
     height: 4px;
     background: rgba(0, 0, 0, 0.2);
@@ -351,7 +341,7 @@ body {
     overflow: hidden;
 }
 
-.progress-fill{
+.progress-fill {
     height: 100%;
     background: linear-gradient(90deg, #c6dbef, #1f77b4);
     border: 1px solid #08306b;
@@ -360,7 +350,7 @@ body {
     border-radius: 2px;
 }
 
-.progress-text{
+.progress-text {
     color: #fff;
     font-size: 0.9rem;
     font-weight: 600;
@@ -368,8 +358,61 @@ body {
     text-align: center;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== FOOTER ===== */
+.main-footer {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* Più opaco per nascondere meglio */
+    color: white;
+    padding: 25px 0;
+    position: relative;
+    z-index: 1000; /* MODIFICATO: 1000 per stare sopra la barra */
+}
 
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px; /* Più largo per più spazio */
+    margin: 0 auto;
+    padding: 0 50px; /* Più padding per spostare il testo a sinistra */
+}
+
+.footer-left {
+    flex: 0 0 auto; /* Non si allarga */
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; /* Ridotto per stare in una riga */
+    font-weight: 400;
+    white-space: nowrap;
+    padding-left: 5px; /* Sposto ulteriormente a sinistra */
+    margin-right: auto;
+    min-width: 0;
+    overflow: hidden;
+    letter-spacing: -0.1px; /* Leggermente più compatto */
+}
+
+.footer-center {
+    flex: 1;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+    padding: 0 20px;
+}
+
+.footer-right {
+    flex: 0 0 auto;
+    text-align: right;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+    padding-right: 5px; /* Sposto ulteriormente a destra */
+    margin-left: auto;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .section-content {
         grid-template-columns: 1fr;
@@ -387,6 +430,28 @@ body {
     
     .section-index {
         right: 15px;
+    }
+    
+    .footer-container {
+        padding: 0 30px;
+    }
+    
+    .footer-left {
+        font-size: 11px; /* Ancora più piccolo su tablet */
+    }
+}
+
+@media (max-width: 900px) {
+    .footer-left {
+        font-size: 10.5px; /* Ancora più piccolo */
+    }
+    
+    .footer-center {
+        font-size: 13px;
+    }
+    
+    .footer-right {
+        font-size: 13px;
     }
 }
 
@@ -421,12 +486,48 @@ body {
     }
     
     .section-index {
-        display: none; /* Nascondi su mobile */
+        display: none;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 0 20px;
+    }
+    
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        text-align: center;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        white-space: normal;
+        font-size: 13px;
+    }
+    
+    .footer-left {
+        order: 1;
+    }
+    
+    .footer-center {
+        order: 2;
+    }
+    
+    .footer-right {
+        order: 3;
+    }
+}
+
+/* Per schermi molto larghi */
+@media (min-width: 1600px) {
+    .footer-left {
+        font-size: 13px; /* Possiamo permetterci di ingrandire */
     }
 }
 
 /*============= SPECIFIC BACKGROUND PER SECTION =================*/
-
 /* AI MODELS */
 #section-models {
     background: 
@@ -458,7 +559,6 @@ body {
         url('../../images/environmental-impact2.webp') center;
     background-size: cover;
 }
-
 
 .chart-btn {
     background: rgba(255, 255, 255, 0.1);
