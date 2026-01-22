@@ -25,67 +25,141 @@
             </p>
         </header>
         
-        <section class="chart-section" id="chart-mmlu">
-            <h2 class="chart-title">1. MMLU (Massive Multitask Language Understanding)</h2>
+        
+        
+        <!-- Sezione per il secondo grafico (polarchart) -->
+        <section class="chart-section" id="polar-chart-section">
+            <h2 class="chart-title">model performance radar chart</h2>
             <p class="chart-description">
-                The MMLU benchmark evaluates models on 57 diverse subjects across STEM, humanities, social sciences, and more. 
-                It tests both world knowledge and problem-solving ability. Higher scores indicate better general knowledge 
-                and comprehension across multiple domains.
+                Select an AI model to view its performance across different benchmarks.
+                The radar chart shows normalized scores (0-1) for each benchmark the model has been tested on
             </p>
             
-            <div class="chart-container" id="chart-mmlu-container">
-                <!-- Grafico MMLU verrà inserito qui via JavaScript -->
-                <div class="chart-placeholder">
-                    MMLU Performance Chart Loading...
+            <div class="chart-container polar-chart-container" id="polar-chart-1">
+                <div class="chart-controls">
+                    <div class="control-group">
+                        <label for="polarModelSelect">Select AI Model:</label>
+                        <select id="polarModelSelect" class="model-select">
+                            <!-- Le opzioni saranno popolate via JavaScript -->
+                            <!-- <option value="" disabled selected>Loading models...</option> -->
+                        </select>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="chart-notes">
-                Data source: MMLU (Hendrycks et al., 2021) | Latest evaluation: Q4 2023
+                <!-- Template per le info del modello - HTML STATICO -->
+                <div class="model-info" id="polarModelInfo">
+                    <div class="model-info-template">
+                        <div class="model-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Organization:</span>
+                                <span class="detail-value" id="model-organization">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Version:</span>
+                                <span class="detail-value" id="model-version">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Release Date:</span>
+                                <span class="detail-value" id="model-releaseDate">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Country:</span>
+                                <span class="detail-value" id="model-country">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Benchmarks Completed:</span>
+                                <span class="detail-value" id="model-benchmarkCount">0/10</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Average Raw Score:</span>
+                                <span class="detail-value" id="model-avgScore">N/A</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Average Normalized Score:</span>
+                                <span class="detail-value" id="model-avgNormalizedScore">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-wrapper">
+                    <!-- L'SVG sarà creato via D3.js -->
+                    <svg id="polarChartSvg" ></svg>
+                </div>
+                <div class="chart-notes">
+                    Data source: HumanEval (OpenAI, 2021) | Pass@1 metric (single attempt)
+                </div>
             </div>
         </section>
         
-        <!-- Sezione per il secondo grafico -->
-        <section class="chart-section" id="chart-humaneval">
-            <h2 class="chart-title">2. HumanEval (Code Generation)</h2>
-            <p class="chart-description">
-                HumanEval measures the ability of AI models to generate correct Python code from natural language descriptions. 
-                It consists of 164 programming problems with test cases to verify functional correctness. This benchmark is crucial 
-                for evaluating practical coding assistance capabilities.
-            </p>
-            
-            <div class="chart-container" id="chart-humaneval-container">
-                <!-- Grafico HumanEval verrà inserito qui via JavaScript -->
-                <div class="chart-placeholder" style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-style: italic;">
-                    HumanEval Performance Chart Loading...
-                </div>
+        <!-- Sezione per il terzo grafico (barchart) -->
+<section class="chart-section" id="bar-chart-section">
+    <h2 class="chart-title">3. Benchmark Performance Comparison</h2>
+    <p class="chart-description">
+        Select a benchmark to compare performance of all AI models. 
+        This bar chart shows raw scores for each model on the selected benchmark.
+    </p>
+    
+    <div class="chart-container bar-chart-container" id="bar-chart-1">
+        <div class="chart-controls bar-chart-controls">
+            <div class="control-group">
+                <label for="barBenchmarkSelect">Select Benchmark:</label>
+                <select id="barBenchmarkSelect" class="benchmark-select">
+                    <option value="" disabled selected>Loading benchmarks...</option>
+                </select>
             </div>
-            
-            <div class="chart-notes">
-                Data source: HumanEval (OpenAI, 2021) | Pass@1 metric (single attempt)
+            <div class="control-group">
+                <label for="barModelSort">Sort By:</label>
+                <select id="barModelSort" class="sort-select">
+                    <option value="score-desc">Score (High to Low)</option>
+                    <option value="score-asc">Score (Low to High)</option>
+                    <option value="name-asc">Name (A to Z)</option>
+                    <option value="name-desc">Name (Z to A)</option>
+                </select>
             </div>
-        </section>
+        </div>
         
-        <!-- Sezione per il terzo grafico -->
-        <section class="chart-section" id="chart-gsm8k">
-            <h2 class="chart-title">3. GSM8K (Grade School Math 8K)</h2>
-            <p class="chart-description">
-                GSM8K contains 8,500 high-quality linguistically diverse grade school math word problems. 
-                It tests mathematical reasoning through multi-step problems that require understanding the question, 
-                breaking it down into steps, and performing arithmetic operations correctly.
-            </p>
-            
-            <div class="chart-container" id="chart-gsm8k-container">
-                <!-- Grafico GSM8K verrà inserito qui via JavaScript -->
-                <div class="chart-placeholder" style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-style: italic;">
-                    GSM8K Performance Chart Loading...
+        <!-- Container per le statistiche -->
+        <div class="benchmark-stats" id="benchmarkStats">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Models Compared:</span>
+                    <span class="stat-value" id="stat-models-count">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Highest Score:</span>
+                    <span class="stat-value" id="stat-highest-score">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Average Score:</span>
+                    <span class="stat-value" id="stat-avg-score">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Selected Benchmark:</span>
+                    <span class="stat-value" id="stat-benchmark-name">-</span>
                 </div>
             </div>
-            
-            <div class="chart-notes">
-                Data source: GSM8K (Cobbe et al., 2021) | Chain-of-thought reasoning evaluated
+        </div>
+        
+        <div class="chart-wrapper bar-chart-wrapper">
+            <svg id="barChartSvg"></svg>
+        </div>
+        
+        <div class="chart-legend" id="barChartLegend">
+            <div class="legend-header">
+                <h4>Performance Distribution</h4>
+                <div class="color-scale">
+                    <span class="min-label">Low</span>
+                    <div class="gradient-bar"></div>
+                    <span class="max-label">High</span>
+                </div>
             </div>
-        </section>
+        </div>
+    </div>
+    
+    <div class="chart-notes">
+        Data source: Multiple benchmark datasets | Scores are raw values (not normalized)
+    </div>
+</section>
         
         <!-- Sezione informativa sui benchmark -->
         <section class="chart-section">
@@ -109,48 +183,10 @@
             </div>
         </section>
     </div>
-
-    <script>
-        // Placeholder per il codice JavaScript che creerà i grafici
-        // In una implementazione reale, qui inseriresti il codice D3.js per creare i grafici
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Benchmark detail page loaded');
-            
-            // Esempio di struttura dati per i grafici
-            const benchmarkData = {
-                mmlu: [
-                    { model: 'GPT-4', score: 86.4 },
-                    { model: 'Claude-3 Opus', score: 84.1 },
-                    { model: 'Gemini Ultra', score: 83.7 },
-                    { model: 'GPT-3.5', score: 70.0 },
-                    { model: 'Llama 2 70B', score: 68.9 }
-                ],
-                humaneval: [
-                    { model: 'GPT-4', score: 82.0 },
-                    { model: 'Claude-3 Opus', score: 79.3 },
-                    { model: 'Gemini Ultra', score: 77.8 },
-                    { model: 'GPT-3.5', score: 48.1 },
-                    { model: 'Llama 2 70B', score: 42.5 }
-                ],
-                gsm8k: [
-                    { model: 'GPT-4', score: 92.0 },
-                    { model: 'Claude-3 Opus', score: 91.2 },
-                    { model: 'Gemini Ultra', score: 90.8 },
-                    { model: 'GPT-3.5', score: 80.8 },
-                    { model: 'Llama 2 70B', score: 76.8 }
-                ]
-            };
-            
-            // Qui andrà il codice per inizializzare i grafici con D3.js
-            // initializeMMLUChart(benchmarkData.mmlu);
-            // initializeHumanEvalChart(benchmarkData.humaneval);
-            // initializeGSM8KChart(benchmarkData.gsm8k);
-        });
-    </script>
     
-    <!-- Eventuali script aggiuntivi per i grafici -->
-    <!-- <script src="benchmark-charts.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/polarChart.js"></script>
+    <script src="../assets/js/barChart.js"></script>
 </body>
 
 </html>

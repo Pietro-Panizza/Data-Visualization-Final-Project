@@ -420,106 +420,36 @@ body {
     }
 }
 
+/*============= SPECIFIC BACKGROUND PER SECTION =================*/
 
-/* ===== SANKEY DIAGRAM'S STYLES ===== */
-.sankey-chart {
-    width: 100%;
-    height: 600px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 15px;
-    margin: 20px 0;
+/* AI MODELS */
+#section-models {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+        url('../../images/models5.webp') center;
+    background-size: cover;
 }
 
-.chart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* PERFORMANCE */
+#section-benchmarks {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+        url('../../images/performance2.webp') center;
+    background-size: cover;
 }
 
-.chart-header h3 {
-    color: #fff;
-    font-size: 1.2rem;
-    margin: 0;
+/* INVESTMENTS */
+#section-investments {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+        url('../../images/investments2.webp') center;
+    background-size: cover;
 }
 
-.chart-controls {
-    display: flex;
-    gap: 10px;
+/* SOCIO-ENVIRONMENTAL */
+#section-socio-environment {
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+        url('../../images/environmental-impact2.webp') center;
+    background-size: cover;
 }
-
-.chart-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 5px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-}
-
-.chart-btn:hover {
-    background: rgba(76, 201, 240, 0.3);
-    border-color: #4cc9f0;
-}
-
-.chart-footer {
-    margin-top: 20px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.chart-source {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.8rem;
-    margin: 0;
-}
-
-.chart-actions {
-    display: flex;
-    gap: 10px;
-}
-
-/* ===================== SANKEY DIAGRM STYLES ================== */
-.sankey-link {
-    transition: opacity 0.3s;
-}
-
-.sankey-node text {
-    pointer-events: none;
-    user-select: none;
-}
-
-.sankey-node rect {
-    transition: filter 0.3s;
-}
-
-.sankey-node:hover rect {
-    filter: brightness(1.2);
-    cursor: pointer;
-}
-
-/* Tooltip */
-#sankey-tooltip {
-    z-index: 1000;
-    max-width: 250px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-
-.error {
-    color: #ff6b6b;
-    text-align: center;
-    padding: 40px;
-    font-size: 1.1rem;
-}
-
-
