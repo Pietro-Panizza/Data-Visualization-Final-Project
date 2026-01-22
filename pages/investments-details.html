@@ -106,17 +106,19 @@
 
     const csvPath = "../data/data_centers/data_centers.csv";
 
-    d3.csv(csvPath).then(data => {
-        // Funzione per trovare le colonne pulendo gli spazi
+d3.csv(csvPath).then(data => {
+        // Helper to find columns
         const getColName = (obj, target) => {
             return Object.keys(obj).find(k => k.trim().toLowerCase().includes(target.toLowerCase()));
         };
 
+        // 1. Identify Columns
         const colLat = getColName(data[0], "latitude");
         const colLng = getColName(data[0], "longitude");
         const colOwner = getColName(data[0], "owner");
         const colCost = getColName(data[0], "capital cost");
-        const colLoc = getColName(data[0], "location");
+        // We look for "title" (or "Name" if title isn't found, as a fallback)
+        const colTitle = getColName(data[0], "title") || getColName(data[0], "name"); 
 
         const cleanData = data.filter(d => {
             const latStr = d[colLat] ? d[colLat].trim() : "";
@@ -125,59 +127,99 @@
             const lng = parseFloat(lngStr);
             return !isNaN(lat) && !isNaN(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
         }).map(d => {
-            // Get the raw strings
+            // --- GEOMETRY FIX (From previous step) ---
             const latStr = d[colLat].trim().toUpperCase();
             const lngStr = d[colLng].trim().toUpperCase();
-
-            // Extract the numbers
             let lat = parseFloat(latStr);
             let lng = parseFloat(lngStr);
 
-            // LOGIC FIX: Check for Compass Directions
-            
-            // 1. Handle Longitude (West = Negative)
-            if (lngStr.includes("W")) {
-                lng = -Math.abs(lng); // Force negative
-            } 
-            // Note: 'E' is positive, which is the default for parseFloat, so we don't need an 'else'.
+            if (lngStr.includes("W")) lng = -Math.abs(lng);
+            if (latStr.includes("S")) lat = -Math.abs(lat);
 
-            // 2. Handle Latitude (South = Negative) - Just in case your data has this too
-            if (latStr.includes("S")) {
-                lat = -Math.abs(lat); // Force negative
-            }
+            // --- DATA CLEANING (New Request) ---
+            
+            // 1. Clean Owner: Remove "likely" and "confident" (case insensitive)
+            let ownerRaw = d[colOwner] || "Other";
+            let ownerClean = ownerRaw
+                .replace(/#likely/gi, "")
+                .replace(/#confident/gi, "")
+                .trim();
+
+            // 2. Handle Cost
+            let costRaw = parseFloat(d[colCost]);
+            // If it's NaN, treat as 0 for logic purposes
+            if (isNaN(costRaw)) costRaw = 0;
 
             return {
-                owner: d[colOwner] || "Other",
+                title: d[colTitle] || "Data Center", // Get the Title
+                owner: ownerClean,                   // Use cleaned owner
                 lat: lat,
                 lng: lng,
-                cost: parseFloat(d[colCost]) || 1,
-                location: d[colLoc] || "Unknown"
+                cost: costRaw,                       // Keep the number for radius calculation
+                //location: d[colLoc] || "Unknown" // Assuming colLoc is defined in scope or you can re-declare it
             };
         });
 
-        // --- COLORI UFFICIALI BRAND ---
+        // --- COLORS (HIGH CONTRAST, REQUESTED PALETTE) ---
         const brandColors = {
-            "Microsoft": "#00a4ef",
-            "Google": "#fbbc05",
-            "Amazon": "#ff9900",
-            "AWS": "#ff9900",
-            "Meta": "#0668E1",
-            "Apple": "#ffffff",
-            "Other": "#888888"
+            "Microsoft": "#ff0000", // red
+            "Google": "#0000ff",    // blue
+            "Amazon": "#00ff00",    // green
+            "Meta": "#ffff00",      // yellow
+            "Other": "#ffffff"      // white
         };
 
-        const owners = [...new Set(cleanData.map(d => d.owner))];
-        
         const getColor = (owner) => {
-            return brandColors[owner] || d3.schemeCategory10[owners.indexOf(owner) % 10];
+            const key = Object.keys(brandColors).find(k => owner.includes(k));
+            return key ? brandColors[key] : brandColors.Other;
         };
 
-        const radiusScale = d3.scaleSqrt()
-            .domain(d3.extent(cleanData, d => d.cost))
-            .range([5, 25]);
 
-        // --- DISEGNO ---
+        // Scale: domain starts at 0, but we want 0 to still be visible (small dot)
+        const radiusScale = d3.scaleSqrt()
+            .domain([0, d3.max(cleanData, d => d.cost)]) 
+            .range([4, 25]); // Minimum size 4px so 0-cost items are visible
+
+        // --- DRAWING ---
         cleanData.forEach(point => {
+            
+            // Determine Text for Cost
+            let costDisplay;
+            if (point.cost === 0) {
+                costDisplay = "Unknown";
+            } else {
+                costDisplay = point.cost.toFixed(2); // e.g. "5.50"
+            }
+
+            const tooltipContent = `
+                <div style="
+                    background: rgba(20,20,20,0.95);
+                    color: #ffffff;
+                    padding: 8px 10px;
+                    border: 1px solid #444;
+                    border-radius: 4px;
+                    text-align: left;
+                    font-family: Inter, sans-serif;
+                ">
+                    <div style="font-size:14px; font-weight:700; margin-bottom:4px;">
+                        ${point.title}
+                    </div>
+                    <div style="font-size:12px; color:#cccccc;">
+                        ${point.owner}
+                    </div>
+                    <div style="
+                        margin-top:6px;
+                        padding-top:6px;
+                        border-top:1px solid #444;
+                        font-weight:700;
+                        color:#4cc9f0;
+                    ">
+                        ${costDisplay === "Unknown" ? "Unknown" : `$${costDisplay} Billion`}
+                    </div>
+                </div>
+            `;
+
+
             L.circleMarker([point.lat, point.lng], {
                 radius: radiusScale(point.cost),
                 fillColor: getColor(point.owner),
@@ -186,23 +228,26 @@
                 opacity: 0.8,
                 fillOpacity: 0.6
             })
-            .bindPopup(`
-                <div style="color:#333; font-family: sans-serif;">
-                    <b style="font-size:14px; color:${getColor(point.owner)}">${point.owner}</b><br>
-                    ${point.location}<br>
-                    <b>$${point.cost.toFixed(2)} Billion</b>
-                </div>
-            `)
+            // CHANGE: Use bindTooltip instead of bindPopup
+            .bindTooltip(tooltipContent, {
+                permanent: false,   // Show only on hover
+                direction: 'top',   // Appears above the bubble
+                className: 'custom-tooltip', // Uses the CSS we added above
+                opacity: 1
+            })
             .addTo(map);
         });
 
-        // --- LEGENDA (Mancava nel tuo codice) ---
+        // --- LEGEND (Keep existing legend logic) ---
         const legend = L.control({position: 'bottomright'});
         legend.onAdd = function () {
             const div = L.DomUtil.create('div', 'legend');
             div.innerHTML += '<span class="legend-title">Owner</span>';
-            owners.forEach(owner => {
-                div.innerHTML += `<div><i style="background:${getColor(owner)}"></i>${owner}</div>`;
+            // We'll just show the main brands manually since the "clean" owners might be too many
+            const mainBrands = ["Microsoft", "Google", "Amazon", "Meta", "Other"];
+            
+            mainBrands.forEach(brand => {
+                div.innerHTML += `<div><i style="background:${brandColors[brand] || '#888888'}"></i>${brand}</div>`;
             });
             return div;
         };
@@ -210,7 +255,7 @@
 
     }).catch(error => {
         console.error("Errore caricamento CSV:", error);
-    }); // <--- Chiusura corretta della funzione d3.csv
+    });
 </script>
 </body>
 </html>

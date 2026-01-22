@@ -522,4 +522,22 @@ body {
     font-size: 1.1rem;
 }
 
+/* Add this to your existing CSS */
+.custom-tooltip {
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 8px;
+}
+/* Hide the little arrow tip if you prefer a clean box */
+.leaflet-tooltip-top:before, 
+.leaflet-tooltip-bottom:before, 
+.leaflet-tooltip-left:before, 
+.leaflet-tooltip-right:before {
+    border-top-color: rgba(20, 20, 20, 0.95); /* Match background */
+}
 
