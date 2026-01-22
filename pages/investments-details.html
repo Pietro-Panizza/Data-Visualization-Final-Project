@@ -125,13 +125,25 @@
             const lng = parseFloat(lngStr);
             return !isNaN(lat) && !isNaN(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
         }).map(d => {
-            let lat = parseFloat(d[colLat].trim());
-            let lng = parseFloat(d[colLng].trim());
+            // Get the raw strings
+            const latStr = d[colLat].trim().toUpperCase();
+            const lngStr = d[colLng].trim().toUpperCase();
 
-            // FIX COORDINATE: Se la longitudine è positiva nel tuo CSV, 
-            // la rendiamo negativa per "volare" verso l'America.
-            if (lng > 0) {
-                lng = -lng;
+            // Extract the numbers
+            let lat = parseFloat(latStr);
+            let lng = parseFloat(lngStr);
+
+            // LOGIC FIX: Check for Compass Directions
+            
+            // 1. Handle Longitude (West = Negative)
+            if (lngStr.includes("W")) {
+                lng = -Math.abs(lng); // Force negative
+            } 
+            // Note: 'E' is positive, which is the default for parseFloat, so we don't need an 'else'.
+
+            // 2. Handle Latitude (South = Negative) - Just in case your data has this too
+            if (latStr.includes("S")) {
+                lat = -Math.abs(lat); // Force negative
             }
 
             return {
