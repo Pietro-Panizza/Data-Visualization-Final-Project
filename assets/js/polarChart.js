@@ -632,16 +632,14 @@ updateModelInfo(model) {
 // Inizializza quando D3.js è caricato
 document.addEventListener('DOMContentLoaded', () => {
     // Verifica che D3.js sia caricato
-    if (typeof d3 === 'undefined') {
-        console.error('D3.js is not loaded. Please include D3.js library.');
-        return;
-    }
+    if (typeof d3 === 'undefined') return;
     
     const polarContainers = document.querySelectorAll('.polar-chart-container');
     polarContainers.forEach(container =>{
         const chart = new PolarChartD3(container.id);
         chart.init();
-    })
+        window.polarChartInstance = chart;
+    });
 });
 
 // Supporto ES6 modules

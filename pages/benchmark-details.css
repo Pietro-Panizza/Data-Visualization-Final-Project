@@ -494,8 +494,6 @@ body{
     border: 1px solid #e9ecef;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     display: flex;
-    /* justify-content: center; Centra il contenuto */
-    /* align-items: center; Centra verticalmente */
 }
 
 #barChartSvg {
