@@ -252,3 +252,20 @@ body{
     color: #ffffff;
     fill: #fff;
 }
+
+.chart-analysis {
+    margin-top: 30px;
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 4px solid #4a90e2; /* Accent color coerente con il tema */
+    border-radius: 0 8px 8px 0;
+}
+
+.chart-analysis p {
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    text-align: justify;
+}
