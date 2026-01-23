@@ -102,3 +102,261 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     z-index: 10;
 }
+
+/* --- Stili per il doppio slider (CORRETTI) --- */
+.slider-section {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slider-section h2 {
+    color: #64ffda;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.slider-wrapper {
+    position: relative;
+    height: 60px;
+    padding: 20px 0;
+}
+
+/* Track visibile */
+.slider-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    transform: translateY(-50%);
+}
+
+/* Track attiva (tra i due thumb) */
+.slider-active-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 6px;
+    background: linear-gradient(to right, #69b3a2, #4a90e2);
+    border-radius: 3px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Input range (trasparenti ma funzionali) */
+.range-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    pointer-events: none; /* <--- AGGIUNGI QUESTA RIGA */
+}
+
+/* Z-index: il min-slider sta sotto, il max-slider sta sopra */
+#min-slider {
+    z-index: 1;
+}
+
+#max-slider {
+    z-index: 2;
+}
+
+/* Thumb per Chrome/Safari */
+.range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.1s ease;
+    border: 3px solid;
+    pointer-events: auto; /* <--- AGGIUNGI QUESTA RIGA: Riabilita il click sul pallino */
+}
+
+/* Thumb per Firefox */
+.range-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.1s ease;
+    border: 3px solid;
+    pointer-events: auto; /* <--- AGGIUNGI QUESTA RIGA: Riabilita il click sul pallino */
+}
+
+/* Thumb sinistro (min) - verde */
+#min-slider::-webkit-slider-thumb {
+    border-color: #69b3a2;
+    transform: translateY(-2px);
+}
+
+#min-slider::-moz-range-thumb {
+    border-color: #69b3a2;
+}
+
+/* Thumb destro (max) - blu */
+#max-slider::-webkit-slider-thumb {
+    border-color: #4a90e2;
+    transform: translateY(-2px);
+}
+
+#max-slider::-moz-range-thumb {
+    border-color: #4a90e2;
+}
+
+/* Effetto hover */
+.range-slider::-webkit-slider-thumb:hover {
+    transform: translateY(-2px) scale(1.1);
+}
+
+.range-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+}
+
+/* Display valori */
+.slider-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding: 0 10px;
+}
+
+.slider-values span {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 12px;
+    border-radius: 6px;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Contatore modelli */
+#model-count {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(74, 144, 226, 0.1);
+    padding: 8px 15px;
+    border-radius: 6px;
+    border-left: 3px solid #4a90e2;
+    display: inline-block;
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid red;
+    border-radius: 4px;
+    margin: 20px 0;
+    color: white;
+}
+
+/* --- SOLUZIONE DEFINITIVA per doppio slider --- */
+.slider-container {
+    position: relative;
+    height: 70px;
+    padding: 20px 0;
+}
+
+/* Area click per thumb sinistro (prima metà) */
+.left-slider-area {
+    position: absolute;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 3;
+    background: transparent;
+}
+
+/* Area click per thumb destro (seconda metà) */
+.right-slider-area {
+    position: absolute;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 3;
+    background: transparent;
+}
+
+/* Nascondi completamente gli input range originali */
+.hidden-slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 4;
+    cursor: pointer;
+}
+
+/* Thumb personalizzati */
+.custom-thumb {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border-radius: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 3px solid;
+    transition: transform 0.1s ease;
+}
+
+.custom-thumb:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+#min-thumb {
+    border-color: #69b3a2;
+    left: 0%;
+}
+
+#max-thumb {
+    border-color: #4a90e2;
+    left: 100%;
+}
+
+/* --- Analysis Box Styles (AGGIUNTO) --- */
+.chart-analysis {
+    margin-top: 30px;
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 4px solid #4a90e2; /* Accent color coerente con il tema */
+    border-radius: 0 8px 8px 0;
+}
+
+.chart-analysis p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    text-align: justify;
+}

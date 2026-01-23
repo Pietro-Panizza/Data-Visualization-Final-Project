@@ -12,14 +12,7 @@
 </head>
 <body class="subpage-body">
 
-    <!-- <nav class="subpage-nav">
-        <a href="../index.html" class="back-link">
-            <span class="arrow">←</span> Back to Home
-        </a>
-    </nav> -->
-
     <main class="container">
-               <!-- Link to go back to the homepage -->
         <a href="../index.html#section-benchmarks" class="back-link">
             <span class="back-arrow">←</span> Back to Homepage
         </a>
@@ -32,18 +25,30 @@
             <h2>1. Model Size vs. Time</h2>
             <p>How the number of parameters has grown over time.</p>
             <div id="chart-params"></div>
+            
+            <div class="chart-analysis">
+                <p>Observing the chart and keeping in mind that the number of parameters is shown on a logarithmic scale, we can see that for over fifty years, model size grew slowly. This growth then accelerated at the beginning of the 21st century, reaching its highest rate around 2015.</p>
+            </div>
         </section>
 
         <section class="chart-section">
             <h2>2. Training Compute vs. Time</h2>
             <p>The total computational power (FLOPs) used to train the model.</p>
             <div id="chart-compute"></div>
+            
+            <div class="chart-analysis">
+                <p>The number of floating-point operations seems to grow over time following the same dynamics as the previous chart. In this case, the trend appears even less "noisy" and follows an almost perfectly exponential path over time.</p>
+            </div>
         </section>
 
         <section class="chart-section">
             <h2>3. Training Time & Dataset Size vs. Time</h2>
             <p>Position: Training Time (Hours). Bubble Size: Dataset Size (Gradients).</p>
             <div id="chart-bubble"></div>
+            
+            <div class="chart-analysis">
+                <p>It is important to note that the data labeled "Dataset Size" is defined as "the smallest unit that provides any training/gradient update". While the overall trend is similar to the previous charts, there are key differences. Training time has grown exponentially in recent years, though not as sharply as training FLOPs and model parameters. In contrast, Dataset Size remained relatively stable for most of history before exploding over the last 5 years. This is likely due to the rise of social networks and the emergence of companies specializing in data collection, which has recently become more strictly regulated.</p>
+            </div>
         </section>
 
         <div id="tooltip" class="tooltip" style="opacity:0;"></div>
