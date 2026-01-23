@@ -27,16 +27,19 @@
         </p>
 
         <section class="chart-section" id="chart-environment">
-            <h2 class="chart-title">Energy consumed in used data center allover the world</h2>
+            <h2 class="chart-title">Energy consumption and carbon footprints across different geographical regions</h2>
             <p class="chart-description">
-                In this space must be described the previous (or sequent?)chart
+                This streamgraph illustrates the distribution of energy consumption and carbon footprints 
+                across different geographical regions, categorized by the model's parameter size. 
             </p>
-
+            <div class="controls" >
+                <label for="metric-select" >Select Metric:</label>
+                <select id="metric-select" >
+                    <option value="total_energy_kwh">Total Energy Consumed (kWh)</option>
+                    <option value="total_carbon_footprint_kgco2e">Total Carbon Footprint (kgCO2e)</option>
+                </select>
+            </div>
             <div class="chart-container" id="chart-environment-container">
-                <!--Grafico ambiente consumo energia verrà inserito qui con javascript?-->
-                <div class="chart-placeholder">
-                    Energy chart Loading...
-                </div>
             </div>
 
             <div class="chart-notes">
@@ -47,9 +50,9 @@
 
 
         <section class="chart-section">
-            <h2 class="chart-title">Americans' Worry About Work Being Automated</h2>
+            <h2 class="chart-title">Americans Worry About Work Being Automated</h2>
             <p class="chart-description">
-                This chart shows how Americans' concerns about job automation have evolved from 2021 to 2025. 
+                This chart shows how Americans concerns about job automation have evolved from 2021 to 2025. 
                 The data is broken down by different levels of worry, showing the percentage of adults who 
                 feel very worried, fairly worried, not very worried, not worried at all, or are unsure.
             </p>
@@ -64,7 +67,7 @@
     </div>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    <script src="../assets/js/streamgraph.js"></script>
     <script src="../assets/js/Linechart.js"></script>
     
  </body>
