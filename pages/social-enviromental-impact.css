@@ -7,7 +7,8 @@ body{
 
 /* Detail page styles */
 .detail-container {
-    max-width: 100vh;
+    max-width: 1200px;
+    width: 95%;
     margin: 0 auto;
     padding: 40px 20px;
     color: #091f41;
@@ -78,13 +79,13 @@ body{
 }
 
 .chart-container {
-    height: 600px;
+    height: auto;
+    min-height: 450px;
     margin: 30px 0;
     position: relative;
-    padding-top: 20px;
-    padding-left: 13px;
-    background-color: #091f41; /* Colore di sfondo interno */
-
+    padding: 20px;
+    background-color: #091f41; 
+    border-radius: 8px;
 }
 
 .chart-notes {
@@ -140,33 +141,41 @@ body{
 
 /* Worry chart style */
 #chart-social {
-    width: 90vh;
-    height: 60vh;
-    background-color: #f9f9f9;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
     border-radius: 8px;
-    margin: 2px ;
-    display: flex;
+    margin: 0;
+    display: block;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     align-items: center;
-    max-width: 100vh;
 }
 
 #chart-social svg {
     display: block;
     margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
 
 .worry-line {
     stroke-linecap: round;
+    stroke-width: 3px;
 }
 
 .data-dot {
     cursor: pointer;
     transition: r 0.2s;
+    stroke: #091f41;
+    stroke-width: 2px;
 }
 
 .data-dot:hover {
-    r: 6;
+    r: 8;
+    stroke: #fff;
 }
 
 .axis-label {
@@ -188,4 +197,41 @@ body{
     font-family: 'Inter', sans-serif;
     font-size: 12px;
     line-height: 1.4;
+    background: rgba(9, 31, 65, 0.95); /* Dark background */
+    color: #fff; /* White text */
+    border: 1px solid #4a6fa5;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+#chart-social .axis-label {
+    fill: #b0c4de !important; /* Light blue-grey text */
+    font-size: 14px; /* Slightly bigger for readability */
+    font-weight: 400;
+}
+
+/* Axis Lines */
+#chart-social .domain, 
+#chart-social .tick line {
+    stroke: #4a6fa5; /* Blueish line to match theme */
+}
+
+/* Chart Title inside SVG */
+#chart-social .chart-title {
+    fill: #ffffff !important; /* White text */
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* Chart Subtitle inside SVG */
+#chart-social .chart-subtitle {
+    fill: #cccccc !important; /* Light gray text */
+    font-size: 0.9rem;
+}
+
+/* Legend text (if applicable) */
+#chart-social .legend-text {
+    color: #ffffff;
+    fill: #fff;
 }

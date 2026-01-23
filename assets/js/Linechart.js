@@ -20,14 +20,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .style('border', '1px solid #ccc');
 
     // Graph dimensions
-    const margin = { top: 40, right: 20, bottom: 60, left: 60 };
-    const width = chartContainer.node().getBoundingClientRect().width - margin.left - margin.right;
+    const margin = { top: 60, right: 30, bottom: 60, left: 60 };
+    const width = 800 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
     
     // Create SVG
     const svg = chartContainer.append('svg')
-        .attr('width', width + margin.left + margin.right)
-        .attr('height', height + margin.top + margin.bottom)
+        .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .style("width", "100%")  // Makes it scale with container zoom
+        .style("height", "auto")
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
     
@@ -166,6 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
             legendItem.append('text')
                 .attr('x', 20)
                 .attr('y', 12)
+                .style('fill', '#ffffff')
                 .style('font-size', '12px')
                 .text(category);
         });
