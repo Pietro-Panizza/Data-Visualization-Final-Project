@@ -27,7 +27,7 @@
         
         
         
-        <!-- Sezione per il secondo grafico (polarchart) -->
+        <!-- First plot section (polarchart) -->
         <section class="chart-section" id="polar-chart-section">
             <h2 class="chart-title">model performance radar chart</h2>
             <p class="chart-description">
@@ -45,7 +45,6 @@
                         </select>
                     </div>
                 </div>
-                <!-- Template per le info del modello - HTML STATICO -->
                 <div class="model-info" id="polarModelInfo">
                     <div class="model-info-template">
                         <div class="model-details">
@@ -82,16 +81,35 @@
                 </div>
 
                 <div class="chart-wrapper">
-                    <!-- L'SVG sarà creato via D3.js -->
                     <svg id="polarChartSvg" ></svg>
                 </div>
                 <div class="chart-notes">
-                    Data source: Epoch AI, ‘AI Benchmarking Hub’. Published online at epoch.ai. Retrieved from <a href="https://epoch.ai/benchmarks/use-this-data">Epoch AI</a>
+                    Data source: Epoch AI, ‘AI Benchmarking Hub’. Published online at epoch.ai. Retrieved from <a href="https://epoch.ai/benchmarks/use-this-data">Epoch AI website</a>
                 </div>
+
             </div>
+            <div class="chart-analysis">
+                <p>
+                    The polar chart above illustrates the performance of each analyzed model across a selected set of benchmarks.
+                    By analyzing scores across major labs (OpenAI, Google DeepMind, Anthropic, and Alibaba), several critical trends emerge. Notably, Gemini 3 Pro (November 2025) and GPT-5.2 
+                    (late 2025) have established a new “gold standard,” achieving Average Normalized Scores (ANS) exceeding 0.65. These models appear to have effectively addressed conventional 
+                    academic benchmarks, attaining near-perfect accuracy on AIME 2025 and surpassing 90% performance on GPQA Diamond, a PhD-level science benchmark.
+                    Despite these advances, FrontierMath continues to function as the most stringent discriminator of model capability. Even the strongest systems—such as Gemini 3 Pro, 
+                    which leads with approximately 37%—exhibit substantial difficulty with Tier-4, research-level problems. This persistent gap underscores that genuine mathematical discovery 
+                    remains an unconquered emergent capability rather than a solved competency.
+                    The radar plots further reveal distinct “model identities.” The Claude 4.5 series from Anthropic demonstrates a strong emphasis on SWE-Bench and software engineering tasks, 
+                    positioning it as a preferred choice for agentic coding and complex system architecture. The GPT-5 series from OpenAI exhibits the most balanced, general-purpose performance 
+                    profile, with a modest advantage in WebDev Arena tasks and long-context knowledge work. Google's Gemini 3 models show clear dominance in visual reasoning, as evidenced by ARC-AGI-2 
+                    performance, as well as in advanced scientific knowledge retrieval. Meanwhile, leading Chinese models—such as Qwen3-235B and DeepSeek-R1—have reached parity with proprietary 2024-era systems, 
+                    consistently achieving ANS values in the 0.50-0.57 range and demonstrating particular strength in mathematical chain-of-thought reasoning.
+                </p>
+            </div>
+
         </section>
+
         
-        <!-- Sezione per il terzo grafico (barchart) -->
+        
+        <!-- Second plot section (barchart) -->
         <section class="chart-section" id="bar-chart-section">
             <h2 class="chart-title">3. Benchmark Performance Comparison</h2>
             <p class="chart-description">
@@ -116,7 +134,6 @@
                     </div>
                 </div>
                 
-                <!-- Container per le statistiche -->
                 <div class="benchmark-stats" id="benchmarkStats">
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -147,9 +164,24 @@
             <div class="chart-notes">
                 Data source: Epoch AI, ‘AI Benchmarking Hub’. Published online at epoch.ai. Retrieved from <a href="https://epoch.ai/benchmarks/use-this-data">Epoch AI</a>
             </div>
+            <div class="chart-analysis">
+                <p>
+                    The 2025-2026 benchmarking cycle signifies a clear inflection point from a prior “scaling era,” primarily defined by gains in general linguistic fluency, to a distinct 
+                    “reasoning era” characterized by multi-step cognitive processing and increasing domain-specific autonomy. At the leading edge of performance, the GPT-5 and Gemini 3 Pro model
+                    families have effectively established a new upper bound, saturating undergraduate-level science and competitive mathematics benchmarks—such as GPQA Diamond and AIME 2025—with 
+                    performance levels exceeding 90%.Nevertheless, a substantial “reasoning gap” remains evident on FrontierMath. Even the most advanced architectures rarely exceed the 40% threshold 
+                    on problems requiring research-grade mathematical reasoning, indicating a persistent boundary between expert-level knowledge retrieval and genuinely novel logical inference. 
+                    This limitation suggests that current systems, while highly proficient in formalized domains, have yet to internalize the mechanisms underlying true mathematical discovery.
+                    At the same time, architectural specialization has emerged as the principal axis of differentiation for enterprise adoption. Anthropic's Claude 4.5 series demonstrates clear leadership 
+                    in agentic software engineering, as reflected in SWE-Bench performance; OpenAI's GPT-5.2 shows comparative strength in abstract, non-verbal reasoning tasks such as ARC-AGI-2; and 
+                    Google's Gemini 3 excels in multimodal scientific reasoning and synthesis. Although lightweight “Mini” and “Flash” variants deliver unprecedented efficiency for routine technical workloads, 
+                    the persistent plateau observed on research-level mathematical benchmarks across all evaluated models suggests that further progress toward artificial general intelligence will require a 
+                    qualitative shift beyond high-fidelity pattern matching toward autonomous, systemic abstraction and self-directed reasoning.
+                </p>
+            </div>
         </section>
         
-        <!-- Sezione informativa sui benchmark -->
+        <!-- Benchmark info seciont -->
         <section class="chart-section" id="benchmark-Info">
             <h2 class="chart-title">Understanding the Benchmarks</h2>
             
@@ -171,11 +203,12 @@
             </div>
 
             <div class = "visualization-footer">
-                <a href="details-bench.html" class="btn-primary" target="_blank">
+                <a href="details-bench.html" class="btn-primary">
                     More details
                     <span class="btn-arrow">→</span>
                 </a>
             </div>
+            
         </section>
     </div>
     

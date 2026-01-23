@@ -20,10 +20,16 @@ document.addEventListener('DOMContentLoaded', function() {
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
     
+        const colorBlindFriendlyColors = [
+        "#E69F00", // Orange
+        "#000000",  // Black (Optional, maybe swap for #FFFFFF on your dark theme)
+        "#009E73", // Bluish Green
+        "#D55E00", // Vermillion
+        "#CC79A7" // Reddish Purple
+    ];
+
     // color palette
-    const colorScale = d3.scaleOrdinal()
-        .domain(['Very worried', 'Fairly worried', 'Not very worried', 'Not worried at all', 'Don\'t know'])
-        .range(['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#95a5a6']);
+    const colorScale = d3.scaleOrdinal(colorBlindFriendlyColors);
 
 
     // Axis
@@ -65,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         svg.selectAll('.data-dot').remove();
         svg.select('.chart-title').remove();
         svg.select('.chart-subtitle').remove();
+        legend.selectAll('*').remove();
         
         const categories = ['Very worried', 'Fairly worried', 'Not very worried', 'Not worried at all', 'Don\'t know'];
         
@@ -87,9 +94,18 @@ document.addEventListener('DOMContentLoaded', function() {
             .domain([0, 100])
             .range([height, 0]);
 
-        xAxisGroup.call(d3.axisBottom(xScale).tickFormat(d3.timeFormat('%b %Y')));
-        yAxisGroup.call(d3.axisLeft(yScale).tickFormat(d => d + '%'));
+        xAxisGroup.call(d3.axisBottom(xScale)
+        .tickValues(selectedData.map(d=> d.Day))
+        .tickFormat(d3.timeFormat('%b %Y')));
 
+        yAxisGroup.call(d3.axisLeft(yScale)
+        .tickFormat(d => d + '%'));
+        
+        xAxisGroup.selectAll("text")
+            .style("fill", "#fff");
+
+        yAxisGroup.selectAll("text")
+            .style("fill", "#fff");
 
         // Title
         svg.append('text')
