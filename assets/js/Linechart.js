@@ -1,23 +1,10 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const chartContainer = d3.select('#chart-social');
+    const select = d3.select('#entity-select'); // Target the existing HTML select
 
     chartContainer.html('');
     
-    // create the category selector
-    const selectorContainer = chartContainer.append('div')
-        .style('margin-bottom', '20px');
-
-    selectorContainer.append('label')
-        .attr('for', 'entity-select')
-        .style('margin-right', '10px')
-        .text('Select group of people:');
-    
-    const select = selectorContainer.append('select')
-        .attr('id', 'entity-select')
-        .style('padding', '5px')
-        .style('border-radius', '4px')
-        .style('border', '1px solid #ccc');
 
     // Graph dimensions
     const margin = { top: 60, right: 30, bottom: 60, left: 60 };

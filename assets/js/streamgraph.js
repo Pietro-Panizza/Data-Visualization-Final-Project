@@ -1,5 +1,5 @@
 // Configuration
-const margin = { top: 40, right: 40, bottom: 120, left: 60 };
+const margin = { top: 40, right: 40, bottom: 150, left: 60 };
 const width = 900 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
 
@@ -27,7 +27,7 @@ const svg = d3.select("#chart-environment-container")
     .html("") // Clear placeholder
     .append("svg")
     .attr("width", "100%")
-    .attr("height", "100%")
+    .attr("height", "auto")
     .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);

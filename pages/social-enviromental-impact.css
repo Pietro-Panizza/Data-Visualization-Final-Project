@@ -29,7 +29,7 @@ body{
 
 .detail-subtitle {
     font-size: 1.3rem;
-    color: #666;
+    color: #fff;
     max-width: 800px;
     margin: 0 auto 30px;
     line-height: 1.6;
@@ -38,7 +38,7 @@ body{
 .back-link {
     display: inline-flex;
     align-items: center;
-    color: #4a6fa5;
+    color: #64ffda;
     text-decoration: none;
     font-weight: 600;
     margin-bottom: 20px;
@@ -65,14 +65,14 @@ body{
 .chart-title {
     font-size: 1.8rem;
     font-weight: 600;
-    color: #fff;
+    color: #64ffda;
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 2px solid #f0f0f0;
 }
 
 .chart-description {
-    color: #888;
+    color: #fff;
     line-height: 1.7;
     margin-bottom: 30px;
     font-size: 1.1rem;
@@ -104,6 +104,10 @@ body{
     text-align: center;
 }
 
+.controls label{
+    color:#64ffda;
+}
+
 #metric-select {
     padding: 8px;
     border-radius: 4px;
@@ -114,6 +118,20 @@ body{
 }
 
 #metric-select:hover {
+    border-color: #fff;
+}
+
+
+#entity-select {
+    padding: 8px;
+    border-radius: 4px;
+    background: #243f66;
+    color: white;
+    border: 1px solid #4a6fa5;
+    cursor: pointer;
+}
+
+#entity-select:hover {
     border-color: #fff;
 }
 
@@ -142,7 +160,6 @@ body{
 /* Worry chart style */
 #chart-social {
     width: 100%;
-    height: 100%;
     background-color: transparent;
     border-radius: 8px;
     margin: 0;
@@ -206,7 +223,7 @@ body{
 }
 
 #chart-social .axis-label {
-    fill: #b0c4de !important; /* Light blue-grey text */
+    fill: #ffffff !important; /* Light blue-grey text */
     font-size: 14px; /* Slightly bigger for readability */
     font-weight: 400;
 }
@@ -226,7 +243,7 @@ body{
 
 /* Chart Subtitle inside SVG */
 #chart-social .chart-subtitle {
-    fill: #cccccc !important; /* Light gray text */
+    fill: #b0c4de !important; /* Light gray text */
     font-size: 0.9rem;
 }
 
