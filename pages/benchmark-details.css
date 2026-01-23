@@ -319,7 +319,22 @@ svg {
     color: var(--text-secondary);
 }
 
-
-.bar-tooltip, .bar-tooltip strong {
-    color: #2c3e50 !important;
+.bar-tooltip {
+    position: absolute;
+    padding: 10px;
+    background: rgba(10, 25, 47, 0.95); /* Match your dark theme */
+    color: #ccd6f6;
+    border: 1px solid #64ffda;
+    border-radius: 4px;
+    pointer-events: none; /* Important: prevents the tooltip from flickering */
+    font-size: 13px;
+    line-height: 1.4;
+    z-index: 1000;
+    box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+    opacity: 0;
+}
+.bar-tooltip-title, .bar-tooltip-label, .bar-tooltip-value {
+    color: #64ffda !important;
+    display: block;
+    margin-bottom: 4px;
 }

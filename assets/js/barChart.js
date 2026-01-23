@@ -6,22 +6,17 @@ class BarChartD3 {
         this.currentBenchmark = null;
         this.currentData = [];
         this.sortOrder = 'score-desc';
+        this.tooltip = d3.select('body')
+            .append('div') 
+            .attr('class', 'bar-tooltip');
 
         this.maxModelsToShow = 20;
         this.showTopModelsOnly = true;
         
-        // Dimensioni
-        this.margin = { top: 40, right: 30, bottom: 60, left: 180 };
+        this.margin = { top: 40, right: 30, bottom: 60, left: 200 }; // Increased left margin for long names
         this.width = 0;
         this.height = 0;
         
-        // Elementi DOM
-        this.svg = null;
-        this.xScale = null;
-        this.yScale = null;
-        this.colorScale = null;
-        
-        // Configurazione colori
         this.colors = {
             low: '#e74c3c',
             medium: '#f39c12',
@@ -29,502 +24,242 @@ class BarChartD3 {
         };
     }
     
-    // Inizializza con dati dai CSV già caricati
     initFromPolarData(benchmarkData, models) {
-        console.log('BarChart: initializing with polar chart data');
         this.benchmarkData = benchmarkData;
         this.models = models;
-        
-        // DEBUG: log dei dati ricevuti
-        console.log(`BarChart received: ${Object.keys(benchmarkData).length} benchmarks, ${Object.keys(models).length} models`);
-        
         this.initializeUI();
         this.populateBenchmarkSelect();
     }
     
-    // Inizializza UI
     initializeUI() {
-        console.log('BarChart: initializing UI');
+        const select = document.getElementById('barBenchmarkSelect');
+        const sortSelect = document.getElementById('barModelSort');
         
-        // Verifica che gli elementi esistano
-        if (!document.getElementById('barBenchmarkSelect') || 
-            !document.getElementById('barChartSvg')) {
-            console.error('Required HTML elements not found for bar chart');
-            return;
+        if (select) {
+            select.addEventListener('change', (e) => {
+                this.currentBenchmark = e.target.value;
+                this.updateChart();
+            });
         }
         
-        // Calcola dimensioni
-        this.calculateDimensions();
+        if (sortSelect) {
+            sortSelect.addEventListener('change', (e) => {
+                this.sortOrder = e.target.value;
+                this.updateChart();
+            });
+        }
         
-        // Crea SVG (se non esiste già)
-        this.createSVG();
-        
-        // Crea tooltip
-        this.createTooltip();
-        
-        // Aggiungi event listeners
-        document.getElementById('barBenchmarkSelect').addEventListener('change', (e) => {
-            console.log('Benchmark selected:', e.target.value);
-            this.currentBenchmark = e.target.value;
-            this.updateChart();
-        });
-        
-        document.getElementById('barModelSort').addEventListener('change', (e) => {
-            this.sortOrder = e.target.value;
-            this.updateChart();
-        });
-        
-        // Gestisci resize
-        window.addEventListener('resize', () => {
-            this.handleResize();
-        });
+        window.addEventListener('resize', () => this.handleResize());
     }
 
-    
-    // Popola la select dei benchmark
     populateBenchmarkSelect() {
         const select = document.getElementById('barBenchmarkSelect');
         if (!select) return;
         
         select.innerHTML = '<option value="" disabled selected>Select a benchmark...</option>';
         
-        // Ordina benchmark per nome
-        const benchmarks = Object.values(this.benchmarkData)
-            .sort((a, b) => a.name.localeCompare(b.name));
-        
-        benchmarks.forEach(benchmark => {
-            // Conta quanti modelli hanno questo benchmark
-            const modelCount = benchmark.scores.length;
-            if (modelCount > 0) {
+        Object.values(this.benchmarkData)
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .forEach(benchmark => {
                 const option = document.createElement('option');
                 option.value = benchmark.id;
-                option.textContent = `${benchmark.name} (${modelCount} models)`;
+                option.textContent = benchmark.name;
                 select.appendChild(option);
-            }
-        });
+            });
 
-            if (benchmarks.length > 0) {
-            const firstValid = benchmarks.find(b => 
-                (b.scores && b.scores.length > 0) || 
-                (b.models && Object.keys(b.models).length > 0)
-            );
-
-            if (firstValid) {
-                select.value = firstValid.id;
-                this.currentBenchmark = firstValid.id;
-                // Un piccolo timeout assicura che il DOM sia stabile
-                setTimeout(() => this.updateChart(), 100);
-            }
+        if (!this.currentBenchmark && Object.keys(this.benchmarkData).length > 0) {
+            const firstId = Object.keys(this.benchmarkData)[0];
+            select.value = firstId;
+            this.currentBenchmark = firstId;
+            setTimeout(() => this.updateChart(), 100);
         }
     }
     
-    // Crea SVG
-    createSVG() {
-        const container = d3.select(`#${this.containerId}`);
-        let svgElement = container.select('svg');
-        
-        // Se l'SVG non esiste affatto, crealo
-        if (svgElement.empty()) {
-            svgElement = container.append('svg')
-                .attr('id', 'barChartSvg')
-                .attr('width', '100%')
-                .attr('height', '100%');
-        }
-
-        // Aggiorna sempre il viewBox per il responsive
-        svgElement.attr('viewBox', `0 0 ${this.width} ${this.height}`);
-
-        // Gestione del gruppo principale <g>
-        this.svg = svgElement.select('g.main-group');
-        
-        if (this.svg.empty()) {
-            // Se il gruppo non esiste (come nel tuo caso attuale), crealo
-            this.svg = svgElement.append('g')
-                .attr('class', 'main-group')
-                .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
-        }
-    }
-
-    // Calcola le dimensioni effettive del container
-    calculateDimensions() {
-        const wrapper = document.querySelector('.bar-chart-wrapper');
-        if (wrapper) {
-            const style = getComputedStyle(wrapper);
-            // Sottraiamo il padding per avere l'area effettiva di disegno
-            this.width = wrapper.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-            this.height = wrapper.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-            
-            // Se le dimensioni sono troppo piccole (es. container nascosto), impostiamo dei default
-            if (this.width <= 0) this.width = 900;
-            if (this.height <= 0) this.height = 500;
-        } else {
-            this.width = 900;
-            this.height = 500;
-        }
-        console.log(`Dimensions calculated: ${this.width}x${this.height}`);
-    }
-    
-    // Crea scale
-    createScales() {
-        // Area di disegno (escludendo i margini)
-        const innerWidth = this.width - this.margin.left - this.margin.right;
-        const innerHeight = this.height - this.margin.top - this.margin.bottom;
-        
-        console.log(`Inner dimensions: ${innerWidth}x${innerHeight}`);
-        
-        this.xScale = d3.scaleLinear()
-            .range([0, innerWidth]);
-        
-        this.yScale = d3.scaleBand()
-            .range([0, innerHeight])
-            .padding(0.2);
-        
-        // Scala colori per performance
-        this.colorScale = d3.scaleSequential()
-            .domain([0, 1])
-            .interpolator(d3.interpolateRgb(this.colors.low, this.colors.high));
-    }
-    
-    // Crea assi
-    createAxes() {
-        const innerHeight = this.height - this.margin.top - this.margin.bottom;
-        
-        // Gruppo asse X
-        this.svg.append('g')
-            .attr('class', 'x-axis')
-            .attr('transform', `translate(0, ${innerHeight})`);
-        
-        // Gruppo asse Y
-        this.svg.append('g')
-            .attr('class', 'y-axis');
-    }
-
-    createTooltip() {
-        // Rimuovi tooltip esistenti
-        d3.selectAll('.bar-tooltip').remove();
-        
-        // Crea nuovo tooltip
-        this.tooltip = d3.select('body')
-            .append('div')
-            .attr('class', 'bar-tooltip')
-            .style('opacity', 0)
-            .style('position', 'absolute')
-            .style('background', 'white')
-            .style('padding', '10px')
-            .style('border-radius', '5px')
-            .style('box-shadow', '0 2px 10px rgba(0,0,0,0.2)')
-            .style('pointer-events', 'none')
-            .style('z-index', '1000')
-            .style('font-family', 'Arial, sans-serif')
-            .style('font-size', '12px');
-    }
-    
-    // Aggiorna chart
-    updateChart() {
-        if (!this.currentBenchmark || !this.benchmarkData[this.currentBenchmark]) return;
-        
-        // 1. Calcola dimensioni
-        this.calculateDimensions();
-        
-        // 2. Assicura che l'SVG esista (ma non lo ricrea se c'è già)
-        this.createSVG();
-
-        if (!this.xScale || !this.yScale) {
-            this.createScales();
-            this.createAxes();
-        }
-
-        // Prepara dati
-        this.prepareData();
-        
-        // Aggiorna scale
-        this.updateScales();
-        
-        // Aggiorna assi
-        this.updateAxes();
-        
-        // Disegna bars
-        this.drawBars();
-        
-        // Aggiorna statistiche
-        this.updateStats();
-        
-        // Aggiorna legenda colori
-        this.updateColorLegend();
-    }
-    
-    // Prepara dati
     prepareData() {
         const benchmark = this.benchmarkData[this.currentBenchmark];
         if (!benchmark) return;
 
-        let rawScores = benchmark.models || benchmark.scores || [];
+        let raw = benchmark.models || benchmark.scores || [];
 
-        // Se è un oggetto, trasformalo in array
-        if (!Array.isArray(rawScores)) {
-            rawScores = Object.entries(rawScores).map(([id, val]) => {
-                if (typeof val === 'object') return { ...val, modelId: id };
-                return { modelId: id, score: val };
-            });
+        if (!Array.isArray(raw)) {
+            raw = Object.entries(raw).map(([id, val]) => ({ 
+                modelId: id, 
+                score: typeof val === 'object' ? val.score : val 
+            }));
         }
 
-        this.currentData = rawScores.map(d => {
-            // Cerca l'ID del modello (potrebbe essere in campi diversi a seconda del CSV)
-            const mId = d.modelId || d.model || d.Model || d.name;
-            const modelInfo = this.models[mId] || {};
-            
-            // Estrai il punteggio numerico
-            const sValue = parseFloat(d.score || d.Score || d.value || 0);
+        //Map data and ensure unique modelIds
+        const mapped = raw.map(d => {
+            const id = d.modelId || d.model || d.Model || d.name;
+            const info = this.models[id] || {};
+            let val = d.score || d.value || 0;
+            if (typeof val === 'string') val = val.replace(',', '.');
+            const score = parseFloat(val) || 0;
 
             return {
-                modelId: mId,
-                score: sValue,
-                modelName: modelInfo.name || mId || "Unknown Model", 
-                organization: modelInfo.organization || "N/A",
-                normalizedScore: this.normalizeScoreForBenchmark(sValue, this.currentBenchmark)
+                modelId: id,
+                score: score,
+                displayName: info.name || id,
+                org: info.organization || "Unknown",
+                normalized: this.normalizeScore(score)
             };
-        })
-        .filter(d => d.modelId); // Rimuovi dati corrotti
+        }).filter(d => d.score > 0);
 
-        // Ordinamento
-        if (this.sortOrder === 'score-desc') {
-            this.currentData.sort((a, b) => b.score - a.score);
-        } else if (this.sortOrder === 'score-asc') {
-            this.currentData.sort((a, b) => a.score - b.score);
-        }
+        // 2. Strict Deduplication by modelId
+        const unique = new Map();
+        mapped.forEach(item => {
+            // If duplicate ID exists, keep the higher score
+            if (!unique.has(item.modelId) || item.score > unique.get(item.modelId).score) {
+                unique.set(item.modelId, item);
+            }
+        });
+        
+        this.currentData = Array.from(unique.values());
+
+        // 3. Sorting
+        this.currentData.sort((a, b) => {
+            return this.sortOrder === 'score-desc' ? b.score - a.score : a.score - b.score;
+        });
 
         if (this.showTopModelsOnly) {
             this.currentData = this.currentData.slice(0, this.maxModelsToShow);
         }
     }
-    
-    // Normalizza punteggio per benchmark
-    normalizeScoreForBenchmark(score, benchmarkId) {
-        if (benchmarkId === 'eci') {
-            return Math.min(score / 200, 1);
-        }
-        return Math.min(score / 100, 1); // Assumendo che la maggior parte siano percentuali
+
+    normalizeScore(score) {
+        return Math.min(score / (this.currentBenchmark === 'eci' ? 200 : 100), 1);
     }
-    
-    // Ordina dati
-    sortData(dataArray) {
-        switch (this.sortOrder) {
-            case 'score-desc':
-                dataArray.sort((a, b) => b.score - a.score);
-                break;
-            case 'score-asc':
-                dataArray.sort((a, b) => a.score - b.score);
-                break;
-        }
-    }
-    
-    // Aggiorna scale
-    updateScales() {
+
+    updateChart() {
+        if (!this.currentBenchmark) return;
+        
+        const container = document.querySelector('.bar-chart-wrapper');
+        if (!container) return;
+        
+        this.width = container.clientWidth;
+        this.height = container.clientHeight || 500;
+        
+        this.prepareData();
+
+        // NUCLEAR RESET: Remove everything before drawing to prevent coordinate glitches
+        const svg = d3.select(`#${this.containerId} svg`);
+        svg.selectAll('*').remove();
+        
+        svg.attr('viewBox', `0 0 ${this.width} ${this.height}`);
+        const chartGroup = svg.append('g')
+            .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+
         if (this.currentData.length === 0) return;
 
-        const maxScore = d3.max(this.currentData, d => d.score) || 100;
-        const innerWidth = this.width - this.margin.left - this.margin.right;
+        const innerW = this.width - this.margin.left - this.margin.right;
+        const innerH = this.height - this.margin.top - this.margin.bottom;
         
-        // Assicurati che il dominio non sia [0, 0]
-        this.xScale.domain([0, maxScore * 1.1]).range([0, innerWidth]);
-        this.yScale.domain(this.currentData.map(d => d.modelName));
-        
-        // Usa una scala lineare semplice per i colori per evitare il nero
-        this.colorScale = d3.scaleLinear()
+        // Use modelId for the scale domain to ensure uniqueness
+        const yScale = d3.scaleBand()
+            .domain(this.currentData.map(d => d.modelId)) 
+            .range([0, innerH])
+            .padding(0.2);
+
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(this.currentData, d => d.score) * 1.05])
+            .range([0, innerW]);
+
+        const colorScale = d3.scaleLinear()
             .domain([0, 0.5, 1])
             .range([this.colors.low, this.colors.medium, this.colors.high]);
-    }
-    
-    // Aggiorna assi
-    updateAxes() {
-        // Aggiorna asse X
-        this.svg.select('.x-axis')
-            .transition()
-            .duration(500)
-            .call(d3.axisBottom(this.xScale)
-                .ticks(10)
-                .tickFormat(d => d.toFixed(1)));
-        
-        // Aggiorna asse Y
-        this.svg.select('.y-axis')
-            .transition()
-            .duration(500)
-            .call(d3.axisLeft(this.yScale));
-        
-        // Ruota etichette asse Y se necessario
-        this.svg.selectAll('.y-axis text')
-            .style('text-anchor', 'end')
-            .attr('dx', '-0.5em')
-            .attr('dy', '0.15em');
-    }
-    
-    // Disegna bars
-    drawBars() {
-        const bars = this.svg.selectAll('.bar')
-            .data(this.currentData, d => d.modelId);
-        
-        // Rimuovi bars vecchie
-        bars.exit()
-            .transition()
-            .duration(300)
-            .attr('width', 0)
-            .remove();
-        
-        // Aggiorna bars esistenti
-        bars.transition()
-            .duration(500)
-            .attr('x', 0)
-            .attr('y', d => this.yScale(d.modelName))
-            .attr('width', d => this.xScale(d.score))
-            .attr('height', this.yScale.bandwidth())
-            .attr('fill', d => this.colorScale(d.normalizedScore));
-        
-        // Aggiungi nuove bars
-        const newBars = bars.enter()
+
+        // X-Axis
+        chartGroup.append('g')
+            .attr('transform', `translate(0, ${innerH})`)
+            .call(d3.axisBottom(xScale).ticks(5));
+
+        // Y-Axis: We use modelId for position but tickFormat to show the Display Name
+        chartGroup.append('g')
+            .call(d3.axisLeft(yScale).tickFormat(id => {
+                const item = this.currentData.find(d => d.modelId === id);
+                return item ? item.displayName : id;
+            }));
+
+        // Draw Bars
+        chartGroup.selectAll('.bar')
+            .data(this.currentData)
+            .enter()
             .append('rect')
             .attr('class', 'bar')
             .attr('x', 0)
-            .attr('y', d => this.yScale(d.modelName))
-            .attr('width', 0)
-            .attr('height', this.yScale.bandwidth())
-            .attr('fill', d => this.colorScale(d.normalizedScore))
-            .attr('rx', 4);
-            // .attr('ry', 3);
+            .attr('y', d => yScale(d.modelId))
+            .attr('height', yScale.bandwidth())
+            .attr('fill', d => colorScale(d.normalized))
+            .attr('width', 0) 
+            .on('mouseover', (event, d) => {
+                // 1. Fade in and populate the tooltip
+                const tooltip = d3.select('.bar-tooltip');
+                tooltip.transition().duration(200).style('opacity', 0.9);
+                tooltip.html(`
+                    <span class="tooltip-title">${d.displayName}</span><br/>
+                    <span class="tooltip-label">Org:</span>
+                    <span class="tooltip-value">${d.org}</span><br/>
+                    <span class="tooltip-label">Score:</span> 
+                    <span class="tooltip-value">${d.score.toFixed(3)}</span>
+                `);
+                
+                // 2. Visual highlight for the bar
+                d3.select(event.currentTarget)
+                    .style('opacity', 0.8)
+                    .attr('stroke', '#64ffda')
+                    .attr('stroke-width', 2);
+            })
+            .on('mousemove', (event) => {
+                // 3. Make the tooltip follow the mouse
+                d3.select('.bar-tooltip')
+                    .style('left', (event.pageX + 15) + 'px')
+                    .style('top', (event.pageY - 28) + 'px');
+            })
+            .on('mouseout', (event) => {
+                // 4. Hide tooltip and remove highlight
+                d3.select('.bar-tooltip').transition().duration(300).style('opacity', 0);
+                
+                d3.select(event.currentTarget)
+                    .style('opacity', 1)
+                    .attr('stroke', 'none');
+            })
+            .transition()
+            .duration(800)
+            .attr('width', d => xScale(d.score));
+            
+        this.updateStats();
+    }
 
-        const allBars = newBars.merge(bars);
-        
-        // Animazione entrata
-        newBars.transition()
-            .duration(500)
-            .attr('width', d => this.xScale(d.score));
-        
-        // Eventi mouse
-        allBars.on('mouseover', (event, d) => {
-            const benchmarkName = this.benchmarkData[this.currentBenchmark]?.name || this.currentBenchmark;
-        
-        this.tooltip.transition().duration(200).style('opacity', .9);
-        this.tooltip.html(`
-            <div style="color: #333; font-weight: bold; border-bottom: 1px solid #eee; margin-bottom: 5px; padding-bottom: 3px;">
-                ${d.modelName}
-            </div>
-            <div style="color: #666;"><strong>Org:</strong> ${d.organization}</div>
-            <div style="color: #666;"><strong>Score:</strong> ${d.score.toLocaleString()}</div>
-            <div style="color: #666;"><strong>Test:</strong> ${benchmarkName}</div>
-        `)
-        .style('left', (event.pageX + 15) + 'px')
-        .style('top', (event.pageY - 28) + 'px');
-        
-        d3.select(event.currentTarget).style('opacity', 0.8);
-        })
-        .on('mousemove', (event) => {
-            this.tooltip
-                .style('left', (event.pageX + 15) + 'px')
-                .style('top', (event.pageY - 28) + 'px');
-        })
-        .on('mouseout', (event) => {
-            this.tooltip.transition()
-                .duration(500)
-                .style('opacity', 0);
-            
-            d3.select(event.currentTarget)
-                .style('opacity', 1)
-                .style('stroke', 'none');
-        });
-        
-        // // Etichette sui bars (opzionale)
-        // const labels = this.svg.selectAll('.bar-label')
-        //     .data(this.currentData, d => d.modelId);
-        
-        // labels.exit().remove();
-        
-        // labels.enter()
-        //     .append('text')
-        //     .attr('class', 'bar-label')
-        //     .attr('x', d => this.xScale(d.score) + 5)
-        //     .attr('y', d => this.yScale(d.modelName) + this.yScale.bandwidth() / 2)
-        //     .attr('dy', '0.35em')
-        //     .style('font-size', '11px')
-        //     .style('fill', '#333')
-        //     .text(d => d.score.toFixed(2));
-    }
-    
-    // Aggiorna statistiche
     updateStats() {
-        if (this.currentData.length === 0) return;
-        
         const scores = this.currentData.map(d => d.score);
-        const maxScore = Math.max(...scores);
-        const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
-        const benchmarkName = this.benchmarkData[this.currentBenchmark].name;
+        const max = Math.max(...scores);
+        const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
         
-        document.getElementById('stat-models-count').textContent = this.currentData.length;
-        document.getElementById('stat-highest-score').textContent = maxScore.toFixed(3);
-        document.getElementById('stat-avg-score').textContent = avgScore.toFixed(3);
-        document.getElementById('stat-benchmark-name').textContent = benchmarkName;
+        const set = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = val;
+        };
+
+        set('stat-models-count', this.currentData.length);
+        set('stat-highest-score', max.toFixed(3));
+        set('stat-avg-score', avg.toFixed(3));
+        set('stat-benchmark-name', this.benchmarkData[this.currentBenchmark].name);
     }
-    
-    // Aggiorna legenda colori
-    updateColorLegend() {
-        const gradientBar = document.querySelector('.gradient-bar');
-        if (gradientBar) {
-            gradientBar.style.background = `linear-gradient(to right, ${this.colors.low}, ${this.colors.medium}, ${this.colors.high})`;
-        }
-    }
-    
-    // Ridimensiona al resize della finestra
+
     handleResize() {
-        const wrapper = document.querySelector('.bar-chart-wrapper');
-        if (wrapper) {
-            const style = getComputedStyle(wrapper);
-            this.width = wrapper.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-            this.height = wrapper.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-            
-            const svgElement = document.getElementById('barChartSvg');
-            if (svgElement) {
-                svgElement.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
-            }
-            
-            if (this.currentBenchmark) {
-                this.updateChart();
-            }
-        }
+        if (this.currentBenchmark) this.updateChart();
     }
 }
 
-// Inizializzazione
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing bar chart...');
-    
-    if (typeof d3 === 'undefined') {
-        console.error('D3.js is not loaded');
-        return;
+// Initialization loop
+(function init() {
+    if (window.polarChartInstance && Object.keys(window.polarChartInstance.benchmarkData).length > 0) {
+        window.barChartInstance = new BarChartD3('bar-chart-1');
+        window.barChartInstance.initFromPolarData(
+            window.polarChartInstance.benchmarkData, 
+            window.polarChartInstance.models
+        );
+    } else {
+        setTimeout(init, 300);
     }
-    
-    // Funzione per inizializzare bar chart
-    function initBarChart() {
-        const polarChartInstance = window.polarChartInstance;
-        
-        if (polarChartInstance && polarChartInstance.benchmarkData && 
-            Object.keys(polarChartInstance.benchmarkData).length > 0) {
-            
-            console.log('Polar chart data available, initializing bar chart...');
-            
-            const barChart = new BarChartD3('bar-chart-1');
-            barChart.initFromPolarData(
-                polarChartInstance.benchmarkData, 
-                polarChartInstance.models
-            );
-            
-            // Salva riferimento globale
-            window.barChartInstance = barChart;
-            
-        } else {
-            // Ritenta dopo 500ms
-            console.log('Polar chart data not ready yet, retrying...');
-            setTimeout(initBarChart, 500);
-        }
-    }
-    
-    // Inizia dopo un breve delay per assicurarsi che il DOM sia pronto
-    setTimeout(initBarChart, 100);
-});
+})();
