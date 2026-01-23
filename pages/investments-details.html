@@ -19,6 +19,7 @@
             background-color: #0e0e0e; /* Fallback */
             border: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1;
+            margin-bottom: 30px;
         }
 
         .legend {
@@ -63,6 +64,31 @@
         .leaflet-popup-content b {
             color: #4cc9f0;
         }
+
+        /* Analysis text section */
+        .analysis-text {
+            background-color: rgba(20, 20, 20, 0.7);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+        
+        .analysis-text h3 {
+            color: #4cc9f0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .analysis-text p {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .analysis-text p:last-child {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body class="subpage-body">
@@ -77,11 +103,23 @@
         
         <header class="page-header">
             <h1>Global Data Center Investments</h1>
-            <p>Mapping the physical infrastructure of AI. Bubble size represents capital cost (Billions USD).</p>
+            <p>The map below shows the world's largest data centers dedicated to artificial intelligence, which are facilities dedicated to processing large amounts of data. Specifically, they are used primarily to train new models and run real-time inference on existing models.<br><br>
+            
+            Each bubble represents one of the largest data centers in the world. The size of the bubbles indicates the amount of money invested in building the facility, while the color indicates the investing company.</p>
         </header>
 
         <div class="chart-section">
             <div id="map"></div>
+            
+            <!-- Analysis Text Section - SOTTO il grafico -->
+            <div class="analysis-text">
+                <h3>Key Observations</h3>
+                <p>Most specialized data centers are American, particularly those of Google and Amazon, although xAI, Microsoft, Meta, and OpenAI have also built top-tier data centers.</p>
+                
+                <p>In the rest of the world, only two major computing centers appear: one in the United Arab Emirates owned by OpenAI and another in China owned by Alibaba.</p>
+                
+                <p>It is noteworthy that, according to the collected data, there are no equally large computing centers dedicated to the AI sector in Russia and Europe.</p>
+            </div>
         </div>
 
     </div>
