@@ -5,15 +5,26 @@ const height = 500 - margin.top - margin.bottom;
 
 // Define bins for Model Parameters
 const binConfig = [
-    { label: "<50B", min: 0, max: 50 },
-    { label: "50-200B", min: 50, max: 200 },
-    { label: "200-500B", min: 200, max: 500 },
-    { label: "500-1000B", min: 500, max: 1000 },
-    { label: ">1000B", min: 1000, max: Infinity }
+    { label: "<50B", min: 0, max: 50, plotX: 50 },
+    { label: "50-200B", min: 50, max: 200, plotX: 200},
+    { label: "200-500B", min: 200, max: 500, plotX: 500},
+    { label: "500-1000B", min: 500, max: 1000, plotX: 1000},
+    { label: ">1000B", min: 1000, max: Infinity, plotX: 1200 }
+];
+
+const colorBlindFriendlyColors = [
+    "#E69F00", // Orange
+    "#56B4E9", // Sky Blue
+    "#000000",  // Black (Optional, maybe swap for #FFFFFF on your dark theme)
+    "#009E73", // Bluish Green
+    "#F0E442", // Yellow
+    "#0072B2", // Blue
+    "#D55E00", // Vermillion
+    "#CC79A7" // Reddish Purple
 ];
 
 // Color palette for regions
-const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
+const colorScale = d3.scaleOrdinal(colorBlindFriendlyColors);
 
 // Create tooltip div
 const tooltip = d3.select("body").append("div")
@@ -34,6 +45,7 @@ const svg = d3.select("#chart-environment-container")
 
 // Load and Process Data
 d3.csv("../data/llm-energy-use.csv").then(data => {
+
     // 1. Clean Data
     data.forEach(d => {
         d.model_parameters_billion = +d.model_parameters_billion || 0;
@@ -49,15 +61,25 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
     const binLabels = binConfig.map(b => b.label);
 
     function updateChart(metric) {
-        currentUnit = metric === 'total_energy_kWh' ? "kWh" : "kgCO2e"
+        currentUnit = metric === 'total_energy_kwh' ? "kWh" : "kgCO2e"
+
         // 2. Aggregate data by Bin and Region
-        const aggregated = binLabels.map(label => {
-            const obj = { bin: label };
+        let aggregated = binConfig.map(bin => {
+            const obj = { 
+                bin: bin.label,
+                plotX: bin.plotX
+             };
             regions.forEach(reg => {
-                obj[reg] = d3.sum(data.filter(d => d.param_bin === label && d.data_center_region === reg), d => d[metric]);
+                obj[reg] = d3.sum(data.filter(d => 
+                    d.param_bin === bin.label && d.data_center_region === reg), d =>
+                         d[metric]);
             });
             return obj;
         });
+
+        const zeroPoint = { bin: "Start", plotX: 0 };
+        regions.forEach(reg => zeroPoint[reg] = 0);
+        aggregated = [zeroPoint, ...aggregated];
 
         // 3. Setup Stacking (Streamgraph mode)
         const stack = d3.stack()
@@ -68,8 +90,8 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
         const layers = stack(aggregated);
 
         // 4. Scales
-        const x = d3.scalePoint()
-            .domain(binLabels)
+        const x = d3.scaleLinear()
+            .domain([0, 1200])
             .range([0, width]);
 
         const y = d3.scaleLinear()
@@ -81,10 +103,10 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
 
         // 5. Drawing Area
         const area = d3.area()
-            .x(d => x(d.data.bin))
+            .x(d => x(d.data.plotX))
             .y0(d => y(d[0]))
             .y1(d => y(d[1]))
-            .curve(d3.curveBasis);
+            .curve(d3.curveMonotoneX);
 
         // Render Streams
         const paths = svg.selectAll(".layer")
@@ -100,21 +122,28 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
             })
             .on("mousemove", function(event, d) {
                 const mouseX = d3.pointer(event)[0];
-                const domain = x.domain();
-                const range = x.range();
                 
-                // Bisect finds the index in our range array nearest to the mouse
-                const index = d3.bisect(range, mouseX);
-                const currentBin = domain[Math.max(0, index - 1)];
+                // Use invert to find value on linear scale
+                const xValue = x.invert(mouseX);
                 
-                const binData = d.find(p => p.data.bin === currentBin);
+                // Find closest bin based on plotX
+                // We compare the mouse value to the plotX of our bins
+                let closestBin = binConfig.find(b => b.plotX >= xValue);
+    
+                // If the mouse is past the last defined plotX (1200), default to the last bin
+                if (!closestBin) {
+                    closestBin = binConfig[binConfig.length - 1];
+                }
+                
+                // Find the data value for this specific region (d.key) and bin
+                const binData = d.find(p => p.data.bin === closestBin.label);
                 const value = binData ? (binData[1] - binData[0]) : 0;
 
                 tooltip.html(`
                     <div class="tooltip-title">${d.key}</div>
-                    <strong>Range:</strong> ${currentBin}<br/>
+                    <strong>Range:</strong> ${closestBin.label}<br/>
                     <strong>Value:</strong> ${Math.round(value).toLocaleString()} ${currentUnit}
-                `) // ^ Changed 'unit' to 'currentUnit' and added Math.round for cleaner numbers
+                `) 
                 .style("left", (event.pageX + 15) + "px")
                 .style("top", (event.pageY - 28) + "px");
             })
@@ -130,11 +159,15 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
 
         // 7. Axes
         svg.selectAll(".axis").remove();
+
+        const xAxis = d3.axisBottom(x)
+            .tickValues([0, 50, 200, 500, 1000, 1200]) // Explicit ticks
+            .tickFormat(d => d === 1200 ? ">1000B" : d + "B"); // Custom label for last tick
         
         svg.append("g")
             .attr("class", "axis")
             .attr("transform", `translate(0,${height + 20})`)
-            .call(d3.axisBottom(x))
+            .call(xAxis)
             .style("color", "#888")
             .style("font-size", "12px");
 
