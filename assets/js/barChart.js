@@ -11,7 +11,7 @@ class BarChartD3 {
         this.showTopModelsOnly = true;
         
         // Dimensioni
-        this.margin = { top: 60, right: 30, bottom: 100, left: 180 };
+        this.margin = { top: 40, right: 30, bottom: 60, left: 180 };
         this.width = 0;
         this.height = 0;
         
@@ -314,12 +314,6 @@ class BarChartD3 {
                 break;
             case 'score-asc':
                 dataArray.sort((a, b) => a.score - b.score);
-                break;
-            case 'name-asc':
-                dataArray.sort((a, b) => a.modelName.localeCompare(b.modelName));
-                break;
-            case 'name-desc':
-                dataArray.sort((a, b) => b.modelName.localeCompare(a.modelName));
                 break;
         }
     }

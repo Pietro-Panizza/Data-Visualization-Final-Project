@@ -1,13 +1,26 @@
-
-body{
-    background-color: #091f41; 
-    font-family: 'Inter', sans-serif;
-    color: #ffffff;
+/* --- 1. Variables & Base Theme --- */
+:root {
+    --bg-color: #0a192f;        /* Deepest Navy (Background) */
+    --card-bg: #112240;         /* Lighter Navy (Sections/Cards) */
+    --header-bg: #112240;
+    --text-primary: #ccd6f6;    /* White-ish Blue */
+    --text-secondary: #ffffff;  /* Muted Blue/Gray */
+    --accent-color: #64ffda;    /* Teal Accent */
+    --border-color: #233554;
+    --shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
 }
 
-/* Detail page styles */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* --- 2. Main Layout --- */
 .detail-container {
-    max-width: 1200px;
+    max-width: 1400px; /* Increased from 1200px to give more width */
     margin: 0 auto;
     padding: 40px 20px;
 }
@@ -15,381 +28,120 @@ body{
 .detail-header {
     margin-bottom: 60px;
     text-align: center;
-    color: #fff;
 }
 
 .detail-title {
     font-size: 2.8rem;
     font-weight: 700;
-    color: #fff;
+    color: #ffffff;
     margin-bottom: 20px;
 }
 
 .detail-subtitle {
     font-size: 1.3rem;
-    color: #666;
+    color: var(--text-secondary);
     max-width: 800px;
     margin: 0 auto 30px;
-    line-height: 1.6;
 }
 
 .back-link {
     display: inline-flex;
     align-items: center;
-    color: #4a6fa5;
+    color: var(--accent-color);
     text-decoration: none;
     font-weight: 600;
     margin-bottom: 20px;
-    transition: color 0.3s;
+    transition: opacity 0.3s;
 }
 
 .back-link:hover {
-    color: #2a4a7a;
+    opacity: 0.8;
 }
 
-.back-arrow {
-    margin-right: 8px;
-    font-size: 1.2rem;
-}
-
+/* --- 3. Chart Sections (General) --- */
 .chart-section {
-    margin-bottom: 80px;
-    background: #fff;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    padding: 30px; /* Reduced padding to give more internal space */
+    margin-bottom: 50px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
 }
-
 
 .chart-title {
+    color: var(--accent-color);
     font-size: 1.8rem;
     font-weight: 600;
-    color: #2c3e50;
     margin-bottom: 15px;
     padding-bottom: 15px;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .chart-description {
-    color: #555;
+    color: var(--text-secondary);
     line-height: 1.7;
     margin-bottom: 30px;
     font-size: 1.1rem;
 }
 
-.chart-container {
-    height: 600px;
-    margin: 30px 0;
-    position: relative;
-}
-
-#polar-chart-section{
-    display: flex;
-    flex-direction: column;
-    min-height: 900px;
-    padding: 50px 40px !important;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-    margin-bottom: 80px;
-}
-
-#polar-chart-1 {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: 100% !important;
-}
-
-#polar-chart-section .chart-title {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-#polar-chart-section .chart-description {
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-}
-
-/* Area grafico che occupa il resto */
-#polar-chart-1 .chart-wrapper {
-    flex: 1;
-    min-height: 550px;
-    padding: 10px;
-    background: #fafbfc;
-    border-radius: 12px;
-    border: 1px solid #e1e8ed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.chart-container .chart-container.polar-chart-container{
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.chart-notes {
-    font-size: 0.9rem;
-    color: #888;
-    font-style: italic;
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px dashed #e0e0e0;
-}
-.chart-placeholder{
-    display: flex; 
-    align-items: center;
-    justify-content: center; 
-    height: 100%; 
-    color: #999; 
-    font-style: italic;
-}
-
-.benchmark-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    margin-top: 50px;
-}
-
-.info-card {
-    background: #f8f9fa;
-    padding: 25px;
-    border-radius: 10px;
-    border-left: 4px solid #4a6fa5;
-}
-
-.info-card h3 {
-    color: #2c3e50;
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-}
-
-.info-card p {
-    color: #555;
-    line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-    .detail-title {
-        font-size: 2.2rem;
-    }
-    
-    .chart-section {
-        padding: 20px;
-    }
-    
-    .chart-container {
-        height: 400px;
-    }
-}
-
-/* Stili per i controlli del grafico polare */
-.chart-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 30px;
-    padding: 25px;
-    background: #f8f9fa;
-    border-radius: 12px 12px 0 0;
-    border: 1px solid #e9ecef;
-    border-bottom: none;
-}
-
-.control-group {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-}
-
-.control-group label {
-    font-weight: 600;
-    color: #333;
-    min-width: 120px;
-}
-
-.model-select {
-    flex: 1;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: white;
-}
-
-.model-info {
-    flex: 1;
-    padding: 15px;
-    background-color: white;
-    border-radius: 6px;
-    border-left: 4px solid #4285f4;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);     
-}
-
-.model-info-template h3{
-    margin-top: 0;
-    color: #1a73e8;
-    font-size: 18px;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-.model-details{
-    display: grid;
-    gap: 8px;
-}
-
-.detail-row{
-    display: flex;
-    align-items: baseline;
-}
-.detail-label{
-    font-weight: 600;
-    color: #333;
-    min-width: 180px;
-    font-size: 14px;
-}
-
-.detail-value#model-benchmarkCount {
-    font-weight: bold;
-    color: #1a73e8;
-}
-
-.detail-value#model-avgScore,
-.detail-value#model-avgNormalizedScore {
-    font-family: 'Courier New', monospace;
-    background-color: #f8f9fa;
-    padding: 2px 6px;
-    border-radius: 3px;
-    border: 1px solid #e9ecef;
-}
-
-.model-info h3 {
-    margin-top: 0;
-    color: #1a73e8;
-    font-size: 18px;
-}
-
-.model-info p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #555;
-}
-
-.chart-wrapper {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    min-height: 500px;
-    padding: 30px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-#polarChartSvg {
-    width: 100% !important;
-    height: 100% !important;
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+/* --- 4. Polar Chart Specifics --- */
+#polar-chart-section {
+    min-height: 900px; 
 }
 
 .polar-chart-container {
     display: flex;
     flex-direction: column;
-    height: 700px;
-    min-height: 700px;
-    
+    flex: 1;
+    height: 100%;
+    gap: 20px;
 }
 
-#polar-chart-section.chart-section {
-    min-height: 850px;
-    height: auto;
-}
-
-
-/* Layout responsive */
-@media (max-width: 1100px) {
-    .chart-controls {
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .model-info {
-        max-width: 100%;
-    }
-    
-    .control-group {
-        width: 100%;
-    }
-    
-    .model-select {
-        min-width: auto;
-    }
-}
-
-@media (max-width: 768px) {
-    #polar-chart-section {
-        padding: 20px;
-    }
-    
-    .polar-chart-container {
-        min-height: 600px;
-    }
-    
-    .chart-wrapper {
-        padding: 15px;
-    }
-    
-    #polarChartSvg {
-        min-height: 400px;
-    }
-}
-
-
-
-/* Bar Chart Specific Styles */
-#bar-chart-section {
+.chart-controls {
     display: flex;
-    flex-direction: column;
-    min-height: 800px; /* Altezza minima piuttosto che fissa */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 20px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
 }
-/* Container della sezione bar chart */
-#bar-chart-section.chart-section {
-    min-height: 800px !important; 
-    height: auto !important; 
-    display: flex;
-    flex-direction: column;
+
+/* CRITICAL: Increased height and removed max-width */
+#polar-chart-section .chart-wrapper {
+    flex: 1;
+    min-height: 650px !important;
+    height: 650px !important;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: block;
     align-items: center;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+    justify-content: center;
+    padding: 10px; /* Minimal padding so chart touches edges */
 }
-#bar-chart-section .chart-container {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+
+#polarChartSvg {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important; /* Removed 1000px limit */
+    display: block;
+}
+
+/* --- 5. Bar Chart Specifics --- */
+#bar-chart-section {
+    min-height: 900px; 
 }
 
 .bar-chart-container {
     width: 100%;
-    max-width: 1200px; /* Larghezza massima */
-    margin: 0 auto; /* Centra automaticamente */
-    min-height: 700px;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .bar-chart-controls {
@@ -397,102 +149,22 @@ body{
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
-    background: #f8f9fa;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     margin-bottom: 20px;
 }
 
-.bar-chart-controls .control-group {
-    flex: 1;
-    min-width: 250px;
-    margin: 0;
-}
-
-.benchmark-select, .sort-select {
-    width: 100%;
-    padding: 10px 15px;
-    font-size: 15px;
-    height: 45px;
-}
-
-#barChartLegend.chart-legend{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 50px;
-}
-
-/* Statistics */
-.benchmark-stats {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #e9ecef;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-}
-
-.stat-card {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 4px solid #4285f4;
-    display: flex;
-    flex-direction: column;
-}
-
-.stat-label {
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 5px;
-    font-weight: 600;
-}
-
-.stat-value {
-    font-size: 22px;
-    font-weight: 700;
-    color: #2c3e50;
-}
-
-.stat-value#stat-highest-score {
-    color: #28a745;
-}
-
-.stat-value#stat-avg-score {
-    color: #17a2b8;
-}
-
-/* Bar Chart Wrapper */
-/* .bar-chart-wrapper {
-    height: 500px;
-    width: 95%; 
-    max-width: 1100px; 
-    margin: 0 auto; 
-    padding: 20px;
-    background: white;
+/* CRITICAL: Increased height for Bar Chart */
+.bar-chart-wrapper {
+    height: 650px !important;
+    height: 650px !important; 
+    width: 100%;   /* Full width */
+    max-width: none !important; /* Removed limit */
+    padding: 10px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-} */
-.chart-wrapper.bar-chart-wrapper{
-    height: 500px;
-    max-height: 1200px;
-    width: 95%; /* Lascia un po' di margine ai lati */
-    max-width: 1100px; /* Massimo 1100px */
-    margin: 0 auto; /* Centra orizzontalmente */
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     display: flex;
 }
 
@@ -502,144 +174,152 @@ body{
     display: block;
 }
 
-/* Legend */
-.chart-legend {
-    background: white;
+/* --- 6. Info Boxes (Unified Style) --- */
+.model-info, .stat-card, .benchmark-stats {
+    background-color: var(--card-color) !important;
+    border: 1px solid var(--border-color) !important;
+    border-left: 4px solid var(--accent-color) !important;
     padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    color: var(--text-primary);
 }
 
-.legend-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+.benchmark-stats {
+    background: transparent !important;
+    border: none !important;
+    border-left: none !important;
+    padding: 0;
+    margin-bottom: 25px;
 }
 
-.legend-header h4 {
-    margin: 0;
-    font-size: 16px;
-    color: #2c3e50;
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
 }
 
-.color-scale {
+.detail-label, .stat-label {
+    color: var(--accent-color) !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.detail-value, .stat-value {
+    color: #ffffff !important;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+#model-avgScore, #model-avgNormalizedScore {
+    background-color: #1a304d;
+    color: var(--accent-color) !important;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+/* --- 7. Controls & Inputs --- */
+.control-group {
+    flex: 1;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.gradient-bar {
-    width: 200px;
-    height: 15px;
-    background: linear-gradient(to right, #e74c3c, #f39c12, #2ecc71);
-    border-radius: 3px;
-}
-
-.min-label, .max-label {
-    font-size: 12px;
-    color: #666;
-}
-
-
-
-/* Tooltip per bar chart */
-.bar-tooltip {
-    position: absolute;
-    background: white;
-    padding: 12px;
-    border-radius: 6px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.2);
-    border: 1px solid #ddd;
-    font-size: 13px;
-    line-height: 1.4;
-    min-width: 200px;
-    z-index: 1000;
-    pointer-events: none;
-}
-
-.bar-tooltip strong {
-    color: #2c3e50;
-    display: inline-block;
-    min-width: 80px;
-}
-
-.bar-label {
-    font-size: 11px;
+.control-group label {
+    color: var(--text-primary);
+    min-width: 120px;
     font-weight: 600;
-    fill: #333;
-    text-shadow: 1px 1px 2px white;
 }
 
-/* Assi SVG */
-.x-axis path,
-.y-axis path,
-.x-axis line,
-.y-axis line {
-    stroke: #ccc;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
-}
-
-.x-axis text,
-.y-axis text {
-    font-size: 12px;
-    fill: #666;
-}
-
-.axis-label {
-    font-size: 14px;
-    font-weight: 600;
-    fill: #333;
-}
-
-
-
-/* Stili per controlli aggiuntivi bar chart */
-.limit-select {
-    width: 100%;
+select {
+    background-color: var(--bg-color);
+    color: #ffffff;
+    border: 1px solid var(--border-color);
     padding: 10px 15px;
-    font-size: 15px;
-    height: 45px;
+    border-radius: 6px;
+    width: 100%;
+    cursor: pointer;
 }
 
-/* Migliora leggibilità etichette asse Y */
-.y-axis text {
-    font-size: 11px !important;
-    fill: #333 !important;
-    font-weight: 500;
+select:focus {
+    border-color: var(--accent-color);
+    outline: none;
 }
 
-/* Bar più spesse per meno modelli */
-.bar {
-    transition: height 0.3s ease;
+/* --- 8. Legend & Misc --- */
+.chart-legend {
+    background: var(--bg-color);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    margin-top: 20px;
 }
 
-/* Legenda per mostrare quanti modelli sono nascosti */
-.models-count-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    z-index: 10;
+.legend-header h4 {
+    color: var(--text-primary);
+    margin: 0;
 }
 
-/* Messaggio quando ci sono più modelli */
-.hidden-models-message {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 12px;
-    color: #666;
+.chart-notes {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
     font-style: italic;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border-color);
+}
+
+/* --- 9. D3.js Overrides --- */
+svg {
+    background: transparent !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.tick text {
+    fill: var(--text-secondary) !important;
+    font-size: 11px;
+}
+
+.domain, .tick line {
+    stroke: var(--border-color) !important;
+}
+
+.axis-label, .chart-label, .legend-text, .polar-label {
+    fill: #ffffff !important;
+}
+
+/* Info Cards */
+.benchmark-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 50px;
+}
+
+.info-card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent-color);
+    border: 1px solid var(--border-color);
+}
+
+.info-card h3 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.info-card p {
+    color: var(--text-secondary);
 }
 
 
-#polarChartSvg, #barChartSvg { 
-    width: 100%; 
-    height: auto; 
-    max-width: 1000px; 
+.bar-tooltip, .bar-tooltip strong {
+    color: #2c3e50 !important;
 }

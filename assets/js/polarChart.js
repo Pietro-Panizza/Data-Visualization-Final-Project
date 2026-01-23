@@ -436,7 +436,7 @@ class PolarChartD3 {
                 .attr('y', y)
                 .attr('text-anchor', 'middle')
                 .attr('alignment-baseline', 'middle')
-                .attr('fill', '#333')
+                .attr('fill', '#ffffff')
                 .attr('font-size', '11px')
                 .attr('font-weight', 'bold')
                 .text(label);
@@ -506,7 +506,7 @@ class PolarChartD3 {
             .attr('x', 20)
             .attr('y', 10)
             .attr('font-size', '12px')
-            .attr('fill', '#333')
+            .attr('fill', '#ffffff')
             .attr('alignment-baseline', 'middle')
             .text(d => d);
     }
