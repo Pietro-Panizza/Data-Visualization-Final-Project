@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology & Team | AI Analysis</title>
+    
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Methodology specific styles */
+        body {
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        .meth-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .meth-header {
+            margin-bottom: 60px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 40px;
+        }
+
+        .meth-title {
+            font-size: 2.5rem;
+            color: #66fcf1;
+            margin-bottom: 10px;
+        }
+
+        .meth-section {
+            margin-bottom: 60px;
+        }
+
+        .meth-section h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 25px;
+            border-left: 4px solid #45a29e;
+            padding-left: 15px;
+        }
+
+        .meth-section h3 {
+            font-size: 1.3rem;
+            color: #c5c6c7;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        /* Tables for Data Sources */
+        .source-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .source-table th, .source-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .source-table th {
+            background-color: rgba(69, 162, 158, 0.2);
+            color: #66fcf1;
+            font-weight: 600;
+        }
+
+        .source-table a {
+            color: #45a29e;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .source-table a:hover {
+            color: #66fcf1;
+            text-decoration: underline;
+        }
+
+        /* Team Grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .team-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .team-name {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .team-role {
+            color: #45a29e;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .back-nav {
+            margin-bottom: 40px;
+        }
+
+        .back-nav a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .back-nav a:hover {
+            color: #66fcf1;
+        }
+
+        ul.tech-list {
+            list-style-type: none; /* Remove default bullets */
+            padding-left: 0;
+        }
+
+        ul.tech-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        ul.tech-list li::before {
+            content: "•";
+            color: #45a29e;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="meth-container">
+        <nav class="back-nav">
+            <a href="../index.html"><span>←</span> Back to Main Project</a>
+        </nav>
+
+        <header class="meth-header">
+            <h1 class="meth-title">Methodology & Credits</h1>
+            <p>University of Genova • Data Visualization Course 2025/2026 • Group: iPanda</p>
+        </header>
+
+        <section class="meth-section">
+            <h2>The Team</h2>
+            <p>This project was developed by the "iPanda" group for the Data Visualization course.</p>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-name">[Member Name 1]</div>
+                    <div class="team-role">Data Analysis & D3 Implementation</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-name">[Member Name 2]</div>
+                    <div class="team-role">UI/UX Design & Frontend</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-name">[Member Name 3]</div>
+                    <div class="team-role">Data Processing & Documentation</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="meth-section">
+            <h2>Data Sources</h2>
+            <p>We utilized publicly available datasets from reputable AI research organizations and data aggregators.</p>
+            <table class="source-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Dataset Name</th>
+                        <th>Source</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Models</td>
+                        <td>All AI Models</td>
+                        <td><a href="https://epoch.ai/data/ai-models" target="_blank">Epoch AI</a></td>
+                        <td>Parameters, training compute (FLOPs), and training duration for historical and modern models.</td>
+                    </tr>
+                    <tr>
+                        <td>Benchmarks</td>
+                        <td>AI Benchmarking Hub</td>
+                        <td><a href="https://epoch.ai/benchmarks/use-this-data" target="_blank">Epoch AI</a></td>
+                        <td>Performance scores for models on tests like GPQA, FrontierMath, SWE-bench, etc.</td>
+                    </tr>
+                    <tr>
+                        <td>Investments</td>
+                        <td>Hardware & Data Centers</td>
+                        <td><a href="https://epoch.ai/data/data-centers" target="_blank">Epoch AI</a></td>
+                        <td>Geolocations, owners, and capital costs of major AI data centers.</td>
+                    </tr>
+                    <tr>
+                        <td>Environment</td>
+                        <td>LLM Energy Consumption</td>
+                        <td><a href="https://www.kaggle.com/datasets/nitishkumar2k01/llms-energy-consumption-dataset" target="_blank">Kaggle</a></td>
+                        <td>Estimates of energy (kWh) and carbon footprint (CO2e) based on model size and region.</td>
+                    </tr>
+                    <tr>
+                        <td>Social</td>
+                        <td>Job Automation Anxiety</td>
+                        <td><a href="https://ourworldindata.org/grapher/americans-worry-work-being-automated" target="_blank">Our World in Data</a></td>
+                        <td>Survey data regarding American sentiment toward AI labor displacement.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="meth-section">
+            <h2>Data Processing & Cleaning</h2>
+            <p>Raw data required significant preprocessing to ensure visual clarity and statistical accuracy. The following steps were implemented in our pipeline:</p>
+
+            <h3>1. Data Cleaning & Imputation</h3>
+            <ul class="tech-list">
+                <li><strong>Investment Data:</strong> The raw "Owner" fields contained confidence tags (e.g., "#likely", "#confident"). We used regex parsing to strip these tags and normalize company names (e.g., grouping various Google subsidiaries). Missing cost values were visually encoded as "Unknown" in tooltips but set to 0 for radius scaling to prevent rendering errors.</li>
+                <li><strong>Model Benchmarks:</strong> Model names were normalized to create consistent IDs across different CSV files. We implemented logic to handle versioning issues (e.g., limiting the number of "GPT-5" or "Claude 3.5" variants to the most recent or relevant entries to avoid chart overcrowding).</li>
+                <li><strong>Geolocation:</strong> Latitude and Longitude strings containing "S" (South) or "W" (West) were parsed and converted to negative decimal coordinates for correct mapping in Leaflet.js.</li>
+            </ul>
+
+            <h3>2. Analysis & Transformations</h3>
+            <ul class="tech-list">
+                <li><strong>Binning:</strong> For the environmental impact analysis, models were aggregated into parameter size bins (e.g., <50B, 50-200B, >1000B) to allow for a readable Streamgraph visualization.</li>
+                <li><strong>Normalization:</strong> Benchmark scores were normalized to a 0-1 scale to allow for fair comparison in the Radar/Polar chart, as different tests use different scoring metrics (e.g., percentage vs. raw score).</li>
+                <li><strong>Logarithmic Scaling:</strong> Due to the exponential nature of AI growth, we applied logarithmic scales (Base 10) for Model Parameters and FLOPs to make trends visible over decades.</li>
+            </ul>
+        </section>
+
+        <section class="meth-section">
+            <h2>Limitations & Bias</h2>
+            <p>While we strived for accuracy, several limitations are inherent to the data and our methodology:</p>
+            
+            <ul class="tech-list">
+                <li><strong>Data Transparency:</strong> Much of the investment and training cost data comes from private corporations (OpenAI, Google, Meta) which do not disclose full financial details. As noted in the Investment section, the data represents only publicly known or estimated figures.</li>
+                <li><strong>Geographic Bias:</strong> The environmental dataset relies heavily on US-based data centers. Countries like Finland or France are represented by single data points, which may skew the perception of "green" AI in those regions compared to the heavily sampled US grids.</li>
+                <li><strong>Benchmark Contamination:</strong> Standardized benchmarks suffer from potential "data contamination," where models may have seen the test questions during training. While we use verified benchmarks (like SimpleQA), this remains a field-wide issue.</li>
+                <li><strong>Survivorship Bias:</strong> The "Models" dataset disproportionately features successful or famous models, potentially ignoring failed experiments that consumed significant resources.</li>
+            </ul>
+        </section>
+
+        <section class="meth-section">
+            <h2>Tools & Technologies</h2>
+            <p>
+                <strong>Frontend:</strong> HTML5, CSS3, JavaScript (ES6+)<br>
+                <strong>Visualization Libraries:</strong> D3.js (v7), Chart.js, Leaflet.js<br>
+                <strong>Interaction:</strong> Scrollama (Scrollytelling), Intersection Observers
+            </p>
+        </section>
+
+    </div>
+</body>
+</html>
