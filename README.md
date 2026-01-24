@@ -18,7 +18,7 @@ The website explores:
 ## Project Structure
 Here is the actual organisation of files in the repository.
 
-text  
+```text  
 ├── index.html                             
 ├── LICENSE                                
 ├── README.md                              
@@ -39,8 +39,8 @@ text
 │   ├── benchmark_data/                     
 │   ├── data_centers/                       
 │   ├── americans-worry-work-being-automated.csv    
-│   ├── llm-energy-use.csv                 
-│   └── desktop.ini                        
+│   └── llm-energy-use.csv            
+|     
 └── pages/                                 
     ├── benchmark-details.css              
     ├── benchmark-details.html             
@@ -48,7 +48,8 @@ text
     ├── investments-details.html           
     ├── social-environmental-impacts.css   
     ├── socio-environment-details.html     
-    └── models-details.html                
+    └── models-details.html    
+```            
 
 
 ## Reproducibility and Local Setup
@@ -86,9 +87,7 @@ All datasets used in this study were partially preprocessed by the original data
 * **[[Kaggle](https://www.kaggle.com/datasets/nitishkumar2k01/llms-energy-consumption-dataset)]** Dataset on energy consumption of LLM.
 
 ---
-
 ##  Authors (iPanda group)
-
 * *Pietro Panizza* - [s4488189]
 * *Francesco Favareto* - [s5038782]
 ```
