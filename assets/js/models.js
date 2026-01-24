@@ -16,7 +16,7 @@ let chartUpdateFunctions = [];
 // Helper function to format Billions instead of Giga
 const formatValue = (val) => d3.format(".2s")(val).replace("G", "B");
 
-d3.csv("../../data/ai_models/all_ai_models.csv").then(function(data) {
+d3.csv("../data/ai_models/all_ai_models.csv").then(function(data) {
     const parseDate = d3.timeParse("%Y-%m-%d");
 
     allData = data.map(d => {
