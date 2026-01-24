@@ -38,7 +38,7 @@ const svg = d3.select("#chart-environment-container")
     .html("") 
     .append("svg")
     .attr("width", "100%")
-    .attr("height", "auto")
+    // .attr("height", "auto")
     .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);

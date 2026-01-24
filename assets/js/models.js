@@ -13,10 +13,14 @@ let maxDataYear = 2024;
 let debounceTimer;
 let chartUpdateFunctions = [];
 
+<<<<<<< HEAD
 // Helper function to format Billions instead of Giga
 const formatValue = (val) => d3.format(".2s")(val).replace("G", "B");
 
 d3.csv("../../data/ai_models/all_ai_models.csv").then(function(data) {
+=======
+d3.csv("../data/ai_models/all_ai_models.csv").then(function(data) {
+>>>>>>> ecb889921cd2c1bbb59252c6cd60e08ac204e37b
     const parseDate = d3.timeParse("%Y-%m-%d");
 
     allData = data.map(d => {

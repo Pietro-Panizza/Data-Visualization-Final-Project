@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
         .attr("preserveAspectRatio", "xMidYMid meet")
         .style("width", "100%")  // Makes it scale with container zoom
-        .style("height", "auto")
+        // .style("height", "auto")
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
     
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // CSV data loading
-    d3.csv('../../data/americans-worry-work-being-automated.csv').then(data => {
+    d3.csv('../data/americans-worry-work-being-automated.csv').then(data => {
         // Format the data
         data.forEach(d => {
             d.Day = new Date(d.Day);
