@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
     
-        const colorBlindFriendlyColors = [
+    const colorBlindFriendlyColors = [
         "#E69F00", // Orange
         "#000000",  // Black (Optional, maybe swap for #FFFFFF on your dark theme)
         "#009E73", // Bluish Green

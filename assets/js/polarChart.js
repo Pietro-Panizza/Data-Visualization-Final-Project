@@ -52,13 +52,19 @@ class PolarChartD3 {
             gpt5: [],   // Modelli con "gpt-5" (senza - o . dopo)
             claude35: [] // Modelli con "claude-3-5"
         };
+
+    const colorBlindFriendlyColors = [
+        "#E69F00", // Orange
+        "#000000",  // Black 
+        "#009E73", // Bluish Green
+        "#D55E00", // Vermillion
+        "#CC79A7", // Reddish Purple
+        "#56B4E9", // Sky Blue
+        "#FFFFFF" // White
+    ];
         
-        this.colorScale = d3.scaleOrdinal()
-            .domain(['chess', 'frontiermath', 'simplebench', 'gpqa', 'deepresearch', 'otis', 'simpleqa', 'swe', 'metr'])
-            .range([
-                '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', 
-                '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3'
-            ]);
+        this.colorScale = d3.scaleOrdinal(colorBlindFriendlyColors)
+            
     }
     
     // AGGIUNTO: Metodo loadCSV che mancava
@@ -327,6 +333,25 @@ class PolarChartD3 {
         this.selectElement = document.getElementById('polarModelSelect');
         this.modelInfoElement = document.getElementById('polarModelInfo');
         this.svgElement = document.getElementById('polarChartSvg');
+
+        // Check if tooltip exists to avoid duplicates
+        d3.selectAll('.polar-chart-tooltip').remove();
+        
+        this.tooltip = d3.select('body').append('div')
+            .attr('class', 'polar-chart-tooltip')
+            .style('position', 'absolute')
+            .style('visibility', 'hidden')
+            .style('opacity', '0')
+            .style('background-color', 'rgba(20, 20, 20, 0.9)')
+            .style('color', '#fff')
+            .style('padding', '8px 12px')
+            .style('border-radius', '6px')
+            .style('font-family', 'sans-serif')
+            .style('font-size', '12px')
+            .style('pointer-events', 'none') // Crucial: prevents mouse from getting "stuck" on the tooltip
+            .style('z-index', '9999')
+            .style('box-shadow', '0 4px 6px rgba(0,0,0,0.3)')
+            .style('transition', 'opacity 0.15s ease');
         
         if (!this.selectElement || !this.modelInfoElement || !this.svgElement) {
             console.error('Required HTML elements not found');
@@ -525,22 +550,70 @@ class PolarChartD3 {
     }
 
     createDataPoints(chartData, angleScale, radialScale) {
+        const combinedData = chartData.scores.map((score, i) => ({
+            score: score,
+            label: chartData.labels[i],
+            id: chartData.benchmarkIds[i],
+            index: i
+        }));
+
         const points = this.svg.selectAll('.data-point')
-            .data(chartData.scores)
+            .data(combinedData)
             .enter()
             .append('g')
             .attr('class', 'data-point');
+
+        const self = this;
         
         points.append('circle')
-            .attr('cx', (d, i) => radialScale(d) * Math.sin(angleScale(i)))
-            .attr('cy', (d, i) => -radialScale(d) * Math.cos(angleScale(i)))
-            .attr('r', 4)
-            .attr('fill', (d, i) => this.colorScale(chartData.benchmarkIds[i]))
+            .attr('cx', d  => radialScale(d.score) * Math.sin(angleScale(d.index)))
+            .attr('cy', d  => -radialScale(d.score) * Math.cos(angleScale(d.index)))
+            .attr('r', 5)
+            .attr('fill', d => this.colorScale(d.id))
             .attr('stroke', '#fff')
-            .attr('stroke-width', 2);
-        
-        points.append('title')
-            .text((d, i) => `${chartData.labels[i]}: ${d.toFixed(3)}`);
+            .attr('stroke-width', 2)
+            .style('cursor', 'pointer')
+            // --- Event Listeners ---
+            .on('mouseover', function(event, d) {
+                // 1. Highlight the circle
+                d3.select(this)
+                    .transition().duration(200)
+                    .attr('r', 8)
+                    .attr('stroke-width', 3);
+
+                // 2. Show and populate tooltip
+                self.tooltip
+                    .style('visibility', 'visible')
+                    .style('opacity', '1')
+                    .html(`
+                        <div style="font-weight: 600; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 2px;">
+                            ${d.label}
+                        </div>
+                        <div style="display: flex; justify-content: space-between; gap: 10px;">
+                            <span>Score:</span>
+                            <span style="font-weight: bold; color: #4ecdc4;">${d.score.toFixed(3)}</span>
+                        </div>
+                    `);
+            })
+            .on('mousemove', function(event) {
+                // 3. Move tooltip with mouse
+                // Use event.pageX/Y for positioning relative to the whole document
+                self.tooltip
+                    .style('top', (event.pageY - 10) + 'px')
+                    .style('left', (event.pageX + 15) + 'px');
+            })
+            .on('mouseout', function() {
+                // 4. Reset circle size
+                d3.select(this)
+                    .transition().duration(200)
+                    .attr('r', 5)
+                    .attr('stroke-width', 2);
+
+                // 5. Hide tooltip
+                self.tooltip
+                    .style('visibility', 'hidden')
+                    .style('opacity', '0');
+            });
     }
 
     createLegend(chartData) {
