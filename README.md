@@ -81,9 +81,9 @@ All datasets used in this study were partially preprocessed by the original data
 
 ## Data sources
 
-* **[[EPOCH AI](https://epoch.ai/)]** Dati su parametri, compute e benchmark.
-* **[[Our World in Data](https://ourworldindata.org/grapher/americans-worry-work-being-automated)]** Statistiche sull'automazione e opinione pubblica.
-* **[[Kaggle](https://www.kaggle.com/datasets/nitishkumar2k01/llms-energy-consumption-dataset)]** Dataset energetico degli LLM.
+* **[[EPOCH AI](https://epoch.ai/)]** Data on parameter, compute and benchmark.
+* **[[Our World in Data](https://ourworldindata.org/grapher/americans-worry-work-being-automated)]** Statistics on social impact.
+* **[[Kaggle](https://www.kaggle.com/datasets/nitishkumar2k01/llms-energy-consumption-dataset)]** Dataset on energy consumption of LLM.
 
 ---
 
