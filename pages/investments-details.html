@@ -88,6 +88,15 @@
             margin-bottom: 0;
         }
 
+        /* --- TEXT SPACING IMPROVEMENTS (Task 3) --- */
+        .chart-section p {
+            line-height: 1.8;       /* Increased breathing room between lines */
+            margin-top: 15px;       /* Space between title and text */
+            margin-bottom: 35px;    /* Space between text and the chart */
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         /* --- PIE CHART STYLES --- */
         #pie-chart-container {
             display: flex;
@@ -189,13 +198,36 @@
             <p>
                 The rendered map depicts a highly centralized pattern of capital investment in data center infrastructure. A pronounced concentration of high-value 
                 facilities is evident within the United States, where large and overlapping markers representing the major technology firms—Microsoft, Google, Amazon, 
-                and Meta—indicate substantial and concurrent investment activity. Outside the United States, a notably large data center categorized as “Other” is 
+                and Meta—indicate substantial and concurrent investment activity. Outside the United States, a notably large data center categorized as "Other" is 
                 observed in East Asia. The scale of this facility suggests a significant capital outlay, likely attributable to regional technology providers or state-backed 
                 entities. In contrast, the Middle East is represented by only a minor investment, while regions such as South America, Africa, and Australia exhibit minimal 
                 or no presence of high-capital data centers within the scope of this dataset. The spatial overlap of investments in the United States implies the formation 
                 of infrastructure clusters, wherein multiple firms co-locate large-scale facilities to capitalize on established electrical grids, fiber-optic networks, and 
                 related logistical advantages. Overall, the distribution underscores the extent to which contemporary AI and data infrastructure development is dominated by 
                 a small number of highly capitalized multinational corporations.
+            </p>
+        </div>
+
+        <div class="chart-section">
+            <h2>2. AI Model Training Costs</h2>
+            <p>The following chart analyzes the distribution of training costs for AI models, aggregated by organization or country of origin. Click on a slice to drill down into individual model details.</p>
+            
+            <div class="controls-container">
+                <div class="toggle-group">
+                    <button id="btn-org" class="toggle-btn active">By Organization</button>
+                    <button id="btn-country" class="toggle-btn">By Country</button>
+                </div>
+                <button id="btn-back" class="btn-back">
+                    ← Back to Overview
+                </button>
+            </div>
+            
+            <div id="pie-chart-container"></div>
+        </div>
+
+        <div class="chart-analysis">
+            <p>
+                What was said previously is even more valid: the graph provides a good idea of ​​the proportions of investments made by companies and countries, but it only contains public data, which is only a fraction of the total. That said, if we look at the "By organization" graph, we see that most of the money invested in neural network training belongs to xAI, OpenAI, and Meta, followed by Anthropic and Google Deepmind. The data therefore confirms what we saw in the heat map: the most important models are trained by a few American multinationals. By clicking on the graph sections and analyzing the training costs of the various models, we see how these have increased in recent years, for every company. If we instead focus on analyzing the "By country" graph, we immediately notice what we observed previously: the vast majority of investments come from the US. Next comes China, which invests much less money than American companies but still almost as much as the rest of the world excluding these two powerhouses combined. It should also be remembered that the data concern private companies and do not take into account the state investments that a less privatized country like China might have made.
             </p>
         </div>
 
@@ -350,10 +382,21 @@
             .attr("class", "tooltip")
             .style("opacity", 0);
 
-        const color = d3.scaleOrdinal(d3.schemeSet3);
+        // --- TASK 2: UPDATED COLOR PALETTE ---
+        const colorBlindFriendlyColors = [
+            "#E69F00", // Orange
+            "#56B4E9", // Sky Blue (Moved up for better contrast with orange)
+            "#009E73", // Bluish Green
+            "#D55E00", // Vermilion
+            "#CC79A7", // Reddish Purple
+            "#FFFFFF", // White
+            "#F0E442", // Yellow (Added to ensure distinctiveness if > 6 items)
+            "#0072B2", // Blue (Added)
+            "#000000"  // Black (Moved last as it's lowest contrast on dark bg)
+        ];
 
-        // Path to Models Data (Assumed ../data or ../../data based on folder structure)
-        // Since HTML is in pages/, we go up one level to root, then into data.
+        const color = d3.scaleOrdinal(colorBlindFriendlyColors);
+
         const csvPathModels = "../data/ai_models/all_ai_models.csv"; 
 
         d3.csv(csvPathModels).then(data => {
@@ -421,8 +464,8 @@
         function updateChart() {
             let processedData = [];
             let centerTitle = "";
-            let centerSubtitle = "";
-
+            // Task 1: Removed centerSubtitle variable
+            
             if (viewState === 'main') {
                 const keyField = groupBy === 'Organization' ? 'organization' : 'country';
                 const rollup = d3.rollups(currentData, v => d3.sum(v, d => d.cost), d => d[keyField]);
@@ -440,11 +483,11 @@
                 });
 
                 if (otherSum > 0) {
-                    processedData.push({ key: "Other", value: otherSum, type: 'other' });
+                    processedData.push({ key: "Others", value: otherSum, type: 'other' });
                 }
 
                 centerTitle = "Total Investment";
-                centerSubtitle = d3.format("$,.2s")(totalCost).replace('G', 'B');
+                // Task 1: No subtitle value here
 
             } else {
                 const keyField = groupBy === 'Organization' ? 'organization' : 'country';
@@ -458,7 +501,7 @@
 
                 const totalEntityCost = d3.sum(processedData, d => d.value);
                 centerTitle = selectedEntity;
-                centerSubtitle = d3.format("$,.2s")(totalEntityCost).replace('G', 'B');
+                // Task 1: No subtitle value here
             }
 
             const pie = d3.pie().value(d => d.value).sort(null);
@@ -472,14 +515,28 @@
                 .append("path")
                 .attr("class", "slice")
                 .attr("fill", d => {
-                    if(d.data.key === "Other") return "#444";
+                    if(d.data.key === "Others") return "#888"; 
                     return color(d.data.key);
                 })
                 .attr("d", arc)
                 .each(function(d) { this._current = d; })
                 .merge(slices)
                 .on("mouseover", function(event, d) {
-                    if (viewState === 'main' && d.data.type === 'other') return; 
+                    
+                    if (viewState === 'main' && d.data.type === 'other') {
+                        d3.select(this).transition().duration(200).attr("d", arcHover);
+                        
+                        const percent = ((d.endAngle - d.startAngle) / (2 * Math.PI)) * 100;
+                        tooltip.transition().duration(200).style("opacity", 1);
+                        tooltip.html(`
+                            <strong>${d.data.key}</strong><br>
+                            $${d3.format(",.2s")(d.data.value).replace('G','B')}<br>
+                            ${percent.toFixed(1)}%
+                        `)
+                        .style("left", (event.pageX + 15) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                        return;
+                    } 
                     
                     d3.select(this).transition().duration(200).attr("d", arcHover);
                     
@@ -516,6 +573,7 @@
 
             svg.selectAll(".center-text").remove();
             
+            // Top Label (e.g., "Total by Organization")
             svg.append("text")
                 .attr("class", "center-text")
                 .attr("dy", "-0.5em")
@@ -524,6 +582,7 @@
                 .style("font-size", "14px")
                 .text(viewState === 'main' ? `Total by ${groupBy}` : "Total Cost");
 
+            // Main Title (e.g., "Total Investment" or Entity Name)
             svg.append("text")
                 .attr("class", "center-text")
                 .attr("dy", "1em")
@@ -533,13 +592,7 @@
                 .style("font-weight", "bold")
                 .text(centerTitle);
 
-            svg.append("text")
-                .attr("class", "center-text")
-                .attr("dy", "2.5em")
-                .style("text-anchor", "middle")
-                .style("fill", "#4cc9f0")
-                .style("font-size", "16px")
-                .text(centerSubtitle);
+            // --- TASK 1: REMOVED THE THIRD TEXT ELEMENT (SUBTITLE WITH $ VALUE) ---
         }
     });
     </script>
