@@ -359,7 +359,7 @@ class PolarChartD3 {
                 displayText += ` (${model.organization})`;
             }
             if (model.benchmarkCount < 9) {
-                displayText += ` [${model.benchmarkCount}/9]`;
+                displayText += ` [${model.benchmarkCount}/7]`;
             }
             
             option.textContent = displayText;
@@ -650,7 +650,7 @@ class PolarChartD3 {
         if (countryElement) countryElement.textContent = model.country;
         
         const countElement = document.getElementById('model-benchmarkCount');
-        if (countElement) countElement.textContent = `${benchmarkCount}/9`;
+        if (countElement) countElement.textContent = `${benchmarkCount}/7`;
         
         const avgElement = document.getElementById('model-avgScore');
         if (avgElement) avgElement.textContent = avgScore;
