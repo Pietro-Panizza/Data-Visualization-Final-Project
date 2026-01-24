@@ -214,8 +214,8 @@ body{
     font-family: 'Inter', sans-serif;
     font-size: 12px;
     line-height: 1.4;
-    background: rgba(9, 31, 65, 0.95); /* Dark background */
-    color: #fff; /* White text */
+    background: rgba(9, 31, 65, 0.95);
+    color: #fff; 
     border: 1px solid #4a6fa5;
     padding: 10px;
     border-radius: 4px;
@@ -223,31 +223,31 @@ body{
 }
 
 #chart-social .axis-label {
-    fill: #ffffff !important; /* Light blue-grey text */
-    font-size: 14px; /* Slightly bigger for readability */
+    fill: #ffffff !important; 
+    font-size: 14px; 
     font-weight: 400;
 }
 
 /* Axis Lines */
 #chart-social .domain, 
 #chart-social .tick line {
-    stroke: #4a6fa5; /* Blueish line to match theme */
+    stroke: #4a6fa5;
 }
 
 /* Chart Title inside SVG */
 #chart-social .chart-title {
-    fill: #ffffff !important; /* White text */
+    fill: #ffffff !important; 
     font-weight: 700;
     font-size: 1.5rem;
 }
 
 /* Chart Subtitle inside SVG */
 #chart-social .chart-subtitle {
-    fill: #b0c4de !important; /* Light gray text */
+    fill: #b0c4de !important; 
     font-size: 0.9rem;
 }
 
-/* Legend text (if applicable) */
+/* Legend text */
 #chart-social .legend-text {
     color: #ffffff;
     fill: #fff;
@@ -257,7 +257,7 @@ body{
     margin-top: 30px;
     padding: 20px 25px;
     background: rgba(255, 255, 255, 0.03);
-    border-left: 4px solid #4a90e2; /* Accent color coerente con il tema */
+    border-left: 4px solid #4a90e2; 
     border-radius: 0 8px 8px 0;
 }
 

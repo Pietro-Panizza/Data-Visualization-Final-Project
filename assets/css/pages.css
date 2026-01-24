@@ -1,6 +1,6 @@
 /* --- Layout & Typography --- */
 .subpage-body {
-    background-color: #0a192f; /* Assuming dark theme from index.html */
+    background-color: #0a192f;
     color: #ffffff;
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -103,7 +103,7 @@
     z-index: 10;
 }
 
-/* --- Stili per il doppio slider (CORRETTI) --- */
+/* --- double slider styles --- */
 .slider-section {
     background: rgba(255, 255, 255, 0.05);
     padding: 25px;
@@ -125,7 +125,7 @@
     padding: 20px 0;
 }
 
-/* Track visibile */
+/* Track visible */
 .slider-track {
     position: absolute;
     top: 50%;
@@ -137,7 +137,7 @@
     transform: translateY(-50%);
 }
 
-/* Track attiva (tra i due thumb) */
+/* Track active (between two thumb) */
 .slider-active-track {
     position: absolute;
     top: 50%;
@@ -149,7 +149,7 @@
     pointer-events: none;
 }
 
-/* Input range (trasparenti ma funzionali) */
+/* Input range (transparent) */
 .range-slider {
     -webkit-appearance: none;
     appearance: none;
@@ -163,10 +163,10 @@
     top: 0;
     left: 0;
     cursor: pointer;
-    pointer-events: none; /* <--- AGGIUNGI QUESTA RIGA */
+    pointer-events: none; 
 }
 
-/* Z-index: il min-slider sta sotto, il max-slider sta sopra */
+
 #min-slider {
     z-index: 1;
 }
@@ -175,7 +175,7 @@
     z-index: 2;
 }
 
-/* Thumb per Chrome/Safari */
+/* Chrome/Safari thumb  */
 .range-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -188,10 +188,10 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     transition: transform 0.1s ease;
     border: 3px solid;
-    pointer-events: auto; /* <--- AGGIUNGI QUESTA RIGA: Riabilita il click sul pallino */
+    pointer-events: auto; 
 }
 
-/* Thumb per Firefox */
+/* Firefox thumb */
 .range-slider::-moz-range-thumb {
     width: 24px;
     height: 24px;
@@ -201,10 +201,10 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     transition: transform 0.1s ease;
     border: 3px solid;
-    pointer-events: auto; /* <--- AGGIUNGI QUESTA RIGA: Riabilita il click sul pallino */
+    pointer-events: auto; 
 }
 
-/* Thumb sinistro (min) - verde */
+/* lefr thumb */
 #min-slider::-webkit-slider-thumb {
     border-color: #69b3a2;
     transform: translateY(-2px);
@@ -214,7 +214,7 @@
     border-color: #69b3a2;
 }
 
-/* Thumb destro (max) - blu */
+/* right thumb*/
 #max-slider::-webkit-slider-thumb {
     border-color: #4a90e2;
     transform: translateY(-2px);
@@ -224,7 +224,7 @@
     border-color: #4a90e2;
 }
 
-/* Effetto hover */
+/* hover effect */
 .range-slider::-webkit-slider-thumb:hover {
     transform: translateY(-2px) scale(1.1);
 }
@@ -233,7 +233,7 @@
     transform: scale(1.1);
 }
 
-/* Display valori */
+/* Display values */
 .slider-values {
     display: flex;
     justify-content: space-between;
@@ -253,7 +253,7 @@
     text-align: center;
 }
 
-/* Contatore modelli */
+/* models counter*/
 #model-count {
     text-align: center;
     margin-top: 15px;
@@ -274,14 +274,16 @@
     color: white;
 }
 
-/* --- SOLUZIONE DEFINITIVA per doppio slider --- */
+
 .slider-container {
     position: relative;
     height: 70px;
     padding: 20px 0;
 }
 
-/* Area click per thumb sinistro (prima metà) */
+
+
+
 .left-slider-area {
     position: absolute;
     left: 0;
@@ -292,7 +294,7 @@
     background: transparent;
 }
 
-/* Area click per thumb destro (seconda metà) */
+
 .right-slider-area {
     position: absolute;
     right: 0;
@@ -303,7 +305,7 @@
     background: transparent;
 }
 
-/* Nascondi completamente gli input range originali */
+/* hide original input range  */
 .hidden-slider {
     position: absolute;
     width: 100%;
@@ -313,7 +315,7 @@
     cursor: pointer;
 }
 
-/* Thumb personalizzati */
+/* customed thumb */
 .custom-thumb {
     position: absolute;
     width: 24px;
@@ -343,12 +345,12 @@
     left: 100%;
 }
 
-/* --- Analysis Box Styles (AGGIUNTO) --- */
+/* --- Analysis Box Styles  --- */
 .chart-analysis {
     margin-top: 30px;
     padding: 20px 25px;
     background: rgba(255, 255, 255, 0.03);
-    border-left: 4px solid #4a90e2; /* Accent color coerente con il tema */
+    border-left: 4px solid #4a90e2; 
     border-radius: 0 8px 8px 0;
 }
 
@@ -361,9 +363,9 @@
     text-align: justify;
 }
 
-/* Aggiungi alla fine del file pages.css */
 
-/* === FOOTER PER PAGINE SECONDARIE === */
+
+/* === FOOTER FOR SECONDARY PAGES === */
 .page-footer {
     margin-top: 4rem;
     padding: 2rem 0;
@@ -387,14 +389,14 @@
 }
 
 .page-footer a {
-    color: #64ffda; /* Coerente con il tema del tuo sito */
+    color: #64ffda; 
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .page-footer a:hover {
-    color: #4a90e2; /* Coerente con altri hover nel tuo sito */
+    color: #4a90e2; 
     text-decoration: underline;
 }
 

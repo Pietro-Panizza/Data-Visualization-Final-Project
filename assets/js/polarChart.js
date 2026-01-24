@@ -41,16 +41,16 @@ class PolarChartD3 {
 
         this.chartWrapper = null;
         
-        // Contatori per i modelli speciali
+        // Counter for special models
         this.gpt52Count = 0;
         this.gpt5Count = 0;
         this.claude35Count = 0;
         
-        // Lista per tracciare i modelli speciali trovati
+        // List track special models
         this.specialModels = {
-            gpt52: [],  // Modelli con "gpt-5.2"
-            gpt5: [],   // Modelli con "gpt-5" (senza - o . dopo)
-            claude35: [] // Modelli con "claude-3-5"
+            gpt52: [],  
+            gpt5: [],   
+            claude35: [] 
         };
 
     const colorBlindFriendlyColors = [
@@ -67,85 +67,75 @@ class PolarChartD3 {
             
     }
     
-    // AGGIUNTO: Metodo loadCSV che mancava
+    
     async loadCSV(filePath) {
         try {
             const data = await d3.csv(filePath);
             return data;
         } catch (error) {
-            console.error(`Error loading CSV ${filePath}:`, error);
             return null;
         }
     }
     
-    // Nuovo metodo per verificare se un modello è speciale e gestire i limiti
+    // Method to check whether a model is exceptional and handle its boundaries
     checkAndHandleSpecialModel(modelVersion) {
         const lowerVersion = modelVersion.toLowerCase();
         
-        // Controlla per "gpt-5.2"
+        // Check for "gpt-5.2"
         if (lowerVersion.includes('gpt-5.2')) {
             this.gpt52Count++;
             this.specialModels.gpt52.push(modelVersion);
             
-            // Se superiamo il limite di 2, ignora questo modello
+            
             if (this.gpt52Count > 2) {
-                console.log(`⚠️ Limite raggiunto: ignorato modello "${modelVersion}" (${this.gpt52Count} modelli "gpt-5.2" trovati)`);
-                return false; // Ignora questo modello
+                return false; // Ignore this model
             }
-            return true; // Accetta questo modello
+            return true; // Accept this model
         }
         
-        // Controlla per "gpt-5" (senza - o . dopo)
-        // Usa una regex per catturare "gpt-5" seguito da fine stringa, spazio, o caratteri non -.
+        // Check for "gpt-5" (senza - o . dopo)
+        // Use a regex to capture "gpt-5" followed by end of string, a space, or a non-dash character.
         const gpt5Regex = /gpt-5(?![.-])/i;
         if (gpt5Regex.test(lowerVersion)) {
             this.gpt5Count++;
             this.specialModels.gpt5.push(modelVersion);
             
-            // Se superiamo il limite di 2, ignora questo modello
+            
             if (this.gpt5Count > 2) {
-                console.log(`⚠️ Limite raggiunto: ignorato modello "${modelVersion}" (${this.gpt5Count} modelli "gpt-5" trovati)`);
-                return false; // Ignora questo modello
+                return false; // Ignore this model
             }
-            return true; // Accetta questo modello
+            return true; // Accept this model
         }
         
-        // Controlla per "claude-3-5"
+        // Check for "claude-3-5"
         if (lowerVersion.includes('claude-3-5')) {
             this.claude35Count++;
             this.specialModels.claude35.push(modelVersion);
             
-            // Se superiamo il limite di 1, ignora questo modello
+            
             if (this.claude35Count > 1) {
-                console.log(`⚠️ Limite raggiunto: ignorato modello "${modelVersion}" (${this.claude35Count} modelli "claude-3-5" trovati)`);
-                return false; // Ignora questo modello
+                return false; // Ignore this model
             }
-            return true; // Accetta questo modello
+            return true; // Accept this model
         }
         
-        return true; // Tutti gli altri modelli sono accettati
+        return true; // all other modelli are accepted
     }
     
-    // MODIFICATO: Aggiungi controllo speciali nel metodo processBenchmarkData
+    // Add special-case checks in the processBenchmarkData method
     processBenchmarkData(data, config) {
         if (!data || !Array.isArray(data)) {
-            console.error('Invalid data passed to processBenchmarkData:', data);
             return;
         }
-    
-        console.log(`Processing ${config.name}, ${data.length} rows`);
         
-        // Log iniziale dei contatori speciali
-        console.log(`Contatori speciali iniziali: GPT-5.2=${this.gpt52Count}, GPT-5=${this.gpt5Count}, Claude-3-5=${this.claude35Count}`);
 
         data.forEach((row, index) => {
             const modelVersion = row['Model version'];
             const score = parseFloat(row[config.scoreKey]);
 
-            // Controlla se il modello è speciale e se supera i limiti
+            // check whether a model is exceptional and handle its boundaries
             if (!this.checkAndHandleSpecialModel(modelVersion)) {
-                console.log(`Skipping model "${modelVersion}" due to special model limits`);
-                return; // Salta questo modello
+                return; 
             }
 
             const modelId = this.normalizeModelId(modelVersion);
@@ -165,7 +155,6 @@ class PolarChartD3 {
 
             if (this.models[modelId].scores[config.id] === undefined) {
                 this.models[modelId].benchmarkCount++;
-                console.log(`  Incremented benchmarkCount for ${modelId}: now ${this.models[modelId].benchmarkCount}`);
             }
             
             this.models[modelId].scores[config.id] = score;
@@ -183,19 +172,12 @@ class PolarChartD3 {
                 score: score
             });
         });
-        
-        // Log finale dei contatori speciali
-        console.log(`Contatori speciali finali per ${config.name}:`);
-        console.log(`  GPT-5.2: ${this.gpt52Count} modelli (${this.specialModels.gpt52.join(', ')})`);
-        console.log(`  GPT-5: ${this.gpt5Count} modelli (${this.specialModels.gpt5.join(', ')})`);
-        console.log(`  Claude-3-5: ${this.claude35Count} modelli (${this.specialModels.claude35.join(', ')})`);
-        
-        console.log(`Finished processing ${config.name}`);
+    
     }
 
-    // MODIFICATO: Aggiungi resettaggio dei contatori nel loadAllData
+    // Add reset of counters in  loadAllData
     async loadAllData() {
-        // Resetta i contatori speciali prima di caricare i dati
+        // Reset special counter
         this.gpt52Count = 0;
         this.gpt5Count = 0;
         this.claude35Count = 0;
@@ -204,11 +186,7 @@ class PolarChartD3 {
             gpt5: [],
             claude35: []
         };
-        
-        console.log('Starting to load all benchmark data with special model limits:');
-        console.log('- Max 2 models with "gpt-5.2"');
-        console.log('- Max 2 models with "gpt-5" (without - or . after)');
-        console.log('- Max 1 model with "claude-3-5"');
+
         
         const loadingPromises = this.benchmarkFiles.map(async (fileName) => {
             const config = this.benchmarkConfig[fileName];
@@ -225,31 +203,12 @@ class PolarChartD3 {
         
         await Promise.all(loadingPromises);
         
-        // Log riepilogativo finale
-        console.log('\n=== Riepilogo finale modelli speciali ===');
-        console.log(`Totale modelli GPT-5.2: ${this.gpt52Count}`);
-        if (this.specialModels.gpt52.length > 0) {
-            console.log(`  Modelli: ${this.specialModels.gpt52.join(', ')}`);
-        }
-        
-        console.log(`Totale modelli GPT-5: ${this.gpt5Count}`);
-        if (this.specialModels.gpt5.length > 0) {
-            console.log(`  Modelli: ${this.specialModels.gpt5.join(', ')}`);
-        }
-        
-        console.log(`Totale modelli Claude-3-5: ${this.claude35Count}`);
-        if (this.specialModels.claude35.length > 0) {
-            console.log(`  Modelli: ${this.specialModels.claude35.join(', ')}`);
-        }
-        console.log('=======================================\n');
-        
         this.dataLoaded = true;
         this.initializeUI();
     }
 
     normalizeModelId(modelVersion) {
         if (!modelVersion || typeof modelVersion !== 'string') {
-            console.warn('normalizeModelId: invalid input', modelVersion);
             return 'unknown_model';
         }
         
@@ -265,7 +224,6 @@ class PolarChartD3 {
             .replace(/^_+|_+$/g, '');
         
         if (normalized === '') {
-            console.warn('normalizeModelId: empty result from', modelVersion);
             return 'empty_model_' + Math.random().toString(36).substr(2, 5);
         }
         
@@ -287,12 +245,12 @@ class PolarChartD3 {
             .trim();
     }
 
-    // Normalizza punteggio 0-1
+    // Normalize score 0-1
     normalizeScore(score, benchmarkId) {
         return Math.min(score, 1);
     }
 
-    // Calcola dimensioni
+    // Calculate dimensions
     calculateDimensions() {
         this.chartWrapper = document.querySelector('.chart-wrapper');
         
@@ -348,7 +306,7 @@ class PolarChartD3 {
             .style('border-radius', '6px')
             .style('font-family', 'sans-serif')
             .style('font-size', '12px')
-            .style('pointer-events', 'none') // Crucial: prevents mouse from getting "stuck" on the tooltip
+            .style('pointer-events', 'none') 
             .style('z-index', '9999')
             .style('box-shadow', '0 4px 6px rgba(0,0,0,0.3)')
             .style('transition', 'opacity 0.15s ease');
@@ -575,13 +533,13 @@ class PolarChartD3 {
             .style('cursor', 'pointer')
             // --- Event Listeners ---
             .on('mouseover', function(event, d) {
-                // 1. Highlight the circle
+                // Highlight the circle
                 d3.select(this)
                     .transition().duration(200)
                     .attr('r', 8)
                     .attr('stroke-width', 3);
 
-                // 2. Show and populate tooltip
+                // Show and populate tooltip
                 self.tooltip
                     .style('visibility', 'visible')
                     .style('opacity', '1')
@@ -596,20 +554,19 @@ class PolarChartD3 {
                     `);
             })
             .on('mousemove', function(event) {
-                // 3. Move tooltip with mouse
-                // Use event.pageX/Y for positioning relative to the whole document
+                // Move tooltip with mouse
                 self.tooltip
                     .style('top', (event.pageY - 10) + 'px')
                     .style('left', (event.pageX + 15) + 'px');
             })
             .on('mouseout', function() {
-                // 4. Reset circle size
+                // Reset circle size
                 d3.select(this)
                     .transition().duration(200)
                     .attr('r', 5)
                     .attr('stroke-width', 2);
 
-                // 5. Hide tooltip
+                // Hide tooltip
                 self.tooltip
                     .style('visibility', 'hidden')
                     .style('opacity', '0');

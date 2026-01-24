@@ -16,7 +16,7 @@ body {
     color: #fff;
 }
 
-/* ===== SEZIONE HERO (FULLSCREEN) ===== */
+/* ===== HERO SECTION (FULLSCREEN) ===== */
 .fullscreen-hero {
     position: relative;
     height: 100vh;
@@ -284,18 +284,18 @@ body {
     box-shadow: 0 0 2px #1f77b4, 0 0 10px rgba(31,119,180,0.7);
 }
 
-/* 1. Mostra i titoli quando passi sopra il menu */
+/* Show titles when you move over the menu */
 .section-index:hover .index-title {
     opacity: 1;
     transform: translateX(0);
 }
 
-/* 2. Colore per il titolo quando passi il mouse sopra (solo se NON è attivo) */
+/* title color when you move over the title */
 .section-index li:hover .index-title {
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* 3. Colore per il titolo della sezione ATTIVA (vince su tutto) */
+/* 3. Color for active section */
 .section-index li:has(.index-dot.active) .index-title {
     opacity: 1;
     transform: translateX(0);
@@ -303,7 +303,7 @@ body {
     font-weight: 600;
 }
 
-/* Linea che connette i punti */
+/* Line connecting the dots */
 .section-index li:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -324,13 +324,13 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    z-index: 999; /* MODIFICATO: 999 invece di 1000 */
+    z-index: 999; 
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(10px);
     padding: 10px 20px;
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    pointer-events: none; /* Aggiunto: non interferisce con i click */
+    pointer-events: none; 
 }
 
 .progress-bar {
@@ -361,34 +361,34 @@ body {
 /* ===== FOOTER ===== */
 .main-footer {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.95); /* Più opaco per nascondere meglio */
+    background-color: rgba(0, 0, 0, 0.95); 
     color: white;
     padding: 25px 0;
     position: relative;
-    z-index: 1000; /* MODIFICATO: 1000 per stare sopra la barra */
+    z-index: 1000; 
 }
 
 .footer-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1400px; /* Più largo per più spazio */
+    max-width: 1400px; 
     margin: 0 auto;
-    padding: 0 50px; /* Più padding per spostare il testo a sinistra */
+    padding: 0 50px; 
 }
 
 .footer-left {
-    flex: 0 0 auto; /* Non si allarga */
+    flex: 0 0 auto; 
     text-align: left;
     font-family: 'Inter', sans-serif;
-    font-size: 12px; /* Ridotto per stare in una riga */
+    font-size: 12px; 
     font-weight: 400;
     white-space: nowrap;
-    padding-left: 5px; /* Sposto ulteriormente a sinistra */
+    padding-left: 5px; 
     margin-right: auto;
     min-width: 0;
     overflow: hidden;
-    letter-spacing: -0.1px; /* Leggermente più compatto */
+    letter-spacing: -0.1px; 
 }
 
 .footer-center {
@@ -408,7 +408,7 @@ body {
     font-size: 14px;
     font-weight: 400;
     white-space: nowrap;
-    padding-right: 5px; /* Sposto ulteriormente a destra */
+    padding-right: 5px; 
     margin-left: auto;
 }
 /* ===== HERO: WIDE LAYOUT ===== */
@@ -421,23 +421,22 @@ body {
 }
 
 .hero-text-block {
-    max-width: 1200px; /* Aumentato ancora */
+    max-width: 1200px; 
     margin: 0 auto;
     padding-left: 0;
     text-align: left;
 }
 
-/* Rimuovo completamente le regole per hero-perspectives-grid e perspective-card */
 
-/* Stile per la lista delle prospettive senza riquadri */
+/* Style for the list of perspectives */
 .perspectives-list {
-    margin-top: 2.5rem; /* Ridotto il margine sopra */
+    margin-top: 2.5rem; 
 }
 
 .perspectives-list p {
-    font-size: 1.3rem; /* Leggermente più grande per evidenziare */
-    line-height: 1.3; /* Ridotto per essere più compatto */
-    margin-bottom: 0.8rem; /* Ridotto da 1.5rem a 0.8rem */
+    font-size: 1.3rem; 
+    line-height: 1.3; 
+    margin-bottom: 0.8rem; 
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -447,23 +446,23 @@ body {
     margin-right: 0.5rem;
 }
 
-/* Aggiungiamo una regola per hero-description all'interno del text-block */
+
 .hero-text-block .hero-description {
     max-width: none;
     margin-left: 0;
     margin-right: 0;
     text-align: left;
-    margin-bottom: 0.5rem; /* Ridotto drasticamente */
+    margin-bottom: 0.5rem; 
     line-height: 1.6;
 }
 
-/* Per il titolo e sottotitolo */
+/* hero title and subtitle */
 .hero-title {
-    margin-bottom: 0.8rem; /* Ridotto da 1rem */
+    margin-bottom: 0.8rem; 
 }
 
 .hero-subtitle {
-    margin-bottom: 2rem; /* Mantenuto */
+    margin-bottom: 2rem; 
 }
 
 /* Responsive */
@@ -488,7 +487,7 @@ body {
     }
 }
 
-/* Per schermi molto larghi */
+/* for wider schemas */
 @media (min-width: 1600px) {
     .hero-content.wide-layout {
         max-width: 1500px;
@@ -523,13 +522,13 @@ body {
     }
     
     .footer-left {
-        font-size: 11px; /* Ancora più piccolo su tablet */
+        font-size: 11px; 
     }
 }
 
 @media (max-width: 900px) {
     .footer-left {
-        font-size: 10.5px; /* Ancora più piccolo */
+        font-size: 10.5px;
     }
     
     .footer-center {
@@ -606,10 +605,10 @@ body {
     }
 }
 
-/* Per schermi molto larghi */
+/* for wider schemas */
 @media (min-width: 1600px) {
     .footer-left {
-        font-size: 13px; /* Possiamo permetterci di ingrandire */
+        font-size: 13px; 
     }
 }
 

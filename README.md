@@ -18,38 +18,38 @@ The website explores:
 ## Project Structure
 Here is the actual organisation of files in the repository.
 
-text  
-├── index.html                             
+<pre>  
+Data-Visualization-Final-Project
+├── index.html                                   #landing page                          
 ├── LICENSE                                
-├── README.md                              
-├── assets/  
-│   ├── css/
-│   │   ├── style.css                      
-│   │   └── pages.css                      
-│   └── js/
-│       ├── models.js                      
-│       ├── polarChart.js                   
-│       ├── barChart.js                    
-│       ├── streamgraph.js                 
-│       └── Linechart.js                   
+├── README.md                                    #project documentation             
+├── assets/                 
+│   ├── css/  
+│   │   ├── style.css                            #global styles               
+│   │   └── pages.css                            #bubpages common styles
+│   └── js/  
+│       ├── models.js                            #plots of models section
+│       ├── polarChart.js                        #polarchart of benchmarks section
+│       ├── barChart.js                          #barchart of benchmark section
+│       ├── streamgraph.js                       #environmental impact chart
+│       └── Linechart.js                         #social impact chart
 │   
 ├── images/                                
 ├── data/                                  
-│   ├── ai_models/                          
-│   ├── benchmark_data/                     
-│   ├── data_centers/                       
-│   ├── americans-worry-work-being-automated.csv    
-│   ├── llm-energy-use.csv                 
-│   └── desktop.ini                        
+│   ├── ai_models/                               #data on ai models
+│   ├── benchmark_data/                          #data on benchmark
+│   ├── data_centers/                            #data on data centers
+│   ├── americans-worry-work-being-automated.csv #data on social impact
+│   └── llm-energy-use.csv                       #data on ai energy consumption 
 └── pages/                                 
-    ├── benchmark-details.css              
-    ├── benchmark-details.html             
-    ├── details-bench.html                 
-    ├── investments-details.html           
-    ├── social-environmental-impacts.css   
-    ├── socio-environment-details.html     
-    └── models-details.html                
-
+    ├── benchmark-details.css                    #style of benchmark page
+    ├── benchmark-details.html                   #benchmark page
+    ├── details-bench.html                       #benchmark explanation page
+    ├── investments-details.html                 #investment page
+    ├── social-environmental-impacts.css         #style of impact page
+    ├── socio-environment-details.html           #impact page
+    └── models-details.html                      #models page
+</pre>
 
 ## Reproducibility and Local Setup
 

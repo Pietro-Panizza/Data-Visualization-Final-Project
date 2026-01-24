@@ -35,7 +35,7 @@ let currentUnit = 'kWh';
 
 // Initialize SVG
 const svg = d3.select("#chart-environment-container")
-    .html("") // Clear placeholder
+    .html("") 
     .append("svg")
     .attr("width", "100%")
     .attr("height", "auto")
@@ -46,7 +46,7 @@ const svg = d3.select("#chart-environment-container")
 // Load and Process Data
 d3.csv("../data/llm-energy-use.csv").then(data => {
 
-    // 1. Clean Data
+    // Clean Data
     data.forEach(d => {
         d.model_parameters_billion = +d.model_parameters_billion || 0;
         d.total_energy_kwh = +d.total_energy_kwh || 0;
@@ -63,7 +63,7 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
     function updateChart(metric) {
         currentUnit = metric === 'total_energy_kwh' ? "kWh" : "kgCO2e"
 
-        // 2. Aggregate data by Bin and Region
+        // Aggregate data by Bin and Region
         let aggregated = binConfig.map(bin => {
             const obj = { 
                 bin: bin.label,
@@ -81,7 +81,7 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
         regions.forEach(reg => zeroPoint[reg] = 0);
         aggregated = [zeroPoint, ...aggregated];
 
-        // 3. Setup Stacking (Streamgraph mode)
+        // Setup Stacking (Streamgraph mode)
         const stack = d3.stack()
             .keys(regions)
             .offset(d3.stackOffsetWiggle)
@@ -89,7 +89,7 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
 
         const layers = stack(aggregated);
 
-        // 4. Scales
+        // Scales
         const x = d3.scaleLinear()
             .domain([0, 1200])
             .range([0, width]);
@@ -101,7 +101,7 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
             ])
             .range([height, 0]);
 
-        // 5. Drawing Area
+        // Drawing Area
         const area = d3.area()
             .x(d => x(d.data.plotX))
             .y0(d => y(d[0]))
@@ -115,7 +115,7 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
         paths.enter()
             .append("path")
             .attr("class", "layer")
-            .merge(paths) // This ensures existing paths also get the update
+            .merge(paths) 
             .on("mouseover", function(event, d) {
                 d3.select(this).style("stroke", "white").style("stroke-width", "1px").attr("opacity", 1);
                 tooltip.transition().duration(200).style("opacity", 1);
@@ -151,18 +151,18 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
                 d3.select(this).style("stroke", "none").attr("opacity", 0.85);
                 tooltip.transition().duration(300).style("opacity", 0);
             })
-            .transition().duration(750) // Smooth transition for the shapes
+            .transition().duration(750) 
             .attr("d", area)
             .style("fill", d => colorScale(d.key));
 
         paths.exit().remove();
 
-        // 7. Axes
+        // Axes
         svg.selectAll(".axis").remove();
 
         const xAxis = d3.axisBottom(x)
-            .tickValues([0, 50, 200, 500, 1000, 1200]) // Explicit ticks
-            .tickFormat(d => d === 1200 ? ">1000B" : d + "B"); // Custom label for last tick
+            .tickValues([0, 50, 200, 500, 1000, 1200]) 
+            .tickFormat(d => d === 1200 ? ">1000B" : d + "B"); 
         
         svg.append("g")
             .attr("class", "axis")
@@ -171,7 +171,7 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
             .style("color", "#888")
             .style("font-size", "12px");
 
-        // 8. Legend
+        // Legend
         svg.selectAll(".legend-group").remove();
         const legendGroup = svg.append("g")
             .attr("class", "legend-group")
@@ -183,7 +183,7 @@ d3.csv("../data/llm-energy-use.csv").then(data => {
             .append("g")
             .attr("class", "legend-item")
             .attr("transform", (d, i) => {
-                const xOffset = (i % 3) * 200; // 3 items per row
+                const xOffset = (i % 3) * 200; 
                 const yOffset = Math.floor(i / 3) * 25;
                 return `translate(${xOffset}, ${yOffset})`;
             });

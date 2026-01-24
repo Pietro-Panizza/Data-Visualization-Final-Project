@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const chartContainer = d3.select('#chart-social');
-    const select = d3.select('#entity-select'); // Target the existing HTML select
+    const select = d3.select('#entity-select'); 
 
     chartContainer.html('');
     
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const colorBlindFriendlyColors = [
         "#E69F00", // Orange
-        "#000000",  // Black (Optional, maybe swap for #FFFFFF on your dark theme)
+        "#000000",  // Black 
         "#009E73", // Bluish Green
         "#D55E00", // Vermillion
         "#CC79A7" // Reddish Purple
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const yAxisGroup = svg.append('g')
         .attr('class', 'y-axis')
     
-    // X-axis itle
+    // X-axis title
     svg.append('text')
         .attr('class', 'axis-label')
         .attr('x', width / 2)
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
     // function to draw the chart
     function drawChart(selectedData, selectedEntity) {
-        // Pulisci gli elementi del grafico
+        // clean chart element
         svg.selectAll('.worry-line').remove();
         svg.selectAll('.data-dot').remove();
         svg.select('.chart-title').remove();
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     .duration(200)
                     .style('opacity', .9);
                 
-                // Trova la categoria di questo punto
+                // find the category of this dot
                 const category = d3.select(this).attr('data-category');
                 
                 tooltip.html(`
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // CSV data loading
     d3.csv('../../data/americans-worry-work-being-automated.csv').then(data => {
-        // Formatta i dati
+        // Format the data
         data.forEach(d => {
             d.Day = new Date(d.Day);
             d['Very worried'] = +d['Very worried'];
@@ -228,11 +228,11 @@ document.addEventListener('DOMContentLoaded', function() {
             d['Don\'t know'] = +d['Don\'t know'];
         });
         
-        // Estrai tutte le categorie uniche
+        // Extract all unique categorie
         const entities = [...new Set(data.map(d => d.Entity))]
             .filter(entity => entity !== 'White');
         
-        // Popola il selettore
+        // Populate the selector
         select.selectAll('option')
             .data(entities)
             .enter()
@@ -241,12 +241,12 @@ document.addEventListener('DOMContentLoaded', function() {
             .text(d => d)
             .property('selected', d => d === 'All adults');
         
-        // Disegna il grafico iniziale
+        // draw initial graph
         const initialData = data.filter(d => d.Entity === 'All adults');
         drawChart(initialData, 'All adults');
         setupTooltip();
         
-        // Aggiorna il grafico quando cambia la selezione
+        // update the graph when selection changes
         select.on('change', function() {
             const selectedEntity = this.value;
             const filteredData = data.filter(d => d.Entity === selectedEntity);

@@ -13,7 +13,7 @@ class BarChartD3 {
         this.maxModelsToShow = 20;
         this.showTopModelsOnly = true;
         
-        this.margin = { top: 40, right: 30, bottom: 60, left: 200 }; // Increased left margin for long names
+        this.margin = { top: 40, right: 30, bottom: 60, left: 200 }; 
         this.width = 0;
         this.height = 0;
         
@@ -105,7 +105,7 @@ class BarChartD3 {
             };
         }).filter(d => d.score > 0);
 
-        // 2. Strict Deduplication by modelId
+        // Strict Deduplication by modelId
         const unique = new Map();
         mapped.forEach(item => {
             // If duplicate ID exists, keep the higher score
@@ -116,7 +116,7 @@ class BarChartD3 {
         
         this.currentData = Array.from(unique.values());
 
-        // 3. Sorting
+        // Sorting
         this.currentData.sort((a, b) => {
             return this.sortOrder === 'score-desc' ? b.score - a.score : a.score - b.score;
         });
@@ -141,7 +141,7 @@ class BarChartD3 {
         
         this.prepareData();
 
-        // NUCLEAR RESET: Remove everything before drawing to prevent coordinate glitches
+        // Remove everything before drawing to prevent coordinate glitches
         const svg = d3.select(`#${this.containerId} svg`);
         svg.selectAll('*').remove();
         
@@ -173,7 +173,7 @@ class BarChartD3 {
             .attr('transform', `translate(0, ${innerH})`)
             .call(d3.axisBottom(xScale).ticks(5));
 
-        // Y-Axis: We use modelId for position but tickFormat to show the Display Name
+        // Y-Axis: 
         chartGroup.append('g')
             .call(d3.axisLeft(yScale).tickFormat(id => {
                 const item = this.currentData.find(d => d.modelId === id);
@@ -192,7 +192,7 @@ class BarChartD3 {
             .attr('fill', d => colorScale(d.normalized))
             .attr('width', 0) 
             .on('mouseover', (event, d) => {
-                // 1. Fade in and populate the tooltip
+                // Fade in and populate the tooltip
                 const tooltip = d3.select('.bar-tooltip');
                 tooltip.transition().duration(200).style('opacity', 0.9);
                 tooltip.html(`
@@ -203,20 +203,20 @@ class BarChartD3 {
                     <span class="tooltip-value">${d.score.toFixed(3)}</span>
                 `);
                 
-                // 2. Visual highlight for the bar
+                // Visual highlight for the bar
                 d3.select(event.currentTarget)
                     .style('opacity', 0.8)
                     .attr('stroke', '#64ffda')
                     .attr('stroke-width', 2);
             })
             .on('mousemove', (event) => {
-                // 3. Make the tooltip follow the mouse
+                // Make the tooltip follow the mouse
                 d3.select('.bar-tooltip')
                     .style('left', (event.pageX + 15) + 'px')
                     .style('top', (event.pageY - 28) + 'px');
             })
             .on('mouseout', (event) => {
-                // 4. Hide tooltip and remove highlight
+                // Hide tooltip and remove highlight
                 d3.select('.bar-tooltip').transition().duration(300).style('opacity', 0);
                 
                 d3.select(event.currentTarget)

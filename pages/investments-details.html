@@ -88,11 +88,11 @@
             margin-bottom: 0;
         }
 
-        /* --- TEXT SPACING IMPROVEMENTS (Task 3) --- */
+        /* --- TEXT SPACING IMPROVEMENTS  --- */
         .chart-section p {
-            line-height: 1.8;       /* Increased breathing room between lines */
-            margin-top: 15px;       /* Space between title and text */
-            margin-bottom: 35px;    /* Space between text and the chart */
+            line-height: 1.8;       
+            margin-top: 15px;       
+            margin-bottom: 35px;    
             font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.9);
         }
@@ -367,7 +367,7 @@
         const radius = Math.min(width, height) / 2 - 60;
 
         let currentData = [];
-        let viewState = 'main'; // 'main' or 'detail'
+        let viewState = 'main'; 
         let groupBy = 'Organization'; 
         let selectedEntity = null;
 
@@ -382,17 +382,17 @@
             .attr("class", "tooltip")
             .style("opacity", 0);
 
-        // --- TASK 2: UPDATED COLOR PALETTE ---
+        // ---  UPDATED COLOR PALETTE ---
         const colorBlindFriendlyColors = [
             "#E69F00", // Orange
-            "#56B4E9", // Sky Blue (Moved up for better contrast with orange)
+            "#56B4E9", // Sky Blue 
             "#009E73", // Bluish Green
             "#D55E00", // Vermilion
             "#CC79A7", // Reddish Purple
             "#FFFFFF", // White
-            "#F0E442", // Yellow (Added to ensure distinctiveness if > 6 items)
-            "#0072B2", // Blue (Added)
-            "#000000"  // Black (Moved last as it's lowest contrast on dark bg)
+            "#F0E442", // Yellow 
+            "#0072B2", // Blue 
+            "#000000"  // Black 
         ];
 
         const color = d3.scaleOrdinal(colorBlindFriendlyColors);
@@ -464,7 +464,7 @@
         function updateChart() {
             let processedData = [];
             let centerTitle = "";
-            // Task 1: Removed centerSubtitle variable
+            
             
             if (viewState === 'main') {
                 const keyField = groupBy === 'Organization' ? 'organization' : 'country';
@@ -487,7 +487,7 @@
                 }
 
                 centerTitle = "Total Investment";
-                // Task 1: No subtitle value here
+                
 
             } else {
                 const keyField = groupBy === 'Organization' ? 'organization' : 'country';
@@ -501,7 +501,7 @@
 
                 const totalEntityCost = d3.sum(processedData, d => d.value);
                 centerTitle = selectedEntity;
-                // Task 1: No subtitle value here
+                
             }
 
             const pie = d3.pie().value(d => d.value).sort(null);
@@ -573,7 +573,7 @@
 
             svg.selectAll(".center-text").remove();
             
-            // Top Label (e.g., "Total by Organization")
+            // Top Label 
             svg.append("text")
                 .attr("class", "center-text")
                 .attr("dy", "-0.5em")
@@ -582,7 +582,7 @@
                 .style("font-size", "14px")
                 .text(viewState === 'main' ? `Total by ${groupBy}` : "Total Cost");
 
-            // Main Title (e.g., "Total Investment" or Entity Name)
+            // Main Title 
             svg.append("text")
                 .attr("class", "center-text")
                 .attr("dy", "1em")
@@ -592,7 +592,6 @@
                 .style("font-weight", "bold")
                 .text(centerTitle);
 
-            // --- TASK 1: REMOVED THE THIRD TEXT ELEMENT (SUBTITLE WITH $ VALUE) ---
         }
     });
     </script>

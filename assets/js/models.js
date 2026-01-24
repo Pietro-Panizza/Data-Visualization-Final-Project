@@ -2,7 +2,7 @@ const margin = {top: 40, right: 40, bottom: 60, left: 70};
 const width = 1000 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
 
-// Variabili globali per i dati e i grafici
+// global variables for data and graphs
 let allData = [];
 let filteredData = [];
 let currentMinYear = 1950;
@@ -10,16 +10,16 @@ let currentMaxYear = 2024;
 let minDataYear = 1950;
 let maxDataYear = 2024;
 
-// Variabile per il debounce (ottimizzazione velocità slider)
+// debounce variable
 let debounceTimer;
 
-// Array per memorizzare le funzioni di update specifiche di ogni grafico
+// Array to memorize the specific function
 let chartUpdateFunctions = [];
 
 d3.csv("../../data/ai_models/all_ai_models.csv").then(function(data) {
     const parseDate = d3.timeParse("%Y-%m-%d");
 
-    // 1. Processare tutti i dati
+    // Process all data
     allData = data.map(d => {
         const date = parseDate(d["Publication date"]);
         return {
@@ -33,14 +33,14 @@ d3.csv("../../data/ai_models/all_ai_models.csv").then(function(data) {
         };
     }).filter(d => d.date);
 
-    // Debug: controlla se ci sono dati
+    // Debug: check for data presence
     console.log("Dati caricati:", allData.length);
     if (allData.length === 0) {
         console.error("Nessun dato valido caricato!");
         return;
     }
 
-    // 2. Trovare l'intervallo di anni nei dati
+    // find the year range in data
     const years = allData.map(d => d.year).filter(d => d !== null && !isNaN(d));
     
     if (years.length === 0) {
@@ -53,22 +53,22 @@ d3.csv("../../data/ai_models/all_ai_models.csv").then(function(data) {
     
     console.log(`Range anni nei dati: ${minDataYear} - ${maxDataYear}`);
     
-    // 3. Impostare l'intervallo iniziale (mostra tutto)
+    // set initial range
     currentMinYear = minDataYear;
     currentMaxYear = maxDataYear;
     
-    // 4. Inizializzare con tutti i dati
+    // initialize with all data
     filteredData = allData;
     
-    // 5. Creare il controllo slider
+    // Create  slider
     createDualRangeSlider();
     
-    // 6. Inizializzare i grafici
+    // Inizialize  graphs
     initializeCharts();
     
 }).catch(err => {
     console.error("Errore nel caricamento dei dati:", err);
-    // Mostra un messaggio all'utente
+    // Show the error message
     d3.select("main.container").append("div")
         .attr("class", "error-message")
         .style("color", "red")
@@ -89,19 +89,17 @@ function createDualRangeSlider() {
             .text("Filter by Year Range")
             .style("color", "white");
         
-        // Contenitore per gli slider
+        // slider container
         const sliderWrapper = sliderContainer.append("div")
             .attr("class", "slider-wrapper");
         
-        // Track di base
         sliderWrapper.append("div")
             .attr("class", "slider-track");
         
-        // Track attiva
         const activeTrack = sliderWrapper.append("div")
             .attr("class", "slider-active-track");
         
-        // Input range per minimo (SOTTO)
+        // Input range for minimum 
         const minSlider = sliderWrapper.append("input")
             .attr("type", "range")
             .attr("id", "min-slider")
@@ -111,7 +109,7 @@ function createDualRangeSlider() {
             .attr("value", currentMinYear)
             .style("z-index", "1");
         
-        // Input range per massimo (SOPRA)
+        // Input range for maximum
         const maxSlider = sliderWrapper.append("div")
             .append("input")
             .attr("type", "range")
@@ -122,7 +120,7 @@ function createDualRangeSlider() {
             .attr("value", currentMaxYear)
             .style("z-index", "2");
         
-        // Display valori
+        // Display values
         const valuesDisplay = sliderContainer.append("div")
             .attr("class", "slider-values");
         
@@ -136,13 +134,13 @@ function createDualRangeSlider() {
             .style("font-weight", "600")
             .text(currentMaxYear);
         
-        // Contatore modelli
+        // models counter 
         sliderContainer.append("div")
             .attr("id", "model-count")
             .style("font-size", "14px")
             .style("color", "rgba(255, 255, 255, 0.8)");
         
-        // Calcola la posizione in pixel per un dato anno
+        // Compute position in pixels for a given year
         function yearToPixel(year) {
             const wrapper = sliderWrapper.node();
             if (!wrapper) return 0;
@@ -152,7 +150,7 @@ function createDualRangeSlider() {
             return percent * width;
         }
         
-        // Determina quale slider deve gestire il click in base alla posizione
+        // Determine which slider must handle the click basing on position
         function determineActiveSlider(clientX) {
             const wrapper = sliderWrapper.node();
             if (!wrapper) return "max";
@@ -163,14 +161,14 @@ function createDualRangeSlider() {
             const minPos = yearToPixel(currentMinYear);
             const maxPos = yearToPixel(currentMaxYear);
             
-            // Se il click è più vicino al thumb sinistro, usa min-slider
+            // if click is nearer to left thumb, use min-slider
             const distToMin = Math.abs(x - minPos);
             const distToMax = Math.abs(x - maxPos);
             
             return distToMin < distToMax ? "min" : "max";
         }
         
-        // Aggiorna la track attiva
+        // update active track
         function updateActiveTrack() {
             const minPercent = ((currentMinYear - minDataYear) / (maxDataYear - minDataYear)) * 100;
             const maxPercent = ((currentMaxYear - minDataYear) / (maxDataYear - minDataYear)) * 100;
@@ -180,12 +178,10 @@ function createDualRangeSlider() {
                 .style("width", `${maxPercent - minPercent}%`);
         }
         
-        // Gestione eventi con logica intelligente
+        // event handle
         sliderWrapper.on("mousedown touchstart", function(event) {
             const clientX = event.clientX || (event.touches && event.touches[0].clientX);
-            // Nota: con pointer-events:none sul CSS range-slider, questo evento 
-            // sul wrapper intercetta i click sulla track vuota.
-            // La logica di trascinamento è gestita nativamente dagli input range.
+            
         });
         
         // Min slider
@@ -193,7 +189,7 @@ function createDualRangeSlider() {
             let minVal = +this.value;
             const maxVal = +d3.select("#max-slider").property("value");
             
-            // Non permettere al min di superare il max
+            // min should not be greater than max
             if (minVal > maxVal) {
                 minVal = maxVal;
                 this.value = maxVal;
@@ -201,15 +197,15 @@ function createDualRangeSlider() {
             
             currentMinYear = minVal;
             
-            // 1. Aggiornamento visivo immediato (UI leggera)
+            // visual update
             updateSliderDisplay();
             updateActiveTrack();
             
-            // 2. Aggiornamento grafici ritardato (Debounce)
+            // plots update
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
                 updateDataAndCharts();
-            }, 100); // Ritardo di 100ms
+            }, 100);
         });
         
         // Max slider
@@ -217,7 +213,7 @@ function createDualRangeSlider() {
             let maxVal = +this.value;
             const minVal = +d3.select("#min-slider").property("value");
             
-            // Non permettere al max di essere minore del min
+            // min should not be greater than max
             if (maxVal < minVal) {
                 maxVal = minVal;
                 this.value = minVal;
@@ -225,24 +221,24 @@ function createDualRangeSlider() {
             
             currentMaxYear = maxVal;
             
-            // 1. Aggiornamento visivo immediato (UI leggera)
+            // visual update
             updateSliderDisplay();
             updateActiveTrack();
             
-            // 2. Aggiornamento grafici ritardato (Debounce)
+            // plots update
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
                 updateDataAndCharts();
-            }, 100); // Ritardo di 100ms
+            }, 100); 
         });
         
-        // Inizializzare
+        // Inizialize
         updateActiveTrack();
         updateSliderDisplay();
     }
 }
 
-// --- Funzione per aggiornare la visualizzazione dello slider ---
+// --- Function to update slider visualization ---
 function updateSliderDisplay() {
     d3.select("#min-value").text(currentMinYear);
     d3.select("#max-value").text(currentMaxYear);
@@ -251,36 +247,35 @@ function updateSliderDisplay() {
     `);
 }
 
-// --- Funzione per filtrare i dati e aggiornare i grafici ---
+// --- Function to filter data and update plots ---
 function updateDataAndCharts() {
     filteredData = allData.filter(d => {
         const year = d.date.getFullYear();
         return year >= currentMinYear && year <= currentMaxYear;
     });
     
-    // Aggiorniamo anche il conteggio nel display quando il filtro è completo
     updateSliderDisplay();
     
-    // Aggiornare ogni grafico utilizzando le funzioni di update memorizzate
+    // update every plot using updating function
     chartUpdateFunctions.forEach(updateFn => updateFn(filteredData));
 }
 
-// --- Funzione per inizializzare i grafici ---
+// --- Function to initialize plots ---
 function initializeCharts() {
-    // Inizializza ogni grafico e memorizza la funzione di update
+    
     chartUpdateFunctions = [
         (data) => updateScatterplot("#chart-params", data, d => d.params, "Parameters (Log)"),
         (data) => updateScatterplot("#chart-compute", data, d => d.compute, "Compute (FLOPs)"),
         (data) => updateBubbleChart("#chart-bubble", data, d => d.time, d => d.dataset, "Training Time (Hours)", "Dataset Size")
     ];
     
-    // Disegna i grafici iniziali
+    // Draw initial plots
     chartUpdateFunctions.forEach(fn => fn(filteredData));
 }
 
-// --- Funzione di update per scatterplot ---
+// --- scatterplot update functiom ---
 function updateScatterplot(selector, dataset, yAccessor, yLabel) {
-    // Rimuovi il grafico esistente
+    // Remove existing plot
     d3.select(selector).selectAll("svg").remove();
     
     const chartData = dataset.filter(d => yAccessor(d) > 0);
@@ -291,7 +286,7 @@ function updateScatterplot(selector, dataset, yAccessor, yLabel) {
     
     const {svg, x, y} = setupCanvas(selector, chartData, yAccessor, yLabel);
     
-    // Determinare colore basato sul tipo di grafico
+    // Determine color based on the type of plot
     const color = selector === "#chart-params" ? "#69b3a2" : "#e69b3a";
     
     svg.append('g')
@@ -322,9 +317,9 @@ function updateScatterplot(selector, dataset, yAccessor, yLabel) {
         });
 }
 
-// --- Funzione di update per bubble chart ---
+// --- bubble chart update function ---
 function updateBubbleChart(selector, dataset, yAccessor, rAccessor, yLabel, rLabel) {
-    // Rimuovi il grafico esistente
+    // remove existing plot
     d3.select(selector).selectAll("svg").remove();
     
     const chartData = dataset.filter(d => yAccessor(d) > 0 && rAccessor(d) > 0);
@@ -374,7 +369,7 @@ function setupCanvas(selector, chartData, yAccessor, yLabel) {
     if (chartData.length > 0) {
         xDomain = d3.extent(chartData, d => d.date);
     } else {
-        // Se non ci sono dati, crea un dominio basato sul range selezionato
+        // if there are no data create a domain based on selected range
         xDomain = [
             new Date(currentMinYear + "-01-01"), 
             new Date(currentMaxYear + "-12-31")
@@ -385,7 +380,7 @@ function setupCanvas(selector, chartData, yAccessor, yLabel) {
         .domain(xDomain)
         .range([0, width]);
     
-    // Se non ci sono dati, usa un dominio di default
+    // if there are no date create a default domain
     const yDomain = chartData.length > 0 
         ? [d3.min(chartData, d => yAccessor(d)) * 0.5, d3.max(chartData, d => yAccessor(d)) * 2]
         : [1, 1000];
@@ -401,7 +396,7 @@ function setupCanvas(selector, chartData, yAccessor, yLabel) {
     svg.append("g")
         .call(d3.axisLeft(y).ticks(5, "~s"));
     
-    // Etichette degli assi
+    // axis labels
     svg.append("text")
         .attr("x", width)
         .attr("y", height + 45)
