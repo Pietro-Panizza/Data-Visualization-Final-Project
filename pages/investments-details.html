@@ -68,7 +68,7 @@
 <body class="subpage-body">
 
     <nav class="subpage-nav">
-        <a href="../index.html" class="back-link">
+        <a href="../index.html#section-investment" class="back-link">
             <span>←</span> Back to Main Analysis
         </a>
     </nav>
@@ -84,13 +84,27 @@
             <div id="map"></div>
         </div>
 
+        <div class="chart-analysis">
+            <p>
+                The rendered map depicts a highly centralized pattern of capital investment in data center infrastructure. A pronounced concentration of high-value 
+                facilities is evident within the United States, where large and overlapping markers representing the major technology firms—Microsoft, Google, Amazon, 
+                and Meta—indicate substantial and concurrent investment activity. Outside the United States, a notably large data center categorized as “Other” is 
+                observed in East Asia. The scale of this facility suggests a significant capital outlay, likely attributable to regional technology providers or state-backed 
+                entities. In contrast, the Middle East is represented by only a minor investment, while regions such as South America, Africa, and Australia exhibit minimal 
+                or no presence of high-capital data centers within the scope of this dataset. The spatial overlap of investments in the United States implies the formation 
+                of infrastructure clusters, wherein multiple firms co-locate large-scale facilities to capitalize on established electrical grids, fiber-optic networks, and 
+                related logistical advantages. Overall, the distribution underscores the extent to which contemporary AI and data infrastructure development is dominated by 
+                a small number of highly capitalized multinational corporations.
+            </p>
+        </div>
+
     </div>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
-    // 1. Configurazione Mappa (Bloccata per evitare de-zoom infinito)
+    //  Map configuration
     const map = L.map('map', {
         center: [20, 0],
         zoom: 2,

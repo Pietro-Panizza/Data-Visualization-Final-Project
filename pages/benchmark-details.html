@@ -10,6 +10,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
+    
     <div class="detail-container">
         <!-- Link to go back to the homepage -->
         <a href="../index.html#section-benchmarks" class="back-link">
@@ -29,7 +30,7 @@
         
         <!-- First plot section (polarchart) -->
         <section class="chart-section" id="polar-chart-section">
-            <h2 class="chart-title">model performance radar chart</h2>
+            <h2 class="chart-title">Model performance </h2>
             <p class="chart-description">
                 Select an AI model to view its performance across different benchmarks.
                 The radar chart shows normalized scores (0-1) for each benchmark the model has been tested on
@@ -40,8 +41,6 @@
                     <div class="control-group">
                         <label for="polarModelSelect">Select AI Model:</label>
                         <select id="polarModelSelect" class="model-select">
-                            <!-- Le opzioni saranno popolate via JavaScript -->
-                            <!-- <option value="" disabled selected>Loading models...</option> -->
                         </select>
                     </div>
                 </div>
@@ -69,11 +68,7 @@
                                 <span class="detail-value" id="model-benchmarkCount">0/10</span>
                             </div>
                             <div class="detail-row">
-                                <span class="detail-label">Average Raw Score:</span>
-                                <span class="detail-value" id="model-avgScore">N/A</span>
-                            </div>
-                            <div class="detail-row">
-                                <span class="detail-label">Average Normalized Score:</span>
+                                <span class="detail-label">Average Score:</span>
                                 <span class="detail-value" id="model-avgNormalizedScore">N/A</span>
                             </div>
                         </div>
@@ -84,7 +79,7 @@
                     <svg id="polarChartSvg" ></svg>
                 </div>
                 <div class="chart-notes">
-                    Data source: Epoch AI, ‘AI Benchmarking Hub’. Published online at epoch.ai. Retrieved from <a href="https://epoch.ai/benchmarks/use-this-data">Epoch AI website</a>
+                    Data source: Epoch AI, 'AI Benchmarking Hub'. Published online at epoch.ai. Retrieved from <a href="https://epoch.ai/benchmarks/use-this-data">Epoch AI website</a>
                 </div>
 
             </div>
@@ -111,7 +106,7 @@
         
         <!-- Second plot section (barchart) -->
         <section class="chart-section" id="bar-chart-section">
-            <h2 class="chart-title">3. Benchmark Performance Comparison</h2>
+            <h2 class="chart-title">Benchmark Comparison</h2>
             <p class="chart-description">
                 Select a benchmark to compare performance of all AI models. 
                 This bar chart shows raw scores for each model on the selected benchmark.

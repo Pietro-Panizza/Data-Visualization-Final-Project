@@ -229,7 +229,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Estrai tutte le categorie uniche
-        const entities = [...new Set(data.map(d => d.Entity))];
+        const entities = [...new Set(data.map(d => d.Entity))]
+            .filter(entity => entity !== 'White');
         
         // Popola il selettore
         select.selectAll('option')
