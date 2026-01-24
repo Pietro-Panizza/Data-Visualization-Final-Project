@@ -16,7 +16,7 @@ let debounceTimer;
 // Array to memorize the specific function
 let chartUpdateFunctions = [];
 
-d3.csv("../../data/ai_models/all_ai_models.csv").then(function(data) {
+d3.csv("../data/ai_models/all_ai_models.csv").then(function(data) {
     const parseDate = d3.timeParse("%Y-%m-%d");
 
     // Process all data
