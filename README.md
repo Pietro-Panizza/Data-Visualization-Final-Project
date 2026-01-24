@@ -86,9 +86,7 @@ All datasets used in this study were partially preprocessed by the original data
 * **[[Kaggle](https://www.kaggle.com/datasets/nitishkumar2k01/llms-energy-consumption-dataset)]** Dataset on energy consumption of LLM.
 
 ---
-
 ##  Authors (iPanda group)
-
 * *Pietro Panizza* - [s4488189]
 * *Francesco Favareto* - [s5038782]
 ```
