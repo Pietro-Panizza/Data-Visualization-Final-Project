@@ -19,36 +19,36 @@ The website explores:
 Here is the actual organisation of files in the repository.
 
 text  
-├── index.html                           # Landing page principale  
-├── LICENSE                              # Licenza del progetto  
-├── README.md                            # Documentazione del progetto  
+├── index.html                             
+├── LICENSE                                
+├── README.md                              
 ├── assets/  
 │   ├── css/
-│   │   ├── style.css                    # Stili globali  
-│   │   └── pages.css                    # Stili comuni alle sottopagine  
+│   │   ├── style.css                      
+│   │   └── pages.css                      
 │   └── js/
-│       ├── models.js                    # Grafici D3 per i modelli  
-│       ├── polarChart.js                # PolarChart benchmarks by models   
-│       ├── barChart.js                  # BarChart models by benchmarks  
-│       ├── streamgraph.js               # Visualizzazione impatto ambientale  
-│       └── Linechart.js                 # Linechart impatto sociale  
+│       ├── models.js                      
+│       ├── polarChart.js                   
+│       ├── barChart.js                    
+│       ├── streamgraph.js                 
+│       └── Linechart.js                   
 │   
-├── images/                              # Sfondi, icone e immagini di supporto  
-├── data/                                # Dataset (CSV/JSON)  
-│   ├── ai_models/                        # Dati sui training modelli  
-│   ├── benchmark_data/                   # Dati dei benchmark  
-│   ├── data_centers/                     # Dati sui data center  
-│   ├── americans-worry-work-being-automated.csv  # Dati su preoccupazioni automazione  
-│   ├── llm-energy-use.csv               # Dati su consumo energetico LLM  
-│   └── desktop.ini                      # File di sistema Windows  
-└── pages/                               # Pagine HTML aggiuntive  
-    ├── benchmark-details.css            # CSS per le pagine benchmark  
-    ├── benchmark-details.html           # Dettagli benchmark  
-    ├── details-bench.html               # Approfondimento descrittivo benchmark  
-    ├── investments-details.html         # Mappa interattiva Data Centers  
-    ├── social-environmental-impacts.css # Analisi tecnica modelli AI  
-    ├── socio-environment-details.html   # Mappa interattiva Data Centers  
-    └── models-details.html              # Analisi tecnica modelli AI  
+├── images/                                
+├── data/                                  
+│   ├── ai_models/                          
+│   ├── benchmark_data/                     
+│   ├── data_centers/                       
+│   ├── americans-worry-work-being-automated.csv    
+│   ├── llm-energy-use.csv                 
+│   └── desktop.ini                        
+└── pages/                                 
+    ├── benchmark-details.css              
+    ├── benchmark-details.html             
+    ├── details-bench.html                 
+    ├── investments-details.html           
+    ├── social-environmental-impacts.css   
+    ├── socio-environment-details.html     
+    └── models-details.html                
 
 
 ## Reproducibility and Local Setup
@@ -87,7 +87,7 @@ All datasets used in this study were partially preprocessed by the original data
 
 ---
 
-##  Authors (Gruppo iPanda)
+##  Authors (iPanda group)
 
 * *Pietro Panizza* - [s4488189]
 * *Francesco Favareto* - [s5038782]
