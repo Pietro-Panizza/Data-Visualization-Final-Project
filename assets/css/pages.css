@@ -360,3 +360,40 @@
     font-weight: 300;
     text-align: justify;
 }
+
+/* Aggiungi alla fine del file pages.css */
+
+/* === FOOTER PER PAGINE SECONDARIE === */
+.page-footer {
+    margin-top: 4rem;
+    padding: 2rem 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'Inter', sans-serif;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.page-footer p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.page-footer a {
+    color: #64ffda; /* Coerente con il tema del tuo sito */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.page-footer a:hover {
+    color: #4a90e2; /* Coerente con altri hover nel tuo sito */
+    text-decoration: underline;
+}
